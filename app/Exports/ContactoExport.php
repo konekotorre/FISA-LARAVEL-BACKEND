@@ -8,9 +8,6 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class ContactoExport implements FromCollection, WithHeadings
 {
-    /**
-     * @return \Illuminate\Support\Collection
-     */
 
     function __construct($request)
     {

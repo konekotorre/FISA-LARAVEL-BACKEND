@@ -8,9 +8,6 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class OrgGenExport implements FromCollection, WithHeadings
 {
-    /**
-     * @return \Illuminate\Support\Collection
-     */
     public function collection()
     {
         $organizacion_busqueda = DB::table('organizacions')

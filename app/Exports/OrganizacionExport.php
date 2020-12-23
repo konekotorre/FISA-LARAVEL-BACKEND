@@ -8,10 +8,6 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class OrganizacionExport implements FromCollection, WithHeadings
 {
-    /**
-     * @return \Illuminate\Support\Collection
-     */
-
     function __construct($request)
     {
         $this->fecha_inicio = $request->fecha_inicio;

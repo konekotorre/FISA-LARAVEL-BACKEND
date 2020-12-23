@@ -8,9 +8,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class ConGenExport implements FromCollection, WithHeadings
 {
-    /**
-     * @return \Illuminate\Support\Collection
-     */
+    
     public function collection()
     {
         $contacto_busqueda = DB::table('contactos')

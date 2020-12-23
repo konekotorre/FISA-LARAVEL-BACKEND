@@ -8,9 +8,6 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class ConBusquedaExport implements FromCollection, WithHeadings
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
 
     function __construct($solicitud)
     {
