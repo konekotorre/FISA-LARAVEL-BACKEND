@@ -43,6 +43,7 @@ class ContactoExport implements FromCollection, WithHeadings
                 'ciudads.nombre as ciudad',
                 'contactos.sexo',
                 'contactos.observaciones',
+                'contactos.created_at',
                 'contactos.updated_at',
                 'users.usuario'
             )
@@ -112,6 +113,7 @@ class ContactoExport implements FromCollection, WithHeadings
             'Ciudad',
             'Genero',
             'Observaciones',
+            'Fecha Creación',
             'Última Actualización',
             'Último Editor'
         ];

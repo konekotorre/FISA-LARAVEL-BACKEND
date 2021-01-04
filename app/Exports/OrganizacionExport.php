@@ -52,6 +52,7 @@ class OrganizacionExport implements FromCollection, WithHeadings
                 'organizacions.motivo_afiliacion',
                 'organizacions.fecha_desafiliacion',
                 'organizacions.motivo_desafiliacion',
+                'organizacions.created_at',
                 'organizacions.updated_at',
                 'users.usuario'
             )
@@ -138,6 +139,7 @@ class OrganizacionExport implements FromCollection, WithHeadings
             'Motivo Afiliación',
             'Fecha Desafiliación',
             'Motivo Desafiliación',
+            'Fecha Creación',
             'Última Actualización',
             'Último Editor'
         ];

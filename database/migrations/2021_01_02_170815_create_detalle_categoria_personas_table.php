@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDetalleCategoriaContactosTable extends Migration
+class CreateDetalleCategoriaPersonasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateDetalleCategoriaContactosTable extends Migration
      */
     public function up()
     {
-        Schema::create('detalle_categoria_contactos', function (Blueprint $table) {
+        Schema::create('detalle_categoria_personas', function (Blueprint $table) {
 
             $table->bigIncrements('id');
-            $table->bigInteger('contacto_id');
+            $table->bigInteger('persona_id');
             $table->integer('subcategoria_id');
             $table->timestamps();
 
-            $table->foreign('contacto_id')->references('id')->on('contactos')->onDelete('cascade');
+            $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');
             $table->foreign('subcategoria_id')->references('id')->on('subcategorias');
-
+            
         });
     }
 
@@ -33,6 +33,6 @@ class CreateDetalleCategoriaContactosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detalle_categoria_contactos');
+        Schema::dropIfExists('detalle_categoria_personas');
     }
 }

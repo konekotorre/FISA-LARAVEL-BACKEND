@@ -9,16 +9,12 @@ class Contacto extends Model
     protected $fillable = [
 
         'organizacion_id',
-        'tipo_documento_persona_id',
         'oficina_id',
-        'numero_documento',
-        'nombres',
-        'apellidos',
-        'sexo',
+        'persona_id',
         'representante',
         'cargo',
         'telefono',
-        'celular',
+        'extension',
         'email',
         'observaciones',
         'estado',
@@ -27,10 +23,6 @@ class Contacto extends Model
 
     ];
 
-    public function documento()
-    {
-        return $this->belongsTo('App\TipoDocumentoPersona', 'tipo_documento_persona_id', 'id');
-    }
 
     public function oficina()
     {
@@ -40,6 +32,11 @@ class Contacto extends Model
     public function organizacion()
     {
         return $this->belongsTo('App\Organizacion', 'organizacion_id', 'id');
+    }
+
+    public function persona()
+    {
+        return $this->belongsTo('App\Persona', 'persona_id', 'id');
     }
 
     public function creacion()
@@ -56,10 +53,4 @@ class Contacto extends Model
     {
         return $this->hasMany('App\Visita');
     }
-
-    public function categoriaContactos()
-    {
-        return $this->hasMany('App\DetalleCategoriaContacto');
-    }
-
 }

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Contacto;
+use App\DetalleCategoriaPersona;
 use App\Exports\ConBusquedaExport;
 use App\Exports\ConGenExport;
 use App\Exports\ContactoExport;
+use App\Persona;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,13 +22,18 @@ class ContactoController extends Controller
     {
         $contactos = DB::table('contactos')
             ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
+            ->join('personas', 'personas.id', '=', 'contactos.persona_id')
             ->select(
-                'contactos.id',
-                'contactos.nombres',
-                'contactos.apellidos',
+                'contactos.id as contacto_id',
+                'personas.id as persona_id',
+                'personas.nombres',
+                'personas.apellidos',
                 'contactos.email',
-                'contactos.celular',
+                'personas.celular',
+                'contactos.telefono',
+                'contactos.extension',
                 'contactos.cargo',
+                'contactos.observaciones',
                 'organizacions.nombre as organizacion',
             )
             ->orderByDesc('contactos.updated_at')
@@ -42,20 +50,19 @@ class ContactoController extends Controller
     {
         $organizacion_id = $request->input('organizacion_id');
 
-        $contactos = DB::table('detalle_categoria_contactos')
-            ->rightJoin('contactos', 'contactos.id', '=', 'detalle_categoria_contactos.contacto_id')
-            ->leftJoin('subcategorias', 'subcategorias.id', '=', 'detalle_categoria_contactos.subcategoria_id')
+        $contactos = DB::table('contactos')
+            ->join('personas', 'personas.id', '=', 'contactos.persona_id')
             ->select(
-                'contactos.id',
-                'contactos.nombres',
-                'contactos.apellidos',
+                'contactos.id as contacto_id',
+                'personas.id as persona_id',
+                'personas.nombres',
+                'personas.apellidos',
                 'contactos.email',
-                'contactos.celular',
+                'personas.celular',
+                'contactos.telefono',
+                'contactos.extension',
                 'contactos.cargo',
-                'subcategorias.nombre as subcategoria'
-            )
-            ->distinct(
-                'contactos.updated_at'
+                'contactos.observaciones'
             )
             ->where('contactos.organizacion_id', '=', $organizacion_id)
             ->orderByDesc('contactos.updated_at')
@@ -157,22 +164,48 @@ class ContactoController extends Controller
         $solicitud['usuario_creacion'] = $creador;
         $solicitud['usuario_actualizacion'] = $creador;
 
+        if ($solicitud['persona_id'] == null) {
+
+            $persona = Persona::create($solicitud);
+
+            $solicitud['persona_id'] = $persona->id;
+        } else {
+            DB::update(
+                'update personas set(tipo_documento_persona_id, numero_documento, nombres, 
+                    apellidos, celular, sexo, usuario_actualizacion, updated_at) 
+                        = (?, ?, ?, ?, ?, ?, ?, ?) where id = ?',
+                [
+                    $solicitud['tipo_documento_persona_id'],
+                    $solicitud['numero_documento'],
+                    $solicitud['nombres'],
+                    $solicitud['apellidos'],
+                    $solicitud['celular'],
+                    $solicitud['sexo'],
+                    $creador,
+                    Carbon::now(),
+                    $solicitud['persona_id']
+                ]
+            );
+
+            $categorias_eliminar = DB::table('detalle_categoria_personas')
+                ->where('persona_id', '=', $solicitud['persona_id'])
+                ->delete();
+        }
+
+        $key = $request->categorias;
+        $count = count($key);
+
+        for ($i = 0; $i < $count; $i++) {
+            $categoria['persona_id'] = $solicitud['persona_id'];
+            $categoria['subcategoria_id'] = $key[$i];
+
+            DetalleCategoriaPersona::create($categoria);
+        }
+
         $contacto = Contacto::create($solicitud);
-
-        $contacto_id = $contacto->id;
-
-        $contacto_busqueda = DB::table('contactos')
-            ->select(
-                'contactos.id'
-            )
-            ->where('contactos.id', '=', $contacto_id)
-            ->get();
-
-        $cont = $contacto_busqueda[0];
 
         return response()->json([
             "success" => true,
-            "contacto" => $cont
         ], 200);
     }
 
@@ -182,34 +215,28 @@ class ContactoController extends Controller
         $contacto_id = $contacto->id;
 
         $contacto_busqueda = DB::table('contactos')
+            ->join('personas', 'personas.id', '=', 'contactos.persona_id')
             ->select(
-                'contactos.*'
+                'contactos.*',
+                'personas.id as persona_id',
+                'personas.nombres',
+                'personas.apellidos',
+                'personas.tipo_documento_persona_id',
+                'personas.numero_documento',
+                'personas.sexo',
+                'personas.celular'
             )
             ->where('contactos.id', '=', $contacto_id)
             ->get();
 
         $cont = $contacto_busqueda[0];
 
-        $creador_busqueda = DB::table('contactos')
-            ->leftJoin('users', 'users.id', '=', 'contactos.usuario_creacion')
-            ->select('users.usuario as usuario_creacion')
-            ->where('contactos.id', '=', $contacto_id)
-            ->get();
+        $persona_id = $contacto_busqueda->pluck('persona_id');
 
-        $usuario_creacion = $creador_busqueda[0];
-
-        $editor_busqueda = DB::table('contactos')
-            ->leftJoin('users', 'users.id', '=', 'contactos.usuario_actualizacion')
-            ->select('users.usuario as usuario_actualizacion')
-            ->where('contactos.id', '=', $contacto_id)
-            ->get();
-
-        $usuario_actualizacion = $editor_busqueda[0];
-
-        $categorias = DB::table('detalle_categoria_contactos')
+        $categorias = DB::table('detalle_categoria_personas')
             ->select('subcategoria_id')
-            ->where('detalle_categoria_contactos.contacto_id', '=', $contacto_id)
-            ->orderBy('detalle_categoria_contactos.subcategoria_id')
+            ->where('detalle_categoria_personas.persona_id', '=', $persona_id)
+            ->orderBy('detalle_categoria_personas.subcategoria_id')
             ->get();
 
         $cats = $categorias->pluck('subcategoria_id');
@@ -217,8 +244,6 @@ class ContactoController extends Controller
         return response()->json([
             "success" => true,
             "contacto" => $cont,
-            "usuario_creacion" => $usuario_creacion,
-            "usuario_actualizacion" => $usuario_actualizacion,
             "categorias" => $cats
         ], 200);
     }
@@ -233,40 +258,75 @@ class ContactoController extends Controller
 
         $solicitud['usuario_actualizacion'] = $creador;
 
-        $contacto->update($solicitud);
+        DB::update(
+            'update personas set(tipo_documento_persona_id, numero_documento, nombres, 
+                apellidos, celular, sexo, usuario_actualizacion, updated_at) 
+                    = (?, ?, ?, ?, ?, ?, ?, ?) where id = ?',
+            [
+                $solicitud['tipo_documento_persona_id'],
+                $solicitud['numero_documento'],
+                $solicitud['nombres'],
+                $solicitud['apellidos'],
+                $solicitud['celular'],
+                $solicitud['sexo'],
+                $creador,
+                Carbon::now(),
+                $solicitud['persona_id']
+            ]
+        );
 
-        $contacto_id = $contacto->id;
-
-        $contacto_busqueda = DB::table('contactos')
-            ->select(
-                'contactos.*'
-            )
-            ->where('contactos.id', '=', $contacto_id)
-            ->get();
-
-        $cont = $contacto_busqueda[0];
-
-        return response()->json([
-            "success" => true,
-            "contacto" => $cont
-        ], 200);
-    }
-
-    public function destroySubcat(Request $request)
-    {
-        $contacto_id = $request->input('contacto_id');
-
-        $contacto_busqueda = DB::table('detalle_categoria_contactos')
-            ->where('contacto_id', '=', $contacto_id)
+        $categorias_eliminar = DB::table('detalle_categoria_personas')
+            ->where('persona_id', '=', $solicitud['persona_id'])
             ->delete();
 
-        return response()->json(["success" => true], 200);
+        $key = $request->categorias;
+        $count = count($key);
+
+        for ($i = 0; $i < $count; $i++) {
+            $categoria['persona_id'] = $solicitud['persona_id'];
+            $categoria['subcategoria_id'] = $key[$i];
+
+            DetalleCategoriaPersona::create($categoria);
+        }
+
+        $contacto->update($solicitud);
+
+        return response()->json([
+            "success" => true
+        ], 200);
     }
 
     public function destroy(Contacto $contacto)
     {
-        $contacto->delete();
+        $contacto_id = $contacto->id;
 
+        $persona_id = DB::table('contactos')
+            ->select('persona_id')
+            ->where('id', '=', $contacto_id)
+            ->get();
+
+        $id_temp = $persona_id->pluck('persona_id');
+
+        $id = $id_temp[0];
+
+        $contactos = DB::table('contactos')
+            ->select('id')
+            ->where('persona_id', '=', $id)
+            ->get();
+
+        $count = $contactos->count();
+
+        if ($count == 1) {
+
+            $contacto->delete();
+
+            DB::table('personas')
+                ->where('id', '=', $id)
+                ->delete();
+        } else {
+
+            $contacto->delete();
+        }
         return response()->json(["success" => true], 200);
     }
 }
