@@ -118,32 +118,45 @@ class ContactoController extends Controller
 
     public function search(Request $request)
     {
-        $tipos = $request->input('tipos');
-        $palabras = $request->input('palabras');
+        $nombres = $request->input('nombres');
+        $apellidos = $request->input('apellidos');
+        $organizacion = $request->input('organizacion');
+        $cargo = $request->input('cargo');
+        $categorias = $request->categorias;
+        $subcategorias = $request->subcategorias;
+        $parametros = $request->parametros;
 
         $contactos = DB::table('contactos')
-            ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
+            ->join('personas', 'personas.id', '=', 'contactos.persona_id')
+            ->join('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
+            ->leftJoin('detalle_categoria_personas', 'detalle_categoria_personas.persona_id', '=', 'personas.id')
             ->select(
-                'contactos.id',
-                'contactos.nombres',
-                'contactos.apellidos',
+                'contactos.id as contacto_id',
+                'personas.id as persona_id',
+                'personas.nombres',
+                'personas.apellidos',
                 'contactos.email',
-                'contactos.celular',
+                'personas.celular',
+                'contactos.telefono',
+                'contactos.extension',
                 'contactos.cargo',
+                'contactos.observaciones',
                 'organizacions.nombre as organizacion',
             )
             ->where([
-                [$tipos[0], 'ilike', $palabras[0]],
-                [$tipos[2], 'ilike', $palabras[2]],
-                [$tipos[3], 'ilike', $palabras[3]]
+                [$parametros[0], 'ilike', $nombres],
+                [$parametros[1], 'ilike', $apellidos],
+                [$parametros[2], 'ilike', $organizacion],
+                [$parametros[3], 'ilike', $cargo]
             ])
-            ->orWhere([
-                [$tipos[1], 'ilike', $palabras[1]],
-                [$tipos[2], 'ilike', $palabras[2]],
-                [$tipos[3], 'ilike', $palabras[3]]
-            ])
-            ->orderBy($tipos[0])
+            ->whereIn($parametros[4], $categorias)
+            ->whereIn($parametros[5], $subcategorias)
+
+            ->distinct('contactos.updated_at')
+
             ->orderByDesc('contactos.updated_at')
+            ->orderBy('personas.nombres')
+            ->orderBy('personas.apellidos')
             ->get();
 
         return response()->json([
