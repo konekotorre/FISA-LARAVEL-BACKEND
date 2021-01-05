@@ -45,7 +45,6 @@ class ContactoController extends Controller
         ], 200);
     }
 
-
     public function indexByOrganizacion(Request $request)
     {
         $organizacion_id = $request->input('organizacion_id');

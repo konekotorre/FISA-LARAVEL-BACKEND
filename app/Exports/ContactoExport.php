@@ -19,57 +19,59 @@ class ContactoExport implements FromCollection, WithHeadings
     public function collection()
     {
         $contacto_busqueda = DB::table('contactos')
+            ->join('personas', 'personas.id', '=', 'contactos.persona_id')
             ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
             ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
             ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
             ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
-            ->leftJoin('tipo_documento_personas', 'tipo_documento_personas.id', 'contactos.tipo_documento_persona_id')
+            ->leftJoin('tipo_documento_personas', 'tipo_documento_personas.id', 'personas.tipo_documento_persona_id')
             ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_actualizacion')
             ->select(
                 'categorias.nombre as categoria',
                 'organizacions.nombre as nombre_comercial',
                 'organizacions.razon_social',
-                'contactos.nombres',
+                'personas.nombres',
                 'contactos.cargo',
                 'contactos.representante',
                 'contactos.telefono',
-                'contactos.celular',
+                'contactos.extension',
+                'personas.celular',
                 'contactos.email',
                 'tipo_documento_personas.nombre as tipo_doc',
-                'contactos.numero_documento',
+                'personas.numero_documento',
                 'oficinas.telefono_1',
                 'oficinas.direccion',
-                'contactos.id',
+                'personas.id as persona_id',
                 'ciudads.nombre as ciudad',
-                'contactos.sexo',
+                'personas.sexo',
                 'contactos.observaciones',
                 'contactos.created_at',
                 'contactos.updated_at',
                 'users.usuario'
             )
-            ->distinct('contactos.created_at')
+            ->distinct('contactos.updated_at')
             ->where([
-                ['contactos.created_at', '>', $this->fecha_inicio],
-                ['contactos.created_at', '<', $this->fecha_fin]
+                ['contactos.updated_at', '>=', $this->fecha_inicio],
+                ['contactos.updated_at', '<=', $this->fecha_fin]
             ])
-            ->orderByDesc('contactos.created_at')
+            ->orderByDesc('contactos.updated_at')
             ->get();
 
         $count = count($contacto_busqueda);
 
         for ($i = 0; $i < $count; $i++) {
 
-            $id_bus =  $contacto_busqueda[$i]->id;
+            $id_bus =  $contacto_busqueda[$i]->persona_id;
 
-            $categorias = DB::table('detalle_categoria_contactos')
-                ->leftJoin('subcategorias', 'subcategorias.id', '=', 'detalle_categoria_contactos.subcategoria_id')
+            $categorias = DB::table('detalle_categoria_personas')
+                ->leftJoin('subcategorias', 'subcategorias.id', '=', 'detalle_categoria_personas.subcategoria_id')
                 ->select('subcategorias.nombre')
-                ->where('detalle_categoria_contactos.contacto_id', '=', $id_bus)
+                ->where('detalle_categoria_personas.persona_id', '=', $id_bus)
                 ->get();
 
-            $apellido = DB::table('contactos')
-                ->select('contactos.apellidos')
-                ->where('contactos.id', '=', $id_bus)
+            $apellido = DB::table('personas')
+                ->select('personas.apellidos')
+                ->where('personas.id', '=', $id_bus)
                 ->get();
 
             $categoria = $categorias->pluck('nombre');
@@ -86,7 +88,7 @@ class ContactoExport implements FromCollection, WithHeadings
                 $contacto_busqueda[$i]->representante = "No";
             }
 
-            $contacto_busqueda[$i]->id = $sal_categorias;
+            $contacto_busqueda[$i]->persona_id = $sal_categorias;
             $contacto_busqueda[$i]->nombres = $contacto;
         }
 
@@ -103,6 +105,7 @@ class ContactoExport implements FromCollection, WithHeadings
             'Cargo',
             'Rep. Legal',
             'Telefono',
+            'Ext.',
             'Celular',
             'Email',
             'Tipo Doc.',

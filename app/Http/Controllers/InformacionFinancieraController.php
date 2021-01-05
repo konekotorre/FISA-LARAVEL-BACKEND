@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\InfoFinancieraExport;
+use App\Exports\InfoFinBusquedaExport;
+use App\Exports\InfoFinGenExport;
 use App\InformacionFinanciera;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InformacionFinancieraController extends Controller
 {
@@ -68,6 +72,25 @@ class InformacionFinancieraController extends Controller
         }
     }
 
+    public function repFecha(Request $request)
+    {
+
+        return Excel::download(new InfoFinancieraExport($request), 'Reporte Financiero.xlsx');
+    }
+
+    public function repBusqueda(Request $request)
+    {
+
+        $solicitud = $request->all();
+
+        return Excel::download(new InfoFinBusquedaExport($solicitud), 'Reporte Financiero.xlsx');
+    }
+
+    public function repGen()
+    {
+        return Excel::download(new InfoFinGenExport, 'Reporte Financiero.xlsx');
+    }
+    
     public function listForms()
     {
         $clasificaciones_busqueda = DB::table('clasificacions')

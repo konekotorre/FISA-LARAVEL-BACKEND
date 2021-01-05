@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('nombres');
             $table->string('apellidos');
             $table->integer('tipo_documento_persona_id');
-            $table->bigInteger('numero_documento')->unique();
+            $table->string('numero_documento')->unique();
             $table->string('usuario')->unique();
             $table->string('password');
             $table->string('email')->unique();

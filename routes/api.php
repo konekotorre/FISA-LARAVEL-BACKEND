@@ -140,6 +140,9 @@ Route::group([
             Route::post('InformacionFinanciera/Org', 'InformacionFinancieraController@show');
             Route::get('InformacionFinanciera/Data', 'InformacionFinancieraController@listForms');
             Route::post('InformacionFinanciera/Clasi', 'InformacionFinancieraController@clasiInfo');
+            Route::post('InformacionFinanciera/RepFec', 'InformacionFinancieraController@repFecha');
+            Route::post('InformacionFinanciera/RepBus', 'InformacionFinancieraController@repBusqueda');
+            Route::get('InformacionFinanciera/RepGen', 'InformacionFinancieraController@repGen');
             Route::post('InformacionFinanciera/', 'InformacionFinancieraController@store');
             Route::put('InformacionFinanciera/{informacionFinanciera}', 'InformacionFinancieraController@update');
             Route::post('InformacionFinanciera/DelOpe', 'InformacionFinancieraController@destroyOperaciones');
@@ -261,15 +264,6 @@ Route::group([
             Route::post('Visita/', 'VisitaController@store');
             Route::put('Visita/{visita}', 'VisitaController@update');
             Route::delete('Visita/{visita}', 'VisitaController@destroy');
-
-            
-            // Actividad Economica
-
-            Route::post('ActividadEconomica/', 'DetalleActividadEconomicaController@store');
-
-            //Categoria Contacto
-
-            Route::post('CategoriaContacto/', 'DetalleCategoriaContactoController@store');
 
             //Importaciones
 

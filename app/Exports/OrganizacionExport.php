@@ -56,12 +56,12 @@ class OrganizacionExport implements FromCollection, WithHeadings
                 'organizacions.updated_at',
                 'users.usuario'
             )
-            ->distinct('organizacions.created_at')
+            ->distinct('organizacions.updated_at')
             ->where([
-                ['organizacions.created_at', '>', $this->fecha_inicio],
-                ['organizacions.created_at', '<', $this->fecha_fin]
+                ['organizacions.updated_at', '>=', $this->fecha_inicio],
+                ['organizacions.updated_at', '<=', $this->fecha_fin]
             ])
-            ->orderByDesc('organizacions.created_at')
+            ->orderByDesc('organizacions.updated_at')
             ->get();
 
         $count = count($organizacion_busqueda);
