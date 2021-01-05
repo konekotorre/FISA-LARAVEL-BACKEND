@@ -153,7 +153,7 @@ class ContactoController extends Controller
                 [$parametros[2], 'ilike', $organizacion],
                 [$parametros[3], 'ilike', $cargo],
                 [$parametros[4], 'ilike', $email],
-                [$parametros[5], '=', $pais]
+                [$parametros[5], $parametros[8], $pais]
             ])
             ->whereIn($parametros[6], $categorias)
             ->whereIn($parametros[7], $subcategorias)
