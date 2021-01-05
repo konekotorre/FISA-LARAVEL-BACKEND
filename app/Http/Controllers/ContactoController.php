@@ -122,12 +122,16 @@ class ContactoController extends Controller
         $apellidos = $request->input('apellidos');
         $organizacion = $request->input('organizacion');
         $cargo = $request->input('cargo');
+        $email = $request->input('email');
+        $pais = $request->input('pais');
         $categorias = $request->categorias;
         $subcategorias = $request->subcategorias;
         $parametros = $request->parametros;
 
         $contactos = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
+            ->leftJoin('oficinas', 'oficinas.id', '=', 'contactos.oficina_id')
+            ->join('pais', 'pais.id', 'oficinas.pais_id')
             ->join('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
             ->leftJoin('detalle_categoria_personas', 'detalle_categoria_personas.persona_id', '=', 'personas.id')
             ->select(
@@ -147,10 +151,12 @@ class ContactoController extends Controller
                 [$parametros[0], 'ilike', $nombres],
                 [$parametros[1], 'ilike', $apellidos],
                 [$parametros[2], 'ilike', $organizacion],
-                [$parametros[3], 'ilike', $cargo]
+                [$parametros[3], 'ilike', $cargo],
+                [$parametros[4], 'ilike', $email],
+                [$parametros[5], '=', $pais]
             ])
-            ->whereIn($parametros[4], $categorias)
-            ->whereIn($parametros[5], $subcategorias)
+            ->whereIn($parametros[6], $categorias)
+            ->whereIn($parametros[7], $subcategorias)
 
             ->distinct('contactos.updated_at')
 
