@@ -19,6 +19,7 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
     {
         $contacto_busqueda = DB::table('informacion_financieras')
             ->leftJoin('organizacions', 'organizacions.id', '=', 'informacion_financieras.organizacion_id')
+            ->leftJoin('subsectors', 'subsectors.id', '=', 'organizacions.subsector_id')
             ->leftJoin('clasificacions', 'clasificacions.id', '=', 'informacion_financieras.clasificacion_id')
             ->leftJoin('regimens', 'regimen.id', 'informacion_financieras.regimen_id')
             ->leftJoin('users', 'users.id', '=', 'informacion_financieras.usuario_actualizacion')
@@ -29,6 +30,7 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
                 'organizacions.numero_documento',
                 'organizacions.nombre as nombre_comercial',
                 'organizacions.razon_social',
+                'subsectors.nombre as subsector',
                 'informacion_financieras.ingresos_anuales',
                 'informacion_financieras.egresos_anuales',
                 'informacion_financieras.ingresos_operacionales',
@@ -39,15 +41,19 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
                 'informacion_financieras.tota_activos',
                 'informacion_financieras.total_pasivos',
                 'informacion_financieras.patrimonio_total',
+                'organizacions.empleados_directos',
+                'organizacions.empleados_indirectos',
                 'regimens.nombre as regimen',
                 'informacion_financieras.temporada_declaracion',
                 'clasificacions.nombre as clasificacion',
                 'informacion_financieras.temporada_cuota',
                 'informacion_financieras.cuota_anual',
-                'informacion_financieras.cuota_real_anual',
-                'informacion_financieras.cuota_real_afiliacion',
+                'informacion_financieras.cuota_real_pagada',
+                'informacion_financieras.cuota_sostenimiento_real_pagada',
+                'informacion_financieras.cuota_pautas',
                 'informacion_financieras.created_at',
                 'informacion_financieras.updated_at',
+                'users.usuario'
             )
             ->distinct('informacion_financieras.updated_at')
             ->where([
@@ -68,6 +74,7 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
             'Numero',
             'Nombre Comercial',
             'Razón Social',
+            'Subsector',
             'Ingresos Anuales',
             'Egresos Anuales',
             'Egresos Operacionales',
@@ -78,13 +85,16 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
             'Total Activos',
             'Total Pasivos',
             'Patrimonio Total',
+            'Emp. Directos',
+            'Emp. Indirectos',
             'Regimen',
             'Año Declaración',
             'Clasificación',
             'Año Cuota',
             'Cuota Anual',
-            'Cuota Real Anual',
-            'Cuota Real Afiliación',
+            'Cuota Real Pagada',
+            'Cuota de Sostenimiento Real Pagada',
+            'Cuota Pautas',
             'Fecha Creación',
             'Última Actualización',
             'Último Editor'
