@@ -12,37 +12,21 @@ class SectorController extends Controller
 
     public function index()
     {
-        $sector_busqueda = DB::table('sectors')
-            ->select(
-                'sectors.id',
-                'sectors.nombre',
-                'sectors.descripcion'
-            )
-            ->orderBy('sectors.nombre')
-            ->get();
-
-        return response()->json($sector_busqueda);
+        return response()->json([
+            "success" => true,
+            "sectores" => Sector::all()
+        ], 200);
     }
 
 
     public function store(Request $request)
     {
-        $solicitud = $request->all();
-
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-            'descripcion' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
         $sector = Sector::create($request->all());
 
-        return response()->json($sector, 201);
+        return response()->json([
+            "success" => true,
+            "sector" => $sector->id
+        ], 200);
     }
 
 
@@ -52,14 +36,15 @@ class SectorController extends Controller
 
         $sector_busqueda = DB::table('sectors')
             ->select(
-                'sectors.id',
-                'sectors.nombre',
-                'sectors.descripcion'
+                'sectors.*'
             )
             ->where('sectors.id', '=', $sector_id)
             ->get();
 
-        return response()->json($sector_busqueda);
+        return response()->json([
+            "success" => true,
+            "sector" => $sector_busqueda[0]
+        ], 200);
     }
 
 
@@ -67,7 +52,7 @@ class SectorController extends Controller
     {
         $sector->update($request->all());
 
-        return response()->json($sector, 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -75,6 +60,6 @@ class SectorController extends Controller
     {
         $sector->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }

@@ -20,14 +20,12 @@ class CreateTareasTable extends Migration
             $table->text('titulo');
             $table->text('descripcion');
             $table->text('resultado')->nullable();
-            $table->integer('usuario_asignado');
             $table->boolean('estado');
             $table->integer('usuario_creacion');
             $table->integer('usuario_actualizacion');
             $table->timestamps();
 
             $table->foreign('visita_id')->references('id')->on('visitas')->onDelete('cascade');
-            $table->foreign('usuario_asignado')->references('id')->on('users');
             $table->foreign('usuario_creacion')->references('id')->on('users');
             $table->foreign('usuario_actualizacion')->references('id')->on('users');
 

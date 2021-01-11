@@ -12,37 +12,21 @@ class RegimenController extends Controller
 
     public function index()
     {
-        $regimen_busqueda = DB::table('regimens')
-            ->select(
-                'regimens.id',
-                'regimens.nombre',
-                'regimens.descripcion'
-            )
-            ->orderBy('regimens.nombre')
-            ->get();
-
-        return response()->json($regimen_busqueda);
+        return response()->json([
+            "success" => true,
+            "regimenes" => Regimen::all()
+        ], 200);
     }
 
 
     public function store(Request $request)
     {
-        $solicitud = $request->all();
-
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-            'descripcion' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
         $regimen = Regimen::create($request->all());
 
-        return response()->json($regimen, 201);
+        return response()->json([
+            "success" => true,
+            "regimen" => $regimen->id
+        ], 200);
     }
 
 
@@ -52,14 +36,15 @@ class RegimenController extends Controller
 
         $regimen_busqueda = DB::table('regimens')
             ->select(
-                'regimens.id',
-                'regimens.nombre',
-                'regimens.descripcion'
+                'regimens.*'
             )
             ->where('regimens.id', '=', $regimen_id)
             ->get();
 
-        return response()->json($regimen_busqueda);
+        return response()->json([
+            "success" => true,
+            "regimen" => $regimen_busqueda[0]
+        ], 200);
     }
 
 
@@ -67,7 +52,7 @@ class RegimenController extends Controller
     {
         $regimen->update($request->all());
 
-        return response()->json($regimen, 200);
+        return response()->json(["success" =>  true], 200);
     }
 
 
@@ -75,6 +60,6 @@ class RegimenController extends Controller
     {
         $regimen->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }

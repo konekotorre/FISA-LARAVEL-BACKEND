@@ -12,37 +12,21 @@ class SubcategoriaController extends Controller
 
     public function index()
     {
-        $subcat_busqueda = DB::table('subcategorias')
-            ->select(
-                'subcategorias.id',
-                'subcategorias.nombre',
-                'subcategorias.descripcion'
-            )
-            ->orderBy('subcategorias.nombre')
-            ->get();
-
-        return response()->json($subcat_busqueda);
+        return response()->json([
+            "success" => true,
+            "subcategorias" => Subcategoria::all()
+        ], 200);
     }
 
 
     public function store(Request $request)
     {
-        $solicitud = $request->all();
-
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-            'descripcion' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
         $subcategoria = Subcategoria::create($request->all());
 
-        return response()->json($subcategoria, 201);
+        return response()->json([
+            "success" => true,
+            "subcategoria" => $subcategoria->id
+        ], 200);
     }
 
 
@@ -52,21 +36,22 @@ class SubcategoriaController extends Controller
 
         $subcat_busqueda = DB::table('subcategorias')
             ->select(
-                'subcategorias.id',
-                'subcategorias.nombre',
-                'subcategorias.descripcion'
+                'subcategorias.*'
             )
             ->where('subcategorias.id', '=', $subcat_id)
             ->get();
 
-        return response()->json($subcat_busqueda);
+        return response()->json([
+            "success" => true,
+            "subcategoria" => $subcat_busqueda[0]
+        ], 200);
     }
 
     public function update(Request $request, Subcategoria $subcategoria)
     {
         $subcategoria->update($request->all());
 
-        return response()->json($subcategoria, 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -74,7 +59,6 @@ class SubcategoriaController extends Controller
     {
         $subcategoria->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
-
 }

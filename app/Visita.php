@@ -12,8 +12,6 @@ class Visita extends Model
         'oficina_id',
         'fecha_programada',
         'fecha_ejecucion',
-        'hora_inicio',
-        'hora_fin',
         'titulo',
         'razon',
         'observaciones',

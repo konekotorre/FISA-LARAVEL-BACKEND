@@ -12,19 +12,10 @@ class SubsectorController extends Controller
 
     public function index()
     {
-        $sector_busqueda = DB::table('subsectors')
-            ->join('sectors', 'sectors.id', '=', 'subsectors.sector_id')
-            ->select(
-                'subsectors.id',
-                'subsectors.nombre',
-                'subsectors.descripcion',
-                'sectors.nombre as sector'
-            )
-            ->orderBy('sectors.nombre')
-            ->orderBy('subsectors.nombre')
-            ->get();
-
-        return response()->json($sector_busqueda);
+        return response()->json([
+            "success" => true,
+            "subsectores" => Subsector::all()
+        ], 200);
     }
 
 
@@ -41,47 +32,21 @@ class SubsectorController extends Controller
             ->orderBy('subsectors.nombre')
             ->get();
 
-        return response()->json(["subsectores" => $subsector_busqueda], 200);
+        return response()->json([
+            "success" => true,
+            "subsectores" => $subsector_busqueda
+        ], 200);
     }
 
-
-    public function search(Request $request)
-    {
-        $palabra = $request->input('palabra');
-        $nombre = '%' . $palabra . '%';
-
-        $subsector_busqueda = DB::table('subsectors')
-            ->join('sectors', 'sectors.id', '=', 'subsectors.sector_id')
-            ->select(
-                'subsectors.id',
-                'subsectors.nombre as subsector',
-                'sector.nombre as sector'
-            )
-            ->where('subsectors.nombre', 'ilike', $nombre)
-            ->get();
-
-        return response()->json($subsector_busqueda, 200);
-    }
 
     public function store(Request $request)
     {
-        $solicitud = $request->all();
-
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-            'descripcion' => 'required',
-            'sector_id' => 'required|integer',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
         $subsector = Subsector::create($request->all());
 
-        return response()->json($subsector, 201);
+        return response()->json([
+            "success" => true,
+            "subsector" => $subsector->id
+        ], 200);
     }
 
 
@@ -92,22 +57,22 @@ class SubsectorController extends Controller
         $sector_busqueda = DB::table('subsectors')
             ->join('sectors', 'sectors.id', '=', 'subsectors.sector_id')
             ->select(
-                'subsectors.id',
-                'subsectors.nombre',
-                'subsectors.descripcion',
-                'sector.id as sector'
+                'subsectors.*'
             )
             ->where('subsectors.id', '=', $subsec_id)
             ->get();
 
-        return response()->json($sector_busqueda);
+        return response()->json([
+            "success" => true,
+            "subsector" => $sector_busqueda[0]
+        ], 200);
     }
 
-    public function update(Request $request, $subsector)
+    public function update(Request $request, Subsector $subsector)
     {
         $subsector->update($request->all());
 
-        return response()->json($subsector, 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -115,6 +80,6 @@ class SubsectorController extends Controller
     {
         $subsector->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }

@@ -23,7 +23,10 @@ class CiudadController extends Controller
             )
             ->get();
 
-        return response()->json(['ciudad' => $ciudades_busqueda], 200);
+        return response()->json([
+            "success" => true,
+            'ciudad' => $ciudades_busqueda
+        ], 200);
     }
 
     public function indexByDepartamento(Request $request)
@@ -59,7 +62,10 @@ class CiudadController extends Controller
             ->where('ciudads.nombre', 'ilike', $nombre)
             ->get();
 
-        return response()->json($ciudades_busqueda, 200);
+        return response()->json([
+            "success" => true,
+            "ciudades" => $ciudades_busqueda
+        ], 200);
     }
 
 
@@ -67,20 +73,12 @@ class CiudadController extends Controller
     {
         $solicitud = $request->all();
 
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-            'departamento_estado_id' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
         $ciudad = Ciudad::create($solicitud);
 
-        return response()->json($ciudad, 201);
+        return response()->json([
+            "success" => true,
+            "ciudad" => $ciudad->id
+        ], 200);
     }
 
 
@@ -89,18 +87,16 @@ class CiudadController extends Controller
         $ciudad_id = $ciudad->id;
 
         $ciudades_busqueda = DB::table('ciudads')
-            ->join('departamento_estados', 'departamento_estados.id', '=', 'ciudads.departamento_estado_id')
-            ->join('pais', 'pais.id', '=', 'departamento_estados.pais_id')
             ->select(
-                'ciudads.id',
-                'ciudads.nombre as ciudad',
-                'departamento_estados.nombre as departamento_estado',
-                'pais.nombre as pais'
+                'ciudads.*'
             )
             ->where('ciudads.id', '=', $ciudad_id)
             ->get();
 
-        return response()->json($ciudades_busqueda, 200);
+        return response()->json([
+            "success" => true,
+            "ciudad" => $ciudades_busqueda[0]
+        ], 200);
     }
 
 
@@ -108,7 +104,7 @@ class CiudadController extends Controller
     {
         $ciudad->update($request->all());
 
-        return response()->json($ciudad, 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -116,6 +112,6 @@ class CiudadController extends Controller
     {
         $ciudad->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }

@@ -11,7 +11,6 @@ class Tarea extends Model
         'titulo',
         'descripcion',
         'resultado',
-        'usuario_asignado',
         'estado',
         'usuario_creacion',
         'usuario_actualizacion'
@@ -20,11 +19,6 @@ class Tarea extends Model
     public function visita()
     {
         return $this->belongsTo('App\Visita', 'visita_id', 'id');
-    }
-
-    public function asignado()
-    {
-        return $this->belongsTo('App\User', 'usuario_asignado', 'id');
     }
 
     public function creacion()

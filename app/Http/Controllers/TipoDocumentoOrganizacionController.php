@@ -12,37 +12,21 @@ class TipoDocumentoOrganizacionController extends Controller
 
     public function index()
     {
-        $tipo_busqueda = DB::table('tipo_documento_organizacions')
-            ->select(
-                'tipo_documento_organizacions.id',
-                'tipo_documento_organizacions.nombre',
-                'tipo_documento_organizacions.descripcion'
-            )
-            ->orderBy('tipo_documento_organizacions.nombre')
-            ->get();
-
-        return response()->json($tipo_busqueda);
+        return response()->json([
+            "success" => true,
+            "Tipos" => TipoDocumentoOrganizacion::all()
+        ], 200);
     }
 
 
     public function store(Request $request)
     {
-        $solicitud = $request->all();
-
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-            'descripcion' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
         $tipoDocumentoOrganizacion = TipoDocumentoOrganizacion::create($request->all());
 
-        return response()->json($tipoDocumentoOrganizacion, 201);
+        return response()->json([
+            "success" => true,
+            "Tipo" => $tipoDocumentoOrganizacion->id
+        ], 200);
     }
 
 
@@ -52,22 +36,23 @@ class TipoDocumentoOrganizacionController extends Controller
 
         $tipo_busqueda = DB::table('tipo_documento_organizacions')
             ->select(
-                'tipo_documento_organizacions.id',
-                'tipo_documento_organizacions.nombre',
-                'tipo_documento_organizacions.descripcion'
+                'tipo_documento_organizacions.*'
             )
             ->where('tipo_documento_organizacions.id', '=', $tipoDoc_id)
             ->get();
 
-        return response()->json($tipo_busqueda);
+        return response()->json([
+            "success" => true,
+            "Tipo" => $tipo_busqueda[0]
+        ], 200);
     }
 
 
-    public function update(Request $request, $tipoDocumentoOrganizacion)
+    public function update(Request $request, TipoDocumentoOrganizacion $tipoDocumentoOrganizacion)
     {
         $tipoDocumentoOrganizacion->update($request->all());
 
-        return response()->json($tipoDocumentoOrganizacion, 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -75,6 +60,6 @@ class TipoDocumentoOrganizacionController extends Controller
     {
         $tipoDocumentoOrganizacion->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }

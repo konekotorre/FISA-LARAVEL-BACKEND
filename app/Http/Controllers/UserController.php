@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
 use App\User;
 
 use Spatie\Permission\Models\Role;
@@ -20,14 +18,28 @@ class UserController extends Controller
             ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
             ->select(
                 'user.id',
-                'user.usuario',
+                'users.nombres',
+                'users.apellidos',
                 'tipo_documento_personas.nombre as documento',
                 'users.numero_documento',
+                'user.usuario',
             )
-            ->orderBy('usuario')
+            ->orderBy('users.updated_at')
             ->get();
 
-        return response()->json($users, 200);
+        return response()->json([
+            "success" => true,
+            "usuarios" => $users
+        ], 200);
+    }
+
+
+    public function indexRoles()
+    {
+        return response()->json([
+            "success" => true,
+            "roles" => Role::all()
+        ], 200);
     }
 
 
@@ -51,43 +63,15 @@ class UserController extends Controller
             $role = Role::find(2);
             $user->assignRole($role);
         } else {
-            return response()->json(false, 404);
+            return response()->json(["success" => false], 200);
         }
 
         $user_id = $user->id;
 
-        $user = DB::table('users')
-            ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
-            ->select(
-                'users.id',
-                'users.nombres',
-                'users.apellidos',
-                'tipo_documento_personas.nombre',
-                'users.numero_documento',
-                'users.usuario',
-                'users.email',
-                'users.estado',
-                'users.created_at as fecha_creacion',
-                'users.updated_at as fecha_actualizacion'
-            )
-            ->where('users.id', '=', $user_id)
-            ->get();
-
-        $creador_busqueda = DB::table('users')
-            ->join('users', 'users.id', '=', 'oficinas.usuario_creacion')
-            ->select('users.usuario as creador')
-            ->where('users.id', '=', $user_id)
-            ->get();
-
-        $editor_busqueda = DB::table('users')
-            ->join('users', 'users.id', '=', 'oficinas.usuario_actualizacion')
-            ->select('users.usuario as editor')
-            ->where('users.id', '=', $user_id)
-            ->get();
-
-
-
-        return response()->json([$user, $user->getRoleNames(), $creador_busqueda, $editor_busqueda], 201);
+        return response()->json([
+            "success" => true,
+            "usuario" => $user_id,
+        ], 200);
     }
 
 
@@ -98,16 +82,7 @@ class UserController extends Controller
         $user = DB::table('users')
             ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
             ->select(
-                'users.id',
-                'users.nombres',
-                'users.apellidos',
-                'tipo_documento_personas.nombre',
-                'users.numero_documento',
-                'users.usuario',
-                'users.email',
-                'users.estado',
-                'users.created_at as fecha_creacion',
-                'users.updated_at as fecha_actualizacion'
+                'users.*'
             )
             ->where('users.id', '=', $user_id)
             ->get();
@@ -124,47 +99,21 @@ class UserController extends Controller
             ->where('users.id', '=', $user_id)
             ->get();
 
-        return response()->json([$user, $user->getRoleNames(), $creador_busqueda, $editor_busqueda], 201);
+        return response()->json([
+            "success" => true,
+            "usuario" => $user[0],
+            "rol" => $user->getRoleNames()[0],
+            "usuario_creacion" => $creador_busqueda[0],
+            "usuario_actualizacion" => $editor_busqueda[0]
+        ], 200);
     }
 
 
-    public function update(Request $request, $user)
+    public function update(Request $request, User $user)
     {
         $user->update($request->all());
 
-        $user_id = $user->id;
-
-        $user = DB::table('users')
-            ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
-            ->select(
-                'users.id',
-                'users.nombres',
-                'users.apellidos',
-                'tipo_documento_personas.nombre',
-                'users.numero_documento',
-                'users.usuario',
-                'users.email',
-                'users.estado',
-                'users.created_at as fecha_creacion',
-                'users.updated_at as fecha_actualizacion'
-            )
-            ->where('users.id', '=', $user_id)
-            ->get();
-
-        $creador_busqueda = DB::table('users')
-            ->join('users', 'users.id', '=', 'oficinas.usuario_creacion')
-            ->select('users.usuario as creador')
-            ->where('users.id', '=', $user_id)
-            ->get();
-
-        $editor_busqueda = DB::table('users')
-            ->join('users', 'users.id', '=', 'oficinas.usuario_actualizacion')
-            ->select('users.usuario as editor')
-            ->where('users.id', '=', $user_id)
-            ->get();
-
-
-        return response()->json([$user, $user->getRoleNames(), $creador_busqueda, $editor_busqueda], 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -172,6 +121,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }

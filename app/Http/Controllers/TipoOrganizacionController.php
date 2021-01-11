@@ -12,37 +12,21 @@ class TipoOrganizacionController extends Controller
 
     public function index()
     {
-        $tipo_busqueda = DB::table('tipo_organizacions')
-            ->select(
-                'tipo_organizacions.id',
-                'tipo_organizacions.nombre',
-                'tipo_organizacions.descripcion'
-            )
-            ->orderBy('tipo_organizacions.nombre')
-            ->get();
-
-        return response()->json($tipo_busqueda);
+        return response()->json([
+            "success" => true,
+            "Tipos" => TipoOrganizacion::all()
+        ], 200);
     }
 
 
     public function store(Request $request)
     {
-        $solicitud = $request->all();
+        $tipoOrganizacion = TipoOrganizacion::create($request->all());
 
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-            'descripcion' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
-        $tipoOrganizacionOrganizacion = TipoOrganizacion::create($request->all());
-
-        return response()->json($tipoOrganizacionOrganizacion, 201);
+        return response()->json([
+            "success" => true,
+            "Tipo" => $tipoOrganizacion->id
+        ], 200);
     }
 
 
@@ -52,22 +36,23 @@ class TipoOrganizacionController extends Controller
 
         $tipo_busqueda = DB::table('tipo_organizacions')
             ->select(
-                'tipo_organizacions.id',
-                'tipo_organizacions.nombre',
-                'tipo_organizacions.descripcion'
+                'tipo_organizacions.*'
             )
             ->where('tipo_organizacions.id', '=', $tipo_id)
             ->get();
 
-        return response()->json($tipo_busqueda);
+        return response()->json([
+            "success" => true,
+            "Tipo" => $tipo_busqueda[0]
+        ], 200);
     }
 
 
-    public function update(Request $request, $tipoOrganizacion)
+    public function update(Request $request, TipoOrganizacion $tipoOrganizacion)
     {
         $tipoOrganizacion->update($request->all());
 
-        return response()->json($tipoOrganizacion, 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -75,6 +60,6 @@ class TipoOrganizacionController extends Controller
     {
         $tipoOrganizacion->delete();
 
-        return response()->json(null, 204);
+        return response()->json(["success" => true], 200);
     }
 }

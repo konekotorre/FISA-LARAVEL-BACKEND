@@ -18,13 +18,12 @@ class TareaController extends Controller
             ->select(
                 'tareas.id',
                 'tareas.titulo',
-                'visitas.titulo as titulo_visita',
+                'tareas.descripcion',
+                'tareas.resultado',
                 'tareas.estado',
-                'fecha_programada'
             )
             ->where('tareas.visita_id', '=', $visita_id)
-            ->orderByDesc('tareas.estado')
-            ->orderBy('tareas.titulo')
+            ->orderByDesc('tareas.updated_at')
             ->get();
 
         return response()->json([
@@ -32,25 +31,6 @@ class TareaController extends Controller
             "tareas" => $tareas
         ], 200);
     }
-
-    // public function today(Request $request)
-    // {
-    //     $now = now();
-
-    //     $tareas = DB::table('tareas')
-    //         ->join('visitas', 'visitas.id', '=', 'tareas.visita_id')
-    //         ->select(
-    //             'tareas.id',
-    //             'tareas.titulo',
-    //             'visitas.titulo as titulo_visita',
-    //             'tareas.estado'
-    //         )
-    //         ->whereDate('fecha_programada', $now)
-    //         ->orderBy('tareas.titulo')
-    //         ->get();
-
-    //     return response()->json($tareas);
-    // }
 
     public function store(Request $request)
     {
@@ -66,37 +46,10 @@ class TareaController extends Controller
 
         $tarea_id = $tarea->id;
 
-        $todo_busqueda = DB::table('tareas')
-            ->select(
-                'visitas.*'
-            )
-            ->where('tareas.id', '=', $tarea_id)
-            ->get();
-
-        $todo = $todo_busqueda[0];
-
-        $creador_busqueda = DB::table('tareas')
-            ->join('users', 'users.id', '=', 'tareas.usuario_creacion')
-            ->select('users.usuario as usuario_creacion')
-            ->where('tareas.id', '=', $tarea_id)
-            ->get();
-
-        $creador = $creador_busqueda[0];
-
-        $editor_busqueda = DB::table('tareas')
-            ->join('users', 'users.id', '=', 'tareas.usuario_actualizacion')
-            ->select('users.usuario as usuario_actualizacion')
-            ->where('tareas.id', '=', $tarea_id)
-            ->get();
-
-        $editor = $editor_busqueda[0];
-
         return response()->json([
             "success" => true,
-            "tarea" => $todo,
-            "usuario_creacion" => $creador,
-            "uisuario_actualizacion" => $editor
-        ], 201);
+            "tarea" => $tarea_id
+        ], 200);
     }
 
 
@@ -138,7 +91,7 @@ class TareaController extends Controller
     }
 
 
-    public function update(Request $request, $tarea)
+    public function update(Request $request, Tarea $tarea)
     {
         $solicitud = $request->all();
 
@@ -151,36 +104,9 @@ class TareaController extends Controller
 
         $tarea_id = $tarea->id;
 
-        $todo_busqueda = DB::table('tareas')
-            ->select(
-                'visitas.*'
-            )
-            ->where('tareas.id', '=', $tarea_id)
-            ->get();
-
-        $todo = $todo_busqueda[0];
-
-        $creador_busqueda = DB::table('tareas')
-            ->join('users', 'users.id', '=', 'tareas.usuario_creacion')
-            ->select('users.usuario as usuario_creacion')
-            ->where('tareas.id', '=', $tarea_id)
-            ->get();
-
-        $creador = $creador_busqueda[0];
-
-        $editor_busqueda = DB::table('tareas')
-            ->join('users', 'users.id', '=', 'tareas.usuario_actualizacion')
-            ->select('users.usuario as usuario_actualizacion')
-            ->where('tareas.id', '=', $tarea_id)
-            ->get();
-
-        $editor = $editor_busqueda[0];
-
         return response()->json([
             "success" => true,
-            "tarea" => $todo,
-            "usuario_creacion" => $creador,
-            "uisuario_actualizacion" => $editor
+            "tarea" => $tarea_id
         ], 200);
     }
 
@@ -189,6 +115,6 @@ class TareaController extends Controller
     {
         $tarea->delete();
 
-        return response()->json(["success" => true], 204);
+        return response()->json(["success" => true], 200);
     }
 }

@@ -14,16 +14,17 @@ class VisitaController extends Controller
     {
         $visitas = DB::table('visitas')
             ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
+            ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
             ->select(
                 'visitas.id',
                 'organizacions.nombre as organizacion',
                 'visitas.fecha_programada',
+                'visitas.fecha_ejecucion',
                 'visitas.titulo',
+                'users.usuario',
                 'visitas.estado'
             )
-            ->orderByDesc('estado')
-            ->orderBy('fecha_programada')
-            ->orderBy('titulo')
+            ->orderBy('visitas.fecha_programada')
             ->get();
 
         return response()->json([
@@ -41,7 +42,9 @@ class VisitaController extends Controller
             ->select(
                 'visitas.id',
                 'visitas.fecha_programada',
+                'visitas.fecha_ejecución',
                 'visitas.titulo',
+                'users.usuario',
                 'visitas.estado'
             )
             ->where('visitas.organizacion_id', '=', $organizacion_id)
@@ -64,11 +67,14 @@ class VisitaController extends Controller
             ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
             ->select(
                 'visitas.id',
+                'organizacions.nombre as organizacion',
+                'visitas.fecha_programada',
+                'visitas.fecha_ejecución',
                 'visitas.titulo',
-                'visitas.estado',
-                'organizacion.nombre as organizacion'
+                'users.usuario',
+                'visitas.estado'
             )
-            ->whereDate('fecha_programada', '=', $now)
+            ->orderBy('fecha_programada')
             ->orderBy('titulo')
             ->get();
 
@@ -144,14 +150,12 @@ class VisitaController extends Controller
 
         $fecha_validate = $solicitud['fecha_programada'];
         $organizacion_validate = $solicitud['organizacion_id'];
-        $oficina_validate = $solicitud['oficina_id'];
 
         $validate = DB::table('visitas')
             ->select('fecha_programada')
             ->where([
                 ['fecha_programada', '=', $fecha_validate],
-                ['organizacion_id', '=', $organizacion_validate],
-                ['oficina_id', '=', $oficina_validate]
+                ['organizacion_id', '=', $organizacion_validate]
             ])
             ->get();
 
@@ -171,37 +175,10 @@ class VisitaController extends Controller
 
         $visita_id = $visita->id;
 
-        $visita_busqueda = DB::table('visitas')
-            ->select(
-                'visitas.*'
-            )
-            ->where('visitas.id', '=', $visita_id)
-            ->get();
-
-        $visit = $visita_busqueda[0];
-
-        $creador_busqueda = DB::table('visitas')
-            ->join('users', 'users.id', '=', 'visitas.usuario_creacion')
-            ->select('users.usuario as usuario_creacion')
-            ->where('visitas.id', '=', $visita_id)
-            ->get();
-
-        $creador = $creador_busqueda[0];
-
-        $editor_busqueda = DB::table('visitas')
-            ->join('users', 'users.id', '=', 'visitas.usuario_actualizacion')
-            ->select('users.usuario as usuario_actualizacion')
-            ->where('visitas.id', '=', $visita_id)
-            ->get();
-
-        $editor = $editor_busqueda[0];
-
         return response()->json([
             "success" => true,
-            "visita" => $visit,
-            "usuario_creacion" => $creador,
-            "usuario_actualizacion" => $editor
-        ], 201);
+            "visita" => $visita_id
+        ], 200);
     }
 
 
@@ -239,11 +216,11 @@ class VisitaController extends Controller
             "visita" => $visit,
             "usuario_creacion" => $creador,
             "usuario_actualizacion" => $editor
-        ], 201);
+        ], 200);
     }
 
 
-    public function update(Request $request, $visita)
+    public function update(Request $request, Visita $visita)
     {
         $solicitud = $request->all();
 
@@ -256,44 +233,23 @@ class VisitaController extends Controller
 
         $visita_id = $visita->id;
 
-        $visita_busqueda = DB::table('visitas')
-            ->select(
-                'visitas.*'
-            )
-            ->where('visitas.id', '=', $visita_id)
-            ->get();
-
-        $visit = $visita_busqueda[0];
-
-        $creador_busqueda = DB::table('visitas')
-            ->join('users', 'users.id', '=', 'visitas.usuario_creacion')
-            ->select('users.usuario as usuario_creacion')
-            ->where('visitas.id', '=', $visita_id)
-            ->get();
-
-        $creador = $creador_busqueda[0];
-
-        $editor_busqueda = DB::table('visitas')
-            ->join('users', 'users.id', '=', 'visitas.usuario_actualizacion')
-            ->select('users.usuario as usuario_actualizacion')
-            ->where('visitas.id', '=', $visita_id)
-            ->get();
-
-        $editor = $editor_busqueda[0];
-
         return response()->json([
             "success" => true,
-            "visita" => $visit,
-            "usuario_creacion" => $creador,
-            "usuario_actualizacion" => $editor
-        ], 201);
+            "visita" => $visita_id
+        ], 200);
     }
 
 
     public function destroy(Visita $visita)
     {
+        $visita_id = $visita->id;
+
+        DB::table('tareas')
+        ->where('tareas.visita_id', $visita_id)
+        ->delete();
+
         $visita->delete();
 
-        return response()->json(["success" => true], 204);
+        return response()->json(["success" => true], 200);
     }
 }

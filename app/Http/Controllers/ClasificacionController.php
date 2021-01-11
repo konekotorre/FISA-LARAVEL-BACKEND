@@ -12,17 +12,11 @@ class ClasificacionController extends Controller
 
     public function index()
     {
-        $clasificaciones = DB::table('clasificacions')
-            ->select(
-                'clasificacions.id',
-                'clasificacions.nombre',
-                'clasificacions.cuota_anual',
-                'clasificacions.temporada_cuota'
-            )
-            ->orderBy('clasificacions.nombre')
-            ->get();
 
-        return response()->json(["clasificaciones" => $clasificaciones], 200);
+        return response()->json([
+            "success" => true,
+            "clasificaciones" => Clasificacion::all()
+        ], 200);
     }
 
 
@@ -30,20 +24,12 @@ class ClasificacionController extends Controller
     {
         $solicitud = $request->all();
 
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-            'departamento_estado_id' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
         $clasificacion = Clasificacion::create($solicitud);
 
-        return response()->json(["clasificacion" => $clasificacion], 201);
+        return response()->json([
+            "success" => true,
+            "clasificacion" => $clasificacion->id
+        ], 200);
     }
 
 
@@ -53,15 +39,15 @@ class ClasificacionController extends Controller
 
         $clasificacion = DB::table('clasificacions')
             ->select(
-                'clasificacions.id',
-                'clasificacions.nombre',
-                'clasificacions.cuota_anual',
-                'clasificacions.temporada_cuota'
+                'clasificacions.*'
             )
             ->where('clasificacions.id', '=', $clasi_id)
             ->get();
 
-        return response()->json(["clasificacion" => $clasificacion], 200);
+        return response()->json([
+            "success" => true,
+            "clasificacion" => $clasificacion[0]
+        ], 200);
     }
 
 
@@ -69,7 +55,7 @@ class ClasificacionController extends Controller
     {
         $clasificacion->update($request->all());
 
-        return response()->json(["clasificacion" => $clasificacion], 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -77,6 +63,6 @@ class ClasificacionController extends Controller
     {
         $clasificacion->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }

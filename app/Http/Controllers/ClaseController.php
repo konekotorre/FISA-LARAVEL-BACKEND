@@ -11,37 +11,18 @@ class ClaseController extends Controller
 
     public function index()
     {
-        $clase_busqueda = DB::table('clases')
-            ->select(
-                'clases.id',
-                'clases.nombre',
-                'clases.descripcion',
-            )
-            ->get();
-
-        return response()->json($clase_busqueda);
+        return response()->json([
+            "success" => true,
+            "clases" => Clase::all()
+        ], 200);
     }
 
 
     public function store(Request $request)
     {
-        $solicitud = $request->all();
-
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-            'descripcion' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
-
         $clase = Clase::create($request->all());
 
-        return response()->json($clase, 201);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -51,22 +32,23 @@ class ClaseController extends Controller
 
         $clase_busqueda = DB::table('clases')
             ->select(
-                'clases.id',
-                'clases.nombre',
-                'clases.descripcion',
+                'clases.*'
             )
             ->where('clases.id', '=', $clase_id)
             ->get();
 
-        return response()->json($clase_busqueda);
+        return response()->json([
+            "success" => true,
+            "clase" => $clase_busqueda[0]
+        ], 200);
     }
 
 
-    public function update(Request $request, $clase)
+    public function update(Request $request, Clase $clase)
     {
         $clase->update($request->all());
 
-        return response()->json($clase, 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -74,6 +56,6 @@ class ClaseController extends Controller
     {
         $clase->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }

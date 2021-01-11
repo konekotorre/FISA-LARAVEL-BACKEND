@@ -12,36 +12,21 @@ class TipoOficinaController extends Controller
 
     public function index()
     {
-        $tipo_busqueda = DB::table('tipo_oficinas')
-            ->select(
-                'tipo_oficinas.id',
-                'tipo_oficinas.nombre',
-                'tipo_oficinas.descripcion'
-            )
-            ->orderBy('tipo_oficinas.nombre')
-            ->get();
-
-        return response()->json($tipo_busqueda);
+        return response()->json([
+            "success" => true,
+            "Tipos" => TipoOficina::all()
+        ], 200);
     }
 
 
     public function store(Request $request)
     {
-        $solicitud = $request->all();
-
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
         $tipoOficina = TipoOficina::create($request->all());
 
-        return response()->json($tipoOficina, 201);
+        return response()->json([
+            "success" => true,
+            "Tipo" => $tipoOficina->id
+        ], 200);
     }
 
 
@@ -51,22 +36,23 @@ class TipoOficinaController extends Controller
 
         $tipo_busqueda = DB::table('tipo_oficinas')
             ->select(
-                'tipo_oficinas.id',
-                'tipo_oficinas.nombre',
-                'tipo_oficinas.descripcion'
+                'tipo_oficinas.*'
             )
             ->where('tipo_oficinas.id', '=', $tipo_id)
             ->get();
 
-        return response()->json($tipo_busqueda);
+        return response()->json([
+            "success" => true,
+            "Tipo" => $tipo_busqueda[0]
+        ], 200);
     }
 
 
-    public function update(Request $request, $tipoOficina)
+    public function update(Request $request, TipoOficina $tipoOficina)
     {
         $tipoOficina->update($request->all());
 
-        return response()->json($tipoOficina, 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -74,6 +60,6 @@ class TipoOficinaController extends Controller
     {
         $tipoOficina->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }

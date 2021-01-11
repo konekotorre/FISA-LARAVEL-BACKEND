@@ -12,35 +12,21 @@ class PaisController extends Controller
 
     public function index()
     {
-        $pais_busqueda = DB::table('pais')
-            ->select(
-                'pais.id',
-                'pais.nombre',
-            )
-            ->orderBy('pais.nombre')
-            ->get();
-
-        return response()->json($pais_busqueda);
+        return response()->json([
+            "success" => true,
+            "paises" => Pais::all()
+        ], 200);
     }
 
 
     public function store(Request $request)
     {
-        $solicitud = $request->all();
-
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
         $pais = Pais::create($request->all());
 
-        return response()->json($pais, 201);
+        return response()->json([
+            "success" => true,
+            "pais" => $pais->id
+        ], 200);
     }
 
 
@@ -50,13 +36,15 @@ class PaisController extends Controller
 
         $pais_busqueda = DB::table('pais')
             ->select(
-                'pais.id',
-                'pais.nombre',
+                'pais.*',
             )
             ->where('pais.id', '=', $pais_id)
             ->get();
 
-        return response()->json($pais_busqueda);
+        return response()->json([
+            "success" => true,
+            "pais" => $pais_busqueda[0]
+        ], 200);
     }
 
 
@@ -64,7 +52,7 @@ class PaisController extends Controller
     {
         $pais->update($request->all());
 
-        return response()->json($pais, 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -72,6 +60,6 @@ class PaisController extends Controller
     {
         $pais->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }

@@ -12,38 +12,21 @@ class TipoDocumentoPersonaController extends Controller
 
     public function index()
     {
-        $tipo_busqueda = DB::table('tipo_documento_personas')
-            ->select(
-                'tipo_documento_personas.id',
-                'tipo_documento_personas.nombre',
-                'tipo_documento_personas.descripcion'
-            )
-            ->orderBy('tipo_documento_personas.nombre')
-            ->get();
-
-        return response()->json($tipo_busqueda);
+        return response()->json([
+            "success" => true,
+            "Tipos" => TipoDocumentoPersona::all()
+        ], 200);
     }
 
 
     public function store(Request $request)
     {
-        $solicitud = $request->all();
-
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-            'descripcion' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
-
         $tipoDocumentoPersona = TipoDocumentoPersona::create($request->all());
 
-        return response()->json($tipoDocumentoPersona, 201);
+        return response()->json([
+            "success" => true,
+            "Tipo" => $tipoDocumentoPersona->id
+        ], 200);
     }
 
 
@@ -53,22 +36,23 @@ class TipoDocumentoPersonaController extends Controller
 
         $tipo_busqueda = DB::table('tipo_documento_personas')
             ->select(
-                'tipo_documento_personas.id',
-                'tipo_documento_personas.nombre',
-                'tipo_documento_personas.descripcion'
+                'tipo_documento_personas.*'
             )
             ->where('tipo_documento_personas.id', '=', $tipo_id)
             ->get();
 
-        return response()->json($tipo_busqueda);
+        return response()->json([
+            "success" => true,
+            "Tipo" => $tipo_busqueda[0]
+        ], 200);
     }
 
 
-    public function update(Request $request, $tipoDocumentoPersona)
+    public function update(Request $request, TipoDocumentoPersona $tipoDocumentoPersona)
     {
         $tipoDocumentoPersona->update($request->all());
 
-        return response()->json($tipoDocumentoPersona, 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -76,6 +60,6 @@ class TipoDocumentoPersonaController extends Controller
     {
         $tipoDocumentoPersona->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }

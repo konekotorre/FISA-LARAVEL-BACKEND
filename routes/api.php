@@ -44,14 +44,10 @@ Route::group([
 
         Route::group(['middleware' => ['role:Administrador']], function () {
 
-            // Rol
-
-            Route::get('Role', 'RoleController@index');
-            Route::get('Role/{role}', 'RoleController@show');
-
             // User
 
-            Route::get('User', 'UserController@index')->name('user-index');
+            Route::get('User', 'UserController@index');
+            Route::get('User/Role', 'UserController@indexRoles');
             Route::get('User/{user}', 'UserController@show');
             Route::post('User/', 'UserController@store');
             Route::put('User/{user}', 'UserController@update');
@@ -207,6 +203,7 @@ Route::group([
 
             // Subsector
 
+            Route::get('Subsector', 'SubsectorController@index');
             Route::post('Subsector/Sector', 'SubsectorController@indexBySector');
             Route::get('Subsector/{subsector}', 'SubsectorController@show');
             Route::post('Subsector/', 'SubsectorController@store');
@@ -215,8 +212,7 @@ Route::group([
 
             // Tarea
 
-            Route::post('Tarea', 'TareaController@index');
-            // Route::get('Tarea/Today', 'TareaController@today');
+            Route::post('Tarea/Vis', 'TareaController@index');
             Route::get('Tarea/{tarea}', 'TareaController@show');
             Route::post('Tarea/', 'TareaController@store');
             Route::put('Tarea/{tarea}', 'TareaController@update');
@@ -252,7 +248,7 @@ Route::group([
             Route::get('TipoOficina/{tipoOficina}', 'TipoOficinaController@show');
             Route::post('TipoOficina/', 'TipoOficinaController@store');
             Route::put('TipoOficina/{tipoOficina}', 'TipoOficinaController@update');
-            Route::delete('tipoOficina/{tipoOficina}', 'TipoOficinaController@destroy');
+            Route::delete('TipoOficina/{tipoOficina}', 'TipoOficinaController@destroy');
 
             // Visita
 

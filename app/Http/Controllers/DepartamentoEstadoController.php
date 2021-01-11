@@ -11,17 +11,10 @@ class DepartamentoEstadoController extends Controller
 
     public function index()
     {
-        $estados_busqueda = DB::table('departamento_estados')
-            ->join('pais', 'pais.id', '=', 'departamento_estados.pais_id')
-            ->select(
-                'departamento_estados.id',
-                'departamento_estados.nombre',
-                'pais.nombre as pais'
-            )
-            ->orderBy('pais.nombre')
-            ->get();
-
-        return response()->json(['estados' => $estados_busqueda], 200);
+        return response()->json([
+            "success" => true,
+            'estados' => DepartamentoEstado::all()
+        ], 200);
     }
 
 
@@ -38,7 +31,7 @@ class DepartamentoEstadoController extends Controller
             ->orderBy('nombre')
             ->get();
 
-            return response()->json(['estados' => $estados_busqueda], 200);
+        return response()->json(['estados' => $estados_busqueda], 200);
     }
 
 
@@ -65,20 +58,12 @@ class DepartamentoEstadoController extends Controller
     {
         $solicitud = $request->all();
 
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-            'pais_id' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
         $departamentoEstado = DepartamentoEstado::create($request->all());
 
-        return response()->json($departamentoEstado, 201);
+        return response()->json([
+            "success" => true,
+            "departamento" => $departamentoEstado->id
+        ], 200);
     }
 
 
@@ -87,16 +72,16 @@ class DepartamentoEstadoController extends Controller
         $departamento_id = $departamentoEstado->id;
 
         $estados_busqueda = DB::table('departamento_estados')
-            ->join('pais', 'pais.id', '=', 'departamento_estados.pais_id')
             ->select(
-                'departamento_estados.id',
-                'departamento_estados.nombre',
-                'pais.nombre as pais'
+                'departamento_estados.*'
             )
             ->where('departamento_estados.id', '=', $departamento_id)
             ->get();
 
-        return response()->json($estados_busqueda, 200);
+        return response()->json([
+            "success" => true,
+            "departamento" => $estados_busqueda[0]
+        ], 200);
     }
 
 
@@ -104,7 +89,7 @@ class DepartamentoEstadoController extends Controller
     {
         $departamentoEstado->update($request->all());
 
-        return response()->json($departamentoEstado, 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -112,6 +97,6 @@ class DepartamentoEstadoController extends Controller
     {
         $departamentoEstado->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }

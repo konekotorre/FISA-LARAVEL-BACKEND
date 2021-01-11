@@ -12,14 +12,10 @@ class CiiuController extends Controller
 
     public function index()
     {
-        $ciiu_busqueda = DB::table('ciius')
-            ->select(
-                'ciius.nombre',
-                'ciius.id',
-            )
-            ->get();
-
-        return response()->json($ciiu_busqueda);
+        return response()->json([
+            "success" => true,
+            "ciius" => Ciiu::all()
+        ], 200);
     }
 
 
@@ -34,70 +30,64 @@ class CiiuController extends Controller
 
             $ciiu_busqueda = DB::table('ciius')
                 ->select(
-                    'ciius.nombre',
-                    'ciius.id',
+                    'ciius.*'
                 )
                 ->where('ciius.nombre', 'ilike', $nombre)
                 ->get();
 
-            return response()->json($ciiu_busqueda);
+            return response()->json([
+                "success" => true,
+                "ciius" => $ciiu_busqueda[0]
+            ], 200);
         } else if ($tipo == "codigo") {
 
             $ciiu_busqueda = DB::table('ciius')
                 ->select(
-                    'ciius.nombre',
-                    'ciius.codigo',
+                    'ciius.*'
                 )
                 ->orWhere('ciius.codigo', '=', $palabra)
                 ->get();
 
-            return response()->json($ciiu_busqueda);
-        } else {
-            return response()->json(null, 204);
+            return response()->json([
+                "success" => true,
+                "ciius" => $ciiu_busqueda[0]
+            ], 200);
         }
     }
 
     public function store(Request $request)
     {
-        $solicitud = $request->all();
-
-        $validator = Validator::make($solicitud, [
-            'nombre' => 'required',
-            'codigo' => 'required',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'mensaje' => 'Ha ingresado algun dato incorrecto o se ha presentado algun error'
-            ], 422);
-        }
-
         $ciiu = ciiu::create($request->all());
 
-        return response()->json($ciiu, 201);
+        return response()->json([
+            "success" => true,
+            "ciiu_id" => $ciiu->id
+        ], 200);
     }
 
 
     public function show(Ciiu $ciiu)
     {
-        $ciiu_codigo = $ciiu->codigo;
+        $ciiu_id = $ciiu->id;
 
         $ciiu_busqueda = DB::table('ciius')
             ->select(
-                'ciius.nombre',
-                'ciius.codigo',
+                'ciius.*'
             )
-            ->where('ciius.codigo', '=', $ciiu_id)
+            ->where('ciius.id', '=', $ciiu_id)
             ->get();
 
-        return response()->json($ciiu_busqueda);
+        return response()->json([
+            "success" => true,
+            "ciius" => $ciiu_busqueda[0]
+        ], 200);
     }
 
     public function update(Request $request, Ciiu $ciiu)
     {
         $ciiu->update($request->all());
 
-        return response()->json($ciiu, 200);
+        return response()->json(["success" => true], 200);
     }
 
 
@@ -105,6 +95,6 @@ class CiiuController extends Controller
     {
         $ciiu->delete();
 
-        return response()->json(true, 204);
+        return response()->json(["success" => true], 200);
     }
 }
