@@ -32,7 +32,7 @@ class InfoFinGenExport implements FromCollection, WithHeadings
                 'informacion_financieras.ingresos_no_operacionales',
                 'informacion_financieras.egresos_no_operacionales',
                 'informacion_financieras.ventas_anuales',
-                'informacion_financieras.tota_activos',
+                'informacion_financieras.total_activos',
                 'informacion_financieras.total_pasivos',
                 'informacion_financieras.patrimonio_total',
                 'organizacions.empleados_directos',
