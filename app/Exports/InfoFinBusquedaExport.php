@@ -15,7 +15,7 @@ class InfoFinBusquedaExport implements FromCollection, WithHeadings
 
     public function collection()
     {
-        $contacto_busqueda = DB::table('informacion_financieras')
+        $info_busqueda = DB::table('informacion_financieras')
             ->leftJoin('organizacions', 'organizacions.id', '=', 'informacion_financieras.organizacion_id')
             ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', '=', 'organizacions.tipo_documento_organizacion_id')
             ->leftJoin('subsectors', 'subsectors.id', '=', 'organizacions.subsector_id')
@@ -55,11 +55,11 @@ class InfoFinBusquedaExport implements FromCollection, WithHeadings
                 'users.usuario'
             )
             ->distinct('informacion_financieras.updated_at')
-            ->whereIn('contactos.id', $this->ids)
+            ->whereIn('informacion_financieras.id', $this->ids)
             ->orderByDesc('informacion_financieras.updated_at')
             ->get();
 
-        return $contacto_busqueda;
+        return $info_busqueda;
     }
 
     public function headings(): array
