@@ -130,7 +130,6 @@ class ContactoController extends Controller
 
         $contactos = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
-            ->leftJoin('oficinas', 'oficinas.id', '=', 'contactos.oficina_id')
             ->join('pais', 'pais.id', 'oficinas.pais_id')
             ->join('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
             ->leftJoin('detalle_categoria_personas', 'detalle_categoria_personas.persona_id', '=', 'personas.id')
@@ -257,12 +256,27 @@ class ContactoController extends Controller
             ->orderBy('detalle_categoria_personas.subcategoria_id')
             ->get();
 
+        $creador = DB::table('contactos')
+        ->join('users', 'users.id', '=', 'contactos.usuario_creacion')
+        ->select('users.usuario')
+        ->where('contactos.id', '=', $contacto_id)
+        ->get();
+
+        $editor = DB::table('contactos')
+        ->join('users', 'users.id', '=', 'contactos.usuario_actualizacion')
+        ->select('users.usuario')
+        ->where('contactos.id', '=', $contacto_id)
+        ->get();
+
+
         $cats = $categorias->pluck('subcategoria_id');
 
         return response()->json([
             "success" => true,
             "contacto" => $cont,
-            "categorias" => $cats
+            "categorias" => $cats,
+            "usuario_creacion" => $creador[0],
+            "usuario_actualizacion" => $editor[0]
         ], 200);
     }
 

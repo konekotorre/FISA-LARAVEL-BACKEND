@@ -21,7 +21,7 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
             ->leftJoin('organizacions', 'organizacions.id', '=', 'informacion_financieras.organizacion_id')
             ->leftJoin('subsectors', 'subsectors.id', '=', 'organizacions.subsector_id')
             ->leftJoin('clasificacions', 'clasificacions.id', '=', 'informacion_financieras.clasificacion_id')
-            ->leftJoin('regimens', 'regimen.id', 'informacion_financieras.regimen_id')
+            ->leftJoin('regimens', 'regimens.id', '=', 'informacion_financieras.regimen_id')
             ->leftJoin('users', 'users.id', '=', 'informacion_financieras.usuario_actualizacion')
             ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
             ->select(
