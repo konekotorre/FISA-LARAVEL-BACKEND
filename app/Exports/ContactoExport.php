@@ -13,16 +13,11 @@ class ContactoExport implements FromCollection, WithHeadings
     {
         $this->fecha_inicio = $request->fecha_inicio;
         $this->fecha_fin = $request->fecha_fin;
-
     }
 
 
     public function collection()
     {
-        
-        $fecha_a = $this->fecha_inicio->date_modify('-60 minutes');
-        $fecha_b = $this->fecha_fin->date_modify('-60 minutes');
-
         $contacto_busqueda = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
             ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
@@ -56,8 +51,8 @@ class ContactoExport implements FromCollection, WithHeadings
             )
             ->distinct('contactos.updated_at')
             ->where([
-                ['contactos.updated_at', '>=', $fecha_a],
-                ['contactos.updated_at', '<=',  $fecha_b]
+                ['contactos.updated_at', '>=', $this->fecha_inicio],
+                ['contactos.updated_at', '<=', $this->fecha_fin]
             ])
             ->orderByDesc('contactos.updated_at')
             ->get();

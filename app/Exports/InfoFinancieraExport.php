@@ -58,8 +58,8 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
             )
             ->distinct('informacion_financieras.updated_at')
             ->where([
-                ['informacion_financieras.updated_at', '>=', strtotime('-1 hours',$this->fecha_inicio)],
-                ['informacion_financieras.updated_at', '<=', strtotime('-1 hours',$this->fecha_fin)]
+                ['informacion_financieras.updated_at', '>=', $this->fecha_inicio],
+                ['informacion_financieras.updated_at', '<=', $this->fecha_fin]
             ])
             ->orderByDesc('informacion_financieras.updated_at')
             ->get();
