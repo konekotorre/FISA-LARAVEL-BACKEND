@@ -51,8 +51,8 @@ class ContactoExport implements FromCollection, WithHeadings
             )
             ->distinct('contactos.updated_at')
             ->where([
-                ['contactos.updated_at', '>=', $this->fecha_inicio],
-                ['contactos.updated_at', '<=', $this->fecha_fin]
+                ['contactos.updated_at', '>=', strtotime('-1 hours',$this->fecha_inicio)],
+                ['contactos.updated_at', '<=',  strtotime('-1 hours',$this->fecha_fin)]
             ])
             ->orderByDesc('contactos.updated_at')
             ->get();
