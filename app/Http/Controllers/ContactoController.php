@@ -130,8 +130,9 @@ class ContactoController extends Controller
 
         $contactos = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
-            ->join('pais', 'pais.id', 'oficinas.pais_id')
-            ->join('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
+            ->leftJoin('oficinas', 'oficinas.id', '=', 'contactos.oficina_id')
+            ->leftJoin('pais', 'pais.id', 'oficinas.pais_id')
+            ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
             ->leftJoin('detalle_categoria_personas', 'detalle_categoria_personas.persona_id', '=', 'personas.id')
             ->select(
                 'contactos.id as contacto_id',
@@ -257,16 +258,16 @@ class ContactoController extends Controller
             ->get();
 
         $creador = DB::table('contactos')
-        ->join('users', 'users.id', '=', 'contactos.usuario_creacion')
-        ->select('users.usuario')
-        ->where('contactos.id', '=', $contacto_id)
-        ->get();
+            ->join('users', 'users.id', '=', 'contactos.usuario_creacion')
+            ->select('users.usuario')
+            ->where('contactos.id', '=', $contacto_id)
+            ->get();
 
         $editor = DB::table('contactos')
-        ->join('users', 'users.id', '=', 'contactos.usuario_actualizacion')
-        ->select('users.usuario')
-        ->where('contactos.id', '=', $contacto_id)
-        ->get();
+            ->join('users', 'users.id', '=', 'contactos.usuario_actualizacion')
+            ->select('users.usuario')
+            ->where('contactos.id', '=', $contacto_id)
+            ->get();
 
 
         $cats = $categorias->pluck('subcategoria_id');
