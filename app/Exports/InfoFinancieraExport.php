@@ -19,6 +19,7 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
     {
         $contacto_busqueda = DB::table('informacion_financieras')
             ->leftJoin('organizacions', 'organizacions.id', '=', 'informacion_financieras.organizacion_id')
+            ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', '=', 'organizacions.tipo_documento_organizacion_id')
             ->leftJoin('subsectors', 'subsectors.id', '=', 'organizacions.subsector_id')
             ->leftJoin('clasificacions', 'clasificacions.id', '=', 'informacion_financieras.clasificacion_id')
             ->leftJoin('regimens', 'regimens.id', '=', 'informacion_financieras.regimen_id')
