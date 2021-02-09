@@ -17,7 +17,7 @@ class Visita extends Model
         'observaciones',
         'resultado',
         'usuario_asignado',
-        'estado',
+        'estado_id',
         'usuario_creacion',
         'usuario_actualizacion'
     ];
@@ -44,6 +44,10 @@ class Visita extends Model
 
     public function oficina() {
         return $this->belongsTo('App\oficina', 'oficina_id', 'id');
+    }
+
+    public function estado() {
+        return $this->belongsTo('App\EstadoVisita', 'estado_id', 'id');
     }
 
     public function tareas() {

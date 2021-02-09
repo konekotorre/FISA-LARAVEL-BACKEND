@@ -11,7 +11,7 @@ class Tarea extends Model
         'titulo',
         'descripcion',
         'resultado',
-        'estado',
+        'estado_id',
         'usuario_creacion',
         'usuario_actualizacion'
     ];
@@ -20,7 +20,11 @@ class Tarea extends Model
     {
         return $this->belongsTo('App\Visita', 'visita_id', 'id');
     }
-
+    
+    public function estado()
+    {
+        return $this->belongsTo('App\EstadoTarea', 'estado_id', 'id');
+    }
     public function creacion()
     {
         return $this->belongsTo('App\User', 'usuario_creacion', 'id');

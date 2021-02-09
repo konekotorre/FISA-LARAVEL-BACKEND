@@ -59,6 +59,19 @@ class VisitaController extends Controller
         ], 200);
     }
 
+    public function ListForm(){
+
+        $estado_busqueda = DB::table('estado_visitas')
+        ->select('*')
+        ->get();
+
+        $usuario_busqueda = DB::table('users')
+        ->select('*')
+        ->get();
+
+        return "ok";
+
+    }
     public function today()
     {
         $now = now();

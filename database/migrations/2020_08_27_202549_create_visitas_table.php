@@ -18,7 +18,7 @@ class CreateVisitasTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('organizacion_id');
             $table->bigInteger('oficina_id')->nullable();
-            $table->bigInteger('contacto_id');
+            $table->bigInteger('contacto_id')->nullable();
             $table->date('fecha_programada');
             $table->date('fecha_ejecucion')->nullable();
             $table->text('titulo');
@@ -26,13 +26,14 @@ class CreateVisitasTable extends Migration
             $table->text('observaciones')->nullable();
             $table->text('resultado')->nullable();
             $table->integer('usuario_asignado');
-            $table->boolean('estado');
+            $table->integer('estado_id');
             $table->integer('usuario_creacion');
             $table->integer('usuario_actualizacion');
             $table->timestamps();
 
             $table->foreign('contacto_id')->references('id')->on('contactos');
             $table->foreign('oficina_id')->references('id')->on('oficinas');
+            $table->foreign('estado_id')->references('id')->on('estado_visitas');
             $table->foreign('organizacion_id')->references('id')->on('organizacions')->onDelete('cascade');
             $table->foreign('usuario_creacion')->references('id')->on('users');
             $table->foreign('usuario_actualizacion')->references('id')->on('users');

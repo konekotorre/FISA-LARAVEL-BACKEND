@@ -131,6 +131,22 @@ Route::group([
             Route::put('DepartamentoEstado/{departamentoEstado}', 'DepartamentoEstadoController@update');
             Route::delete('DepartamentoEstado/{departamentoEstado}', 'DepartamentoEstadoController@destroy');
 
+            //Estado Visita
+
+            Route::get('EstadoVisita', 'EstadoVisitaController@index');
+            Route::get('EstadoVisita/{estadoVisita}', 'EstadoVisitaController@show');
+            Route::post('EstadoVisita/', 'EstadoVisitaController@store');
+            Route::put('EstadoVisita/{estadoVisita}', 'EstadoVisitaController@update');
+            Route::delete('EstadoVisita/{estadoVisita}', 'EstadoVisitaController@destroy');
+
+            //Estado Tarea
+
+            Route::get('EstadoTarea', 'EstadoTareaController@index');
+            Route::get('EstadoTarea/{estadoTarea}', 'EstadoTareaController@show');
+            Route::post('EstadoTarea/', 'EstadoTareaController@store');
+            Route::put('EstadoTarea/{estadoTarea}', 'EstadoTareaController@update');
+            Route::delete('EstadoTarea/{estadoTarea}', 'EstadoTareaController@destroy');
+
             // Informacion Financiera
 
             Route::post('InformacionFinanciera/Org', 'InformacionFinancieraController@show');
