@@ -59,19 +59,23 @@ class VisitaController extends Controller
         ], 200);
     }
 
-    public function ListForm(){
+    public function listForm(){
 
         $estado_busqueda = DB::table('estado_visitas')
         ->select('*')
         ->get();
 
         $usuario_busqueda = DB::table('users')
-        ->select('*')
+        ->select('usuario', 'id')
         ->get();
 
-        return "ok";
-
+        return response()->json([
+            "success" => true,
+            "estados" => $estado_busqueda,
+            "usuarios" => $usuario_busqueda,
+        ], 200);
     }
+
     public function today()
     {
         $now = now();
@@ -94,6 +98,25 @@ class VisitaController extends Controller
         return response()->json([
             "success" => true,
             "visitas" => $visitas
+        ], 200);
+    }
+
+    public function orgData(Request $request){
+
+        $org_id = $request->org_id;
+        
+        $estado_busqueda = DB::table('estado_visitas')
+        ->select('*')
+        ->get();
+
+        $usuario_busqueda = DB::table('users')
+        ->select('usuario', 'id')
+        ->get();
+
+        return response()->json([
+            "success" => true,
+            "estados" => $estado_busqueda,
+            "usuarios" => $usuario_busqueda,
         ], 200);
     }
 
