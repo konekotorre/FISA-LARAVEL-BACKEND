@@ -84,8 +84,7 @@ class VisitaController extends Controller
 
     public function orgData(Request $request)
     {
-
-        $org_id = $request->input('organizacion_id');
+        $org_id = $request->organizacion_id;
 
         $contacto_busqueda = DB::table('contactos')
             ->join('personas', 'personas.id', 'contactos.persona_id')
@@ -104,7 +103,7 @@ class VisitaController extends Controller
             ->get();
 
         $oficina_busqueda = DB::table('oficinas')
-            ->join('pais', 'pais_id', '=', 'oficina.pais_id')
+            ->join('pais', 'pais.id', '=', 'oficina.pais_id')
             ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
             ->select(
                 'oficinas.id',
