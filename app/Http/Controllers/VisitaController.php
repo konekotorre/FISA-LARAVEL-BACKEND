@@ -158,45 +158,54 @@ class VisitaController extends Controller
         $palabra = $solicitud['palabra'];
 
         if ($tipo = "fecha_programada") {
-            $busqueda = DB::table('visitas')
+            $visitas = DB::table('visitas')
                 ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
+                ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+                ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
                 ->select(
                     'visitas.id',
                     'organizacions.nombre as organizacion',
                     'visitas.fecha_programada',
                     'visitas.titulo',
-                    'visitas.estado'
-                )->where('fecha', '=', $palabra)
-                ->orderByDesc('estado')
-                ->orderBy('fecha_programada')
+                    'users.usuario',
+                    'estado_visitas.nombre'
+                )
+                ->where('visitas.fecha', '=', $palabra)
+                ->orderBy('visitas.fecha_programada')
                 ->get();
         } elseif ($tipo == "titulo") {
             $palabra_final = '%' . $palabra . '%';
 
-            $busqueda = DB::table('visitas')
+            $visitas = DB::table('visitas')
                 ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
+                ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+                ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
                 ->select(
                     'visitas.id',
                     'organizacions.nombre as organizacion',
                     'visitas.fecha_programada',
                     'visitas.titulo',
-                    'visitas.estado'
-                )->where('titulo', 'ilike', $palabra_final)
-                ->orderByDesc('estado')
-                ->orderBy('fecha_programada')
+                    'users.usuario',
+                    'estado_visitas.nombre'
+                )
+                ->where('visitas.titulo', 'ilike', $palabra_final)
+                ->orderBy('visitas.fecha_programada')
                 ->get();
         } elseif ($tipo == "organizacion") {
             $palabra_final = '%' . $palabra . '%';
 
-            $busqueda = DB::table('visitas')
+            $visitas = DB::table('visitas')
                 ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
+                ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+                ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
                 ->select(
                     'visitas.id',
                     'organizacions.nombre as organizacion',
                     'visitas.fecha_programada',
                     'visitas.titulo',
-                    'visitas.estado'
-                )->where('organizacion.nombre', 'ilike', $palabra_final)
+                    'users.usuario',
+                    'estado_visitas.nombre'
+                )->where('organizacions.nombre', 'ilike', $palabra_final)
                 ->orderByDesc('estado')
                 ->orderBy('fecha_programada')
                 ->get();
@@ -205,7 +214,7 @@ class VisitaController extends Controller
         }
         return response()->json([
             "success" => true,
-            "visitas" => $busqueda
+            "visitas" => $visitas
         ], 200);
     }
 
