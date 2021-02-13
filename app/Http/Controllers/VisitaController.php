@@ -113,6 +113,7 @@ class VisitaController extends Controller
                 'pais.nombre as pais',
                 'ciudads.nombre as ciudad'
             )
+            ->where('oficinas.organizacion_id', '=', $org_id)
             ->orderBy('oficinas.updated_at')
             ->get();
 
