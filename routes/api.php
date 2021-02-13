@@ -270,7 +270,8 @@ Route::group([
 
             Route::get('Visita', 'VisitaController@index');
             Route::get('Visita/Org', 'VisitaController@indexByOrganizacion');
-            Route::get('Visita/Today', 'VisitaController@listForm');
+            Route::post('Visita/OrgData', 'VisitaController@orgData');
+            Route::get('Visita/Today', 'VisitaController@today');
             Route::get('Visita/Data', 'VisitaController@listForm');
             Route::get('Visita/Search', 'VisitaController@search');
             Route::get('Visita/{visita}', 'VisitaController@show');
