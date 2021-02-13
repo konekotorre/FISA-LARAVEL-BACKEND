@@ -15,12 +15,14 @@ class TareaController extends Controller
         $visita_id = $request->input('visita_id');
 
         $tareas = DB::table('tareas')
+        ->join('estado_tareas', 'estado_tareas.id', '=', 'tareas.estado_id')
             ->select(
                 'tareas.id',
+                'tareas.visita_id',
                 'tareas.titulo',
                 'tareas.descripcion',
                 'tareas.resultado',
-                'tareas.estado',
+                'estado_tareas.nombre',
             )
             ->where('tareas.visita_id', '=', $visita_id)
             ->orderByDesc('tareas.updated_at')

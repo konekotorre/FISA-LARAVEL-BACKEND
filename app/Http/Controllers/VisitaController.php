@@ -14,15 +14,15 @@ class VisitaController extends Controller
     {
         $visitas = DB::table('visitas')
             ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
+            ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
             ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
             ->select(
                 'visitas.id',
                 'organizacions.nombre as organizacion',
                 'visitas.fecha_programada',
-                'visitas.fecha_ejecucion',
                 'visitas.titulo',
                 'users.usuario',
-                'visitas.estado'
+                'estado_visitas.nombre'
             )
             ->orderBy('visitas.fecha_programada')
             ->get();
@@ -30,7 +30,7 @@ class VisitaController extends Controller
         return response()->json([
             "success" => true,
             "visitas" => $visitas
-        ]);
+        ], 200);
     }
 
 
@@ -39,18 +39,18 @@ class VisitaController extends Controller
         $organizacion_id = $request->organizacion_id;
 
         $visitas = DB::table('visitas')
+            ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
+            ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+            ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
             ->select(
                 'visitas.id',
                 'visitas.fecha_programada',
-                'visitas.fecha_ejecución',
                 'visitas.titulo',
                 'users.usuario',
-                'visitas.estado'
+                'estado_visitas.nombre'
             )
-            ->where('visitas.organizacion_id', '=', $organizacion_id)
-            ->orderByDesc('estado')
-            ->orderBy('fecha_programada')
-            ->orderBy('titulo')
+            ->where('organizacion.id', '=', $organizacion_id)
+            ->orderBy('visitas.fecha_programada')
             ->get();
 
         return response()->json([
@@ -59,22 +59,70 @@ class VisitaController extends Controller
         ], 200);
     }
 
-    public function listForm(){
+    public function listForm()
+    {
 
-        $estado_busqueda = DB::table('estado_visitas')
-        ->select('*')
-        ->get();
+        $estado_busqueda_v = DB::table('estado_visitas')
+            ->select('*')
+            ->get();
+
+        $estado_busqueda_t = DB::table('estado_tareas')
+            ->select('*')
+            ->get();
 
         $usuario_busqueda = DB::table('users')
-        ->select('usuario', 'id')
-        ->get();
+            ->select('usuario', 'id')
+            ->get();
 
         return response()->json([
             "success" => true,
-            "estados" => $estado_busqueda,
+            "estadoVisitas" => $estado_busqueda_v,
+            "estadoTareas" => $estado_busqueda_t,
             "usuarios" => $usuario_busqueda,
         ], 200);
     }
+
+    public function orgData(Request $request)
+    {
+
+        $org_id = $request->input('organizacion_id');
+
+        $contacto_busqueda = DB::table('contactos')
+            ->join('personas', 'personas.id', 'contactos.persona_id')
+            ->select(
+                'contactos.id',
+                'personas.nombres',
+                'personas.apellidos',
+                'personas.celular',
+                'contactos.email',
+                'contactos.telefono',
+                'contactos.extension',
+                'contactos.oficina_id'
+            )
+            ->where('contactos.organizacion_id', '=', $org_id)
+            ->orderBy('contactos.updated_at')
+            ->get();
+
+        $oficina_busqueda = DB::table('oficinas')
+            ->join('pais', 'pais_id', '=', 'oficina.pais_id')
+            ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
+            ->select(
+                'oficinas.id',
+                'oficinas.direccion',
+                'oficinas.complemento',
+                'pais.nombre as pais',
+                'ciudads.nombre as ciudad'
+            )
+            ->orderBy('oficinas.updated_at')
+            ->get();
+
+        return response()->json([
+            "success" => true,
+            "contactos" => $contacto_busqueda,
+            "oficinas" => $oficina_busqueda,
+        ], 200);
+    }
+
 
     public function today()
     {
@@ -101,24 +149,6 @@ class VisitaController extends Controller
         ], 200);
     }
 
-    public function orgData(Request $request){
-
-        $org_id = $request->org_id;
-        
-        $estado_busqueda = DB::table('estado_visitas')
-        ->select('*')
-        ->get();
-
-        $usuario_busqueda = DB::table('users')
-        ->select('usuario', 'id')
-        ->get();
-
-        return response()->json([
-            "success" => true,
-            "estados" => $estado_busqueda,
-            "usuarios" => $usuario_busqueda,
-        ], 200);
-    }
 
     public function search(Request $request)
     {
@@ -281,8 +311,8 @@ class VisitaController extends Controller
         $visita_id = $visita->id;
 
         DB::table('tareas')
-        ->where('tareas.visita_id', $visita_id)
-        ->delete();
+            ->where('tareas.visita_id', $visita_id)
+            ->delete();
 
         $visita->delete();
 

@@ -125,7 +125,6 @@ class OrganizacionController extends Controller
         ], 200);
     }
 
-
     public function orgSimpleList()
     {
         $organizacion_busqueda = DB::table('organizacions')
