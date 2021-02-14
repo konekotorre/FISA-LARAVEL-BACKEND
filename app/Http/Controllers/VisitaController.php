@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Visita;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -126,21 +127,25 @@ class VisitaController extends Controller
 
     public function today()
     {
-        $now = now();
+
+        $now = Carbon::now()->format('d/m/Y');
+        $future = Carbon::now()->addDays(5)->format('d/m/Y');
 
         $visitas = DB::table('visitas')
             ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
+            ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+            ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
             ->select(
                 'visitas.id',
                 'organizacions.nombre as organizacion',
                 'visitas.fecha_programada',
-                'visitas.fecha_ejecución',
                 'visitas.titulo',
                 'users.usuario',
-                'visitas.estado'
+                'estado_visitas.nombre'
             )
-            ->orderBy('fecha_programada')
-            ->orderBy('titulo')
+            ->where('visitas.fecha_programada', '>=', $now)
+            ->where('visitas.fecha_programada', '<=', $future)
+            ->orderBy('visitas.fecha_programada')
             ->get();
 
         return response()->json([
