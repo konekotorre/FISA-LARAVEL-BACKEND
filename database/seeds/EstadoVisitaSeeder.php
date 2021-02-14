@@ -14,32 +14,32 @@ class EstadoVisitaSeeder extends Seeder
     {
         DB::table('estado_visitas')->insert([
             'id' => '1',
-            'nombre' => 'Agendada'
+            'nombre' => 'AGENDADA'
         ]);
 
         DB::table('estado_visitas')->insert([
             'id' => '2',
-            'nombre' => 'Preliminar'
+            'nombre' => 'PRELIMINAR'
         ]);
 
         DB::table('estado_visitas')->insert([
             'id' => '3',
-            'nombre' => 'Confirmada'
+            'nombre' => 'CONFIRMADA'
         ]);
 
         DB::table('estado_visitas')->insert([
             'id' => '4',
-            'nombre' => 'Cerrada'
+            'nombre' => 'CERRADA'
         ]);
 
         DB::table('estado_visitas')->insert([
             'id' => '5',
-            'nombre' => 'Realizada'
+            'nombre' => 'REALIZADA'
         ]);
 
         DB::table('estado_visitas')->insert([
             'id' => '6',
-            'nombre' => 'Cancelada'
+            'nombre' => 'CANCELADA'
         ]);
     }
 }

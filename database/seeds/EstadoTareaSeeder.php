@@ -14,27 +14,27 @@ class EstadoTareaSeeder extends Seeder
     {
         DB::table('estado_tareas')->insert([
             'id' => '1',
-            'nombre' => 'Nueva'
+            'nombre' => 'NUEVA'
         ]);
 
         DB::table('estado_tareas')->insert([
             'id' => '2',
-            'nombre' => 'En proceso'
+            'nombre' => 'EN PROCESO'
         ]);
 
-        DB::table('estado_visitas')->insert([
+        DB::table('estado_tareas')->insert([
             'id' => '3',
-            'nombre' => 'Finalizada'
+            'nombre' => 'FINALIZADA'
         ]);
 
-        DB::table('estado_visitas')->insert([
+        DB::table('estado_tareas')->insert([
             'id' => '4',
-            'nombre' => 'Inconvenientes'
+            'nombre' => 'INCONVENIENTES'
         ]);
 
-        DB::table('estado_visitas')->insert([
+        DB::table('estado_tareas')->insert([
             'id' => '5',
-            'nombre' => 'Cancelada'
+            'nombre' => 'CANCELADA'
         ]);
 
     }

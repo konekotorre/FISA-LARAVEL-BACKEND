@@ -152,12 +152,14 @@ class VisitaController extends Controller
 
     public function search(Request $request)
     {
-        $solicitud = $request->all();
+        $tipo = $request->input('tipo');
+        $palabra = $request->input('palabra');
+        // $solicitud = $request->all();
 
-        $tipo = $solicitud['tipo'];
-        $palabra = $solicitud['palabra'];
+        // $tipo = $solicitud['tipo'];
+        // $palabra = $solicitud['palabra'];
 
-        if ($tipo = "fecha_programada") {
+        if ($tipo == "fecha_programada") {
             $visitas = DB::table('visitas')
                 ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
                 ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
@@ -170,8 +172,7 @@ class VisitaController extends Controller
                     'users.usuario',
                     'estado_visitas.nombre'
                 )
-                ->where('visitas.fecha', '=', $palabra)
-                ->orderBy('visitas.fecha_programada')
+                ->where('visitas.fecha_programada', '=', $palabra)
                 ->get();
         } elseif ($tipo == "titulo") {
             $palabra_final = '%' . $palabra . '%';
@@ -206,8 +207,7 @@ class VisitaController extends Controller
                     'users.usuario',
                     'estado_visitas.nombre'
                 )->where('organizacions.nombre', 'ilike', $palabra_final)
-                ->orderByDesc('estado')
-                ->orderBy('fecha_programada')
+                ->orderBy('visitas.fecha_programada')
                 ->get();
         } else {
             return response()->json(["success" => false], 404);

@@ -1,7 +1,5 @@
 <?php
 
-use App\EstadoTarea;
-use App\EstadoVisita;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -32,8 +30,8 @@ class DatabaseSeeder extends Seeder
             TipoDocumentoOrganizacionSeeder::class,
             TipoOficinaSeeder::class,
             ClasificacionSeeder::class,
-            EstadoVisita::class,
-            EstadoTarea::class
+            EstadoVisitaSeeder::class,
+            EstadoTareaSeeder::class
         ]);
     }
 }
