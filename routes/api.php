@@ -228,7 +228,7 @@ Route::group([
 
             // Tarea
 
-            Route::post('Tarea', 'TareaController@index');
+            Route::post('Tarea/Visita', 'TareaController@index');
             Route::get('Tarea/{tarea}', 'TareaController@show');
             Route::post('Tarea/', 'TareaController@store');
             Route::put('Tarea/{tarea}', 'TareaController@update');

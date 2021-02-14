@@ -154,27 +154,8 @@ class VisitaController extends Controller
     {
         $tipo = $request->input('tipo');
         $palabra = $request->input('palabra');
-        // $solicitud = $request->all();
 
-        // $tipo = $solicitud['tipo'];
-        // $palabra = $solicitud['palabra'];
-
-        if ($tipo == "fecha_programada") {
-            $visitas = DB::table('visitas')
-                ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
-                ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
-                ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
-                ->select(
-                    'visitas.id',
-                    'organizacions.nombre as organizacion',
-                    'visitas.fecha_programada',
-                    'visitas.titulo',
-                    'users.usuario',
-                    'estado_visitas.nombre'
-                )
-                ->where('visitas.fecha_programada', '=', $palabra)
-                ->get();
-        } elseif ($tipo == "titulo") {
+        if ($tipo == "titulo") {
             $palabra_final = '%' . $palabra . '%';
 
             $visitas = DB::table('visitas')
