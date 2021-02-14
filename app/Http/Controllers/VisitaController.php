@@ -103,12 +103,12 @@ class VisitaController extends Controller
             ->get();
 
         $oficina_busqueda = DB::table('oficinas')
-            ->join('pais', 'pais.id', '=', 'oficina.pais_id')
+            ->join('pais', 'pais.id', '=', 'oficinas.pais_id')
             ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
             ->select(
                 'oficinas.id',
                 'oficinas.direccion',
-                'oficinas.complemento',
+                'oficinas.complemento_direccion as complemento',
                 'pais.nombre as pais',
                 'ciudads.nombre as ciudad'
             )
