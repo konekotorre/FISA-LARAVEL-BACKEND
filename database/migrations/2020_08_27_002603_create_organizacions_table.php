@@ -17,10 +17,10 @@ class CreateOrganizacionsTable extends Migration
         Schema::create('organizacions', function (Blueprint $table) {
 
             $table->bigIncrements('id');
-            $table->string('nombre');
+            $table->longText('nombre');
             $table->integer('tipo_documento_organizacion_id');
             $table->string('numero_documento');
-            $table->string('razon_social')->nullable();
+            $table->longText('razon_social')->nullable();
             $table->integer('categoria_id');
             $table->integer('clase_id')->nullable();
             $table->integer('pais_id')->nullable();
@@ -28,13 +28,13 @@ class CreateOrganizacionsTable extends Migration
             $table->integer('subsector_id')->nullable();
             $table->integer('tipo_organizacion_id')->nullable();
             $table->string('pagina_web')->nullable();
-            $table->text('observaciones')->nullable();
+            $table->longText('observaciones')->nullable();
             $table->date('fecha_afiliacion')->nullable();
             $table->integer('empleados_directos')->nullable();
             $table->integer('empleados_indirectos')->nullable();
-            $table->string('motivo_afiliacion')->nullable();
+            $table->longText('motivo_afiliacion')->nullable();
             $table->date('fecha_desafiliacion')->nullable();
-            $table->text('motivo_desafiliacion')->nullable();
+            $table->longText('motivo_desafiliacion')->nullable();
             $table->boolean('estado');
             $table->integer('usuario_creacion');
             $table->integer('usuario_actualizacion');

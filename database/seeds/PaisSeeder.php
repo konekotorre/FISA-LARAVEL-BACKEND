@@ -188,5 +188,10 @@ class PaisSeeder extends Seeder
             'id' => '35',
             'nombre' => 'Venezuela',
         ]);
+
+        DB::table('pais')->insert([
+            'id' => '36',
+            'nombre' => 'Holanda',
+        ]);
     }
 }

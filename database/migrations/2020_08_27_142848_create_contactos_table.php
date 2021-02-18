@@ -24,7 +24,7 @@ class CreateContactosTable extends Migration
             $table->string('telefono')->nullable();
             $table->string('extension')->nullable();
             $table->string('email')->nullable();
-            $table->text('observaciones')->nullable();
+            $table->longText('observaciones')->nullable();
             $table->boolean('estado');
             $table->integer('usuario_creacion');
             $table->integer('usuario_actualizacion');

@@ -37,5 +37,185 @@ class CiiuSeeder extends Seeder
             'nombre' => 'Cultivo de plantas textiles',
             'codigo' => '0115'
         ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'AGENCIAMIENTO ADUANERO LAS DEMAS ACTIVIDADES INHERENTES AL MISMO Y ASESORÍA EN COMERCIO INTERNACIONAL',
+            'codigo' => 'D-01'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'FABRICACION DE OTROS ARTÍCULOS DE PAPEL Y CARTON',
+            'codigo' => '1709'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'FABRICACION DE PAPEL Y CARTON ONDULADO (CORRUGADO); FABRICACION DE ENVASES, EMPAQUES Y DE EMBALAJES DE PAPEL Y CARTON',
+            'codigo' => '1702'
+        ]);
+        
+        DB::table('ciius')->insert([
+            'nombre' => 'ASOCIACION GREMIAL SIN ANIMO DE LUCRO',
+            'codigo' => 'D-02'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ACTIVIDADES DE CONSULTORÍA DE GESTIÓN',
+            'codigo' => '7020'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'OTROS TIPOS DE EDUCACIÓN N.C.P.',
+            'codigo' => '8559'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ALMACENAMIENTO Y DEPÓSITO',
+            'codigo' => '5210'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'CULTIVO DE CAÑA DE AZÚCAR',
+            'codigo' => '0124'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'COMERCIO AL POR MENOR DE CARNES (INCLUYE AVES DE CORRAL), PRODUCTOS CÁRNICOS, PESCADOS Y PRODUCTOS DE MAR, EN ESTABLECIMIENTOS ESPECIALIZADOS',
+            'codigo' => '4723'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ACTIVIDADES DE LA PRÁCTICA MÉDICA, SIN INTERNACIÓN',
+            'codigo' => '8621'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'INVESTIGACIONES Y DESARROLLO EXPERIMENTAL EN EL CAMPO DE LAS CIENCIAS NATURALES Y LA INGENIERÍA',
+            'codigo' => '7210'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'COMERCIO AL POR MAYOR DE PRODUCTOS ALIMENTICIOS',
+            'codigo' => '4631'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'FABRICACIÓN DE PILAS, BATERÍAS Y ACUMULADORES ELÉCTRICOS',
+            'codigo' => '2720'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'FABRICACIÓN DE ARTÍCULOS DE PLÁSTICO N.C.P.',
+            'codigo' => '2229'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ACTIVIDADES DE LA PRÁCTICA ODONTOLÓGICA',
+            'codigo' => '8622'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'CONSTRUCCIÓN DE CARRETERAS Y VÍAS DE FERROCARRIL',
+            'codigo' => '4210'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ACTIVIDADES JURÍDICAS',
+            'codigo' => '6910'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'FABRICACIÓN DE LLANTAS Y NEUMÁTICOS DE CAUCHO',
+            'codigo' => '2211'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ACTIVIDADES DE CONTABILIDAD, TENEDURÍA DE LIBROS, AUDITORÍA FINANCIERA Y ASESORÍA TRIBUTARIA',
+            'codigo' => '6920'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'FIDEICOMISOS, FONDOS Y ENTIDADES FINANCIERAS SIMILARES',
+            'codigo' => '6431'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'FABRICACIÓN DE JABONES Y DETERGENTES, PREPARADOS PARA LIMPIAR Y PULIR; PERFUMES Y PREPARADOS DE TOCADOR',
+            'codigo' => '2023'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'FABRICACIÓN DE PARTES, PIEZAS (AUTOPARTES) Y ACCESORIOS (LUJOS) PARA VEHÍCULOS AUTOMOTORES',
+            'codigo' => '2930'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'FABRICACIÓN DE OTROS ARTÍCULOS TEXTILES N.C.P.',
+            'codigo' => '1399'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ESTUDIOS DE MERCADO Y REALIZACION DE ENCUESTAS DE OPINION PUBLICA',
+            'codigo' => '7320'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'CRIA DE GANADO BOVINO Y BUFALINO',
+            'codigo' => '0141'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'CRIA DE GANADO PORCINO',
+            'codigo' => '0144'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ACTIVIDADES DE ADMINISTRACIÓN EMPRESARIAL',
+            'codigo' => '7010'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'OTROS TIPOS DE EDUCACION',
+            'codigo' => '8559'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'OTRAS ACTIVIDADES DE ATENCION DE LA SALUD HUMANA',
+            'codigo' => '8699'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ALQUILER Y ARRENDAMIENTO DE OTROS TIPOS DE MAQUINARIA, EQUIPO Y BIENES TANGIBLES N.C.P.',
+            'codigo' => '7730'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'INVESTIGACION Y DESARROLLO EXPERIMENTAL EN EL CAMPO DE LAS CIENCIAS NATURALES Y LA INGENIERIA',
+            'codigo' => '7210'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ACTIVIDADES INMOBILIARIAS REALIZADAS CON BIENES PROPIOS O ARRENDADOS',
+            'codigo' => '6810'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'COMERCIO AL POR MAYOR A CAMBIO DE UNA RETRIBUCION O POR CONTRATA',
+            'codigo' => '4610'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'REENCAUCHE DE LLANTAS USADAS',
+            'codigo' => '2212'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ACTIVIDADES DE ADMINISTRACIÓN DE FONDOS',
+            'codigo' => '6630'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'FABRICACION DE OTROS PRODUCTOS QUIMICOS N.C.P.',
+            'codigo' => '2029'
+        ]);
     }
 }

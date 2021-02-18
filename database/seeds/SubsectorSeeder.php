@@ -128,14 +128,21 @@ class SubsectorSeeder extends Seeder
 
         DB::table('subsectors')->insert([
             'id' => '17',
-            'nombre' => 'Sector Cuaternario',
+            'nombre' => 'Servicios y Consultorias',
+            'descripcion' => 'Servicios y Consultorias',
+            'sector_id' => '3'
+        ]);
+
+        DB::table('subsectors')->insert([
+            'id' => '18',
+            'nombre' => 'Cuaternario',
             'descripcion' => 'Cuaternario',
             'sector_id' => '4'
         ]);
 
         DB::table('subsectors')->insert([
-            'id' => '18',
-            'nombre' => 'Sector Quintiario',
+            'id' => '19',
+            'nombre' => 'Quintiario',
             'descripcion' => 'Quintiario',
             'sector_id' => '5'
         ]);        

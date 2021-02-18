@@ -219,24 +219,24 @@ class OrganizacionController extends Controller
     {
         $solicitud = $request->all();
 
-        $numero_validate = $solicitud['numero_documento'];
-        $nombre_validate = $solicitud['nombre'];
-        $categoria_validate = $solicitud['categoria_id'];
+        // $numero_validate = $solicitud['numero_documento'];
+        // $nombre_validate = $solicitud['nombre'];
+        // $categoria_validate = $solicitud['categoria_id'];
 
-        $validate = DB::table('organizacions')
-            ->select('id')
-            ->where([
-                ['numero_documento', '=', $numero_validate],
-                ['nombre', '=', $nombre_validate],
-                ['categoria_id', '=', $categoria_validate]
-            ])
-            ->get();
+        // $validate = DB::table('organizacions')
+        //     ->select('id')
+        //     ->where([
+        //         ['numero_documento', '=', $numero_validate],
+        //         ['nombre', '=', $nombre_validate],
+        //         ['categoria_id', '=', $categoria_validate]
+        //     ])
+        //     ->get();
 
-        if (!$validate->isEmpty()) {
-            return response()->json([
-                "success" => false
-            ]);
-        } else {
+        // if (!$validate->isEmpty()) {
+        //     return response()->json([
+        //         "success" => false
+        //     ]);
+        // } else {
 
             //CREACION DE ORGANIZACION
 
@@ -260,7 +260,7 @@ class OrganizacionController extends Controller
                 $detalle['ciiu_id'] = $key[$i];
 
                 DetalleActividadEconomica::create($detalle);
-            }
+            // }
             //RETORNO DE DATOS
 
             return response()->json([

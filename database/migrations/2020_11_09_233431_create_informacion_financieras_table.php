@@ -17,16 +17,16 @@ class CreateInformacionFinancierasTable extends Migration
 
             $table->bigIncrements('id');
             $table->bigInteger('organizacion_id');
-            $table->bigInteger('ingresos_anuales')->nullable();
-            $table->bigInteger('egresos_anuales')->nullable();
-            $table->bigInteger('ingresos_operacionales')->nullable();
-            $table->bigInteger('egresos_operacionales')->nullable();
-            $table->bigInteger('ingresos_no_operacionales')->nullable();
-            $table->bigInteger('egresos_no_operacionales')->nullable();
-            $table->bigInteger('ventas_anuales')->nullable();
-            $table->bigInteger('total_activos')->nullable();
-            $table->bigInteger('total_pasivos')->nullable();
-            $table->bigInteger('patrimonio_total')->nullable();
+            $table->double('ingresos_anuales')->nullable();
+            $table->double('egresos_anuales')->nullable();
+            $table->double('ingresos_operacionales')->nullable();
+            $table->double('egresos_operacionales')->nullable();
+            $table->double('ingresos_no_operacionales')->nullable();
+            $table->double('egresos_no_operacionales')->nullable();
+            $table->double('ventas_anuales')->nullable();
+            $table->double('total_activos')->nullable();
+            $table->double('total_pasivos')->nullable();
+            $table->double('patrimonio_total')->nullable();
             $table->integer('regimen_id')->nullable();
             $table->year('temporada_declaracion')->nullable();
             $table->integer('clasificacion_id')->nullable();
