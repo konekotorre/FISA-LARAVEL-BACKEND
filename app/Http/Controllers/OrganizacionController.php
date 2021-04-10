@@ -7,6 +7,7 @@ use App\Exports\OrganizacionExport;
 use App\Exports\OrgBusquedaExport;
 use App\Exports\OrgGenExport;
 use App\Organizacion;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,14 +43,14 @@ class OrganizacionController extends Controller
 
     public function repFecha(Request $request)
     {
-        return Excel::download(new OrganizacionExport($request), 'Reporte de Organizaciones.xlsx.xlsx');
+        return Excel::download(new OrganizacionExport($request), 'Reporte de Organizaciones.xlsx');
     }
 
     public function repBusqueda(Request $request)
     {
         $solicitud = $request->all();
 
-        return Excel::download(new OrgBusquedaExport($solicitud), 'Reporte de Organizaciones.xlsx.xlsx');
+        return Excel::download(new OrgBusquedaExport($solicitud), 'Reporte de Organizaciones.xlsx');
     }
 
     public function repGen()
@@ -144,7 +145,6 @@ class OrganizacionController extends Controller
 
     public function search(Request $request)
     {
-
         $numero_documento = $request->input('numero_documento');
         $nombre = $request->input('nombre');
         $razon_social = $request->input('razon_social');
@@ -219,55 +219,49 @@ class OrganizacionController extends Controller
     {
         $solicitud = $request->all();
 
-        // $numero_validate = $solicitud['numero_documento'];
-        // $nombre_validate = $solicitud['nombre'];
-        // $categoria_validate = $solicitud['categoria_id'];
+        if ($solicitud['fecha_desafiliacion'] != null) {
+            $carbon = new Carbon(now());
+            $solicitud['fecha_edicion'] = $carbon;
+        } else {
+            $solicitud['fecha_edicion'] = null;
+        }
 
-        // $validate = DB::table('organizacions')
-        //     ->select('id')
-        //     ->where([
-        //         ['numero_documento', '=', $numero_validate],
-        //         ['nombre', '=', $nombre_validate],
-        //         ['categoria_id', '=', $categoria_validate]
-        //     ])
-        //     ->get();
+        //CREACION DE ORGANIZACION
 
-        // if (!$validate->isEmpty()) {
-        //     return response()->json([
-        //         "success" => false
-        //     ]);
-        // } else {
+        $creador_auth = Auth::user();
+        $creador = $creador_auth['id'];
 
-            //CREACION DE ORGANIZACION
+        $solicitud['usuario_creacion'] = $creador;
+        $solicitud['usuario_actualizacion'] = $creador;
 
-            $creador_auth = Auth::user();
-            $creador = $creador_auth['id'];
+        $organizacion = Organizacion::create($solicitud);
 
-            $solicitud['usuario_creacion'] = $creador;
-            $solicitud['usuario_actualizacion'] = $creador;
+        //BUSQUEDAS PARA REGRESO DE DATOS RELACIONADOS
 
-            $organizacion = Organizacion::create($solicitud);
+        $org_id = $organizacion->id;
 
-            //BUSQUEDAS PARA REGRESO DE DATOS RELACIONADOS
+        $key = $request->actividades;
 
-            $org_id = $organizacion->id;
-
-            $key = $request->actividades;
+        if (!empty($key)) {
             $count = count($key);
 
-            for ($i = 0; $i < $count; $i++) {
-                $detalle['organizacion_id'] = $org_id;
-                $detalle['ciiu_id'] = $key[$i];
+            if ($count > 0) {
 
-                DetalleActividadEconomica::create($detalle);
-            // }
-            //RETORNO DE DATOS
+                for ($i = 0; $i < $count; $i++) {
+                    $detalle['organizacion_id'] = $org_id;
+                    $detalle['ciiu_id'] = $key[$i];
 
-            return response()->json([
-                "success" => true,
-                'organizacion' => $org_id
-            ], 200);
+                    DetalleActividadEconomica::create($detalle);
+                }
+            }
         }
+
+        //RETORNO DE DATOS
+
+        return response()->json([
+            "success" => true,
+            'organizacion' => $org_id
+        ], 200);
     }
 
 
@@ -327,6 +321,20 @@ class OrganizacionController extends Controller
         //ACTUALIZACION DE DATOS
         $solicitud = $request->all();
 
+        $fecha_exixtente_busqueda = DB::table('organizacions')
+            ->select('fecha_edicion')
+            ->where('id', '=', $organizacion->id)
+            ->get();
+
+        $fecha_existente = $fecha_exixtente_busqueda->pluck('fecha_edicion');
+
+        if ($solicitud['fecha_desafiliacion'] != null && $fecha_existente[0] == null) {
+            $carbon = new Carbon(now());
+            $solicitud['fecha_edicion'] = $carbon;
+        } else {
+            $solicitud['fecha_edicion'] = $fecha_existente[0];
+        }
+
         $creador_auth = Auth::user();
         $creador = $creador_auth['id'];
         $solicitud['usuario_actualizacion'] = $creador;
@@ -340,13 +348,19 @@ class OrganizacionController extends Controller
             ->delete();
 
         $key = $request->actividades;
-        $count = count($key);
 
-        for ($i = 0; $i < $count; $i++) {
-            $detalle['organizacion_id'] = $org_id;
-            $detalle['ciiu_id'] = $key[$i];
+        if (!empty($key)) {
+            $count = count($key);
 
-            DetalleActividadEconomica::create($detalle);
+            if ($count > 0) {
+
+                for ($i = 0; $i < $count; $i++) {
+                    $detalle['organizacion_id'] = $org_id;
+                    $detalle['ciiu_id'] = $key[$i];
+
+                    DetalleActividadEconomica::create($detalle);
+                }
+            }
         }
         //RETORNO DE DATOS
 

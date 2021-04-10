@@ -29,6 +29,8 @@ class InformacionFinanciera extends Model
         'cuota_pautas',
         'fecha_fundacion',
         'estado',
+        'importa',
+        'exporta',
         'usuario_creacion',
         'usuario_actualizacion'
     ];

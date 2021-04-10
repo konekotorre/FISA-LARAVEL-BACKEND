@@ -174,11 +174,6 @@ class CiiuSeeder extends Seeder
         ]);
 
         DB::table('ciius')->insert([
-            'nombre' => 'OTROS TIPOS DE EDUCACION',
-            'codigo' => '8559'
-        ]);
-
-        DB::table('ciius')->insert([
             'nombre' => 'OTRAS ACTIVIDADES DE ATENCION DE LA SALUD HUMANA',
             'codigo' => '8699'
         ]);
