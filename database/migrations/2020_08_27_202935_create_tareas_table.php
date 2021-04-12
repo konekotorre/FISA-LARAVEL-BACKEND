@@ -18,7 +18,7 @@ class CreateTareasTable extends Migration
             $table->bigIncrements('id');
             $table->bigInteger('visita_id');
             $table->text('titulo');
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->text('resultado')->nullable();
             $table->integer('estado_id');
             $table->integer('usuario_creacion');

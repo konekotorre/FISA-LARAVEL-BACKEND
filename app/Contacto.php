@@ -17,6 +17,8 @@ class Contacto extends Model
         'extension',
         'email',
         'email_2',
+        'control_informacion',
+        'envio_informacion',
         'observaciones',
         'estado',
         'usuario_creacion',

@@ -40,12 +40,15 @@ class ContactoExport implements FromCollection, WithHeadings
                 'contactos.email_2',
                 'tipo_documento_personas.nombre as tipo_doc',
                 'personas.numero_documento',
-                'oficinas.direccion',
+                'oficinas.direccion as dir',
                 'personas.id as persona_id',
                 'ciudads.nombre as ciudad',
                 'personas.sexo',
+                'contactos.control_informacion as control',
+                'contactos.envio_informacion as envio',
                 'contactos.observaciones',
                 'contactos.created_at',
+                'contactos.id',
                 'contactos.updated_at',
                 'users.usuario'
             )
@@ -82,14 +85,66 @@ class ContactoExport implements FromCollection, WithHeadings
             $nombres = $contacto_busqueda[$i]->nombres;
             $contacto = $nombres . " " . $apellidos[0];
 
+            $creador_busqueda = DB::table('contactos')
+                ->leftJoin('users', 'users.id', '=', 'contactos.usuario_creacion')
+                ->select('users.usuario')
+                ->where('contactos.id', '=', $id_bus)
+                ->get();
+
+            $creador = $creador_busqueda->pluck('usuario');
+            $crea_sal = $creador->toArray();
+            $creador_salida = implode(", ", $crea_sal);
+
+            $oficinas = DB::table('oficinas')
+            ->leftJoin('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
+            ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
+            ->join('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
+            ->select(
+                'tipo_oficinas.nombre',
+                'oficinas.direccion',
+                'ciudads.nombre as ciudad',
+                'departamento_estados.nombre as estado'
+            )
+            ->where('oficinas.organizacion_id', '=', $id_bus)
+            ->orderBy('tipo_oficinas.nombre')
+            ->get();
+
+        if (!$oficinas->isEmpty() && $i < $count) {
+            $oficina_nom = $oficinas->pluck('nombre')->toArray();
+            $oficina_dir = $oficinas->pluck('direccion')->toArray();
+            $oficina_ciudad = $oficinas->pluck('ciudad')->toArray();
+            $oficina_estado = $oficinas->pluck('estado')->toArray();
+
+            $sal_oficinas = $oficina_nom . ":" . $oficina_dir .
+                " (" . $oficina_ciudad . "," . $oficina_estado . ")";
+
+            $contacto_busqueda[$i]->dir = $sal_oficinas;
+            // implode(", ", $sal_oficinas);
+        } else {
+            $contacto_busqueda[$i]->dir = "";
+        }
+
+
             if ($contacto_busqueda[$i]->representante == true) {
-                $contacto_busqueda[$i]->representante = "Si";
+                $contacto_busqueda[$i]->representante = "S";
             } else {
-                $contacto_busqueda[$i]->representante = "No";
+                $contacto_busqueda[$i]->representante = "N";
+            }
+
+            if ($contacto_busqueda[$i]->control == true) {
+                $contacto_busqueda[$i]->control = "S";
+            } else {
+                $contacto_busqueda[$i]->control = "N";
+            }
+            if ($contacto_busqueda[$i]->envio == true) {
+                $contacto_busqueda[$i]->envio = "S";
+            } else {
+                $contacto_busqueda[$i]->envio = "N";
             }
 
             $contacto_busqueda[$i]->persona_id = $sal_categorias;
             $contacto_busqueda[$i]->nombres = $contacto;
+            $contacto_busqueda[$i]->id = $creador_salida;
         }
 
         return $contacto_busqueda;
@@ -109,16 +164,19 @@ class ContactoExport implements FromCollection, WithHeadings
             'Celular',
             'Email',
             'Email Secundario',
-            'Tipo Doc.',
-            'Número Doc.',
+            'Tipo ID',
+            'Número ID',
             'Dir. Oficina',
             'Subcategorias',
             'Ciudad',
             'Genero',
+            'Autoriza tratamiento de datos',
+            'Autoriza envío de información',
             'Observaciones',
             'Fecha Creación',
+            'Usuario Creación',
             'Última Actualización',
-            'Último Editor'
+            'Usuario Última Actualización'
         ];
     }
 }

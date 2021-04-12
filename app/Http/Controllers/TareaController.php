@@ -61,7 +61,7 @@ class TareaController extends Controller
 
         $todo_busqueda = DB::table('tareas')
             ->select(
-                'visitas.*'
+                'tareas.*'
             )
             ->where('tareas.id', '=', $tarea_id)
             ->get();
@@ -88,7 +88,7 @@ class TareaController extends Controller
             "success" => true,
             "tarea" => $todo,
             "usuario_creacion" => $creador,
-            "uisuario_actualizacion" => $editor
+            "usuario_actualizacion" => $editor
         ], 200);
     }
 
