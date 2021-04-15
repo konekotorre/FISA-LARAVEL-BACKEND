@@ -15,13 +15,11 @@ class RegimenSeeder extends Seeder
         // Seed regimens
 
         DB::table('regimens')->insert([
-            'id' => '1',
             'nombre' => 'Regimen Contributivo',
             'descripcion' => 'Contribuye'
         ]);
 
         DB::table('regimens')->insert([
-            'id' => '2',
             'nombre' => 'Regimen Subsidiado',
             'descripcion' => 'No contribuye'
         ]);

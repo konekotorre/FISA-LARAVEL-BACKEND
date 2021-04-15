@@ -13,12 +13,10 @@ class TipoOficinaSeeder extends Seeder
     public function run()
     {
         DB::table('tipo_oficinas')->insert([
-            'id' => '1',
             'nombre' => 'Principal',
         ]);
 
         DB::table('tipo_oficinas')->insert([
-            'id' => '2',
             'nombre' => 'Sede',
         ]);
 

@@ -13,7 +13,6 @@ class UserSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            'id' => '1',
             'nombres' => 'Administrador',
             'apellidos' => 'Sistema',
             'tipo_documento_persona_id' => '1',
@@ -27,7 +26,6 @@ class UserSeeder extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'id' => '2',
             'nombres' => 'Empleado',
             'apellidos' => 'Sistema',
             'tipo_documento_persona_id' => '1',

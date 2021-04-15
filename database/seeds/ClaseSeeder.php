@@ -39,27 +39,22 @@ class ClaseSeeder extends Seeder
         // ]);
 
         DB::table('clases')->insert([
-            'id' => '1',
             'nombre' => 'SOCIEDAD PRIVADA NACIONAL',
         ]);
 
         DB::table('clases')->insert([
-            'id' => '2',
             'nombre' => 'ENTIDAD PÚBLICA EXTRANJERAL',
         ]);
 
         DB::table('clases')->insert([
-            'id' => '3',
             'nombre' => 'ENTIDAD SIN ÁNIMO DE LUCRO',
         ]);
 
         DB::table('clases')->insert([
-            'id' => '4',
             'nombre' => 'SOCIEDAD ANONIMA',
         ]);
         
         DB::table('clases')->insert([
-            'id' => '5',
             'nombre' => 'SOCIEDADES POR ACCIONES SIMPLIFICADAS SA',
         ]);
 

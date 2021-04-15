@@ -109,12 +109,10 @@ class TipoOrganizacionSeeder extends Seeder
         // ]);
 
         DB::table('tipo_organizacions')->insert([
-            'id' => '1',
             'nombre' => 'PRIVADA'
         ]);
 
         DB::table('tipo_organizacions')->insert([
-            'id' => '2',
             'nombre' => 'PÚBLICA'
         ]);
     }
