@@ -12,7 +12,7 @@ class SexoController extends Controller
     {
         return response()->json([
             "success" => true,
-            "sectores" => Sexo::all()
+            "sexos" => Sexo::all()
         ], 200);
     }
 

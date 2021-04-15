@@ -212,7 +212,7 @@ Route::group([
             // Sexo
 
             Route::get('Sexo', 'SexoController@index');
-            Route::get('Sexo/{secxo}', 'SexoController@show');
+            Route::get('Sexo/{sexo}', 'SexoController@show');
             Route::post('Sexo/', 'SexoController@store');
             Route::put('Sexo/{sexo}', 'SexoController@update');
             Route::delete('Sexo/{sexo}', 'SexoController@destroy');
