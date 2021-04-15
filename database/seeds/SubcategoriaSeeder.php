@@ -507,5 +507,21 @@ class SubcategoriaSeeder extends Seeder
             'id' => '99',
             'nombre' => 'UNIVERSIDADES',
         ]);
+
+
+        DB::table('sexos')->insert([
+            'id' => '1',
+            'nombre' => 'Masculino'
+        ]);
+
+        DB::table('sexos')->insert([
+            'id' => '2',
+            'nombre' => 'Femenino'
+        ]);
+
+        DB::table('sexos')->insert([
+            'id' => '3',
+            'nombre' => 'Otro'
+        ]);
     }
 }

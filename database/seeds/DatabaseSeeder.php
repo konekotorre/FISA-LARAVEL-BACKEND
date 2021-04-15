@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
             ClasificacionSeeder::class,
             EstadoVisitaSeeder::class,
             EstadoTareaSeeder::class,
-            SexoSeeder::class
         ]);
     }
 }

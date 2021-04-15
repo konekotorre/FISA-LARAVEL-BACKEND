@@ -39,5 +39,6 @@ class UserSeeder extends Seeder
             'usuario_creacion' => '1',
             'usuario_actualizacion' => '1',
         ]);
+
     }
 }

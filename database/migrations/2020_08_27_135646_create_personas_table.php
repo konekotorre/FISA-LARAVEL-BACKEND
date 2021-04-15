@@ -27,7 +27,7 @@ class CreatePersonasTable extends Migration
             $table->timestamps();
 
             $table->foreign('tipo_documento_persona_id')->references('id')->on('tipo_documento_personas');
-            $table->foreign('sexo_id')->references('id')->on('sexo');
+            $table->foreign('sexo_id')->references('id')->on('sexos');
 
         });
     }
