@@ -425,7 +425,5 @@ class CiudadSeeder extends Seeder
             'departamento_estado_id' => '82'
         ]);
 
-
-
     }
 }
