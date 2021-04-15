@@ -92,6 +92,13 @@ class ContactoController extends Controller
 
     public function listForms()
     {
+        $sexo_busqueda = DB::table('sexos')
+        ->select(
+            'sexos.*'
+        )
+        ->orderBy('sexos.nombre')
+        ->get();
+
         $tipo_busqueda = DB::table('tipo_documento_personas')
             ->select(
                 'tipo_documento_personas.id',
@@ -111,7 +118,8 @@ class ContactoController extends Controller
         return response()->json([
             "success" => true,
             "tipos" => $tipo_busqueda,
-            "subcategorias" => $subcat_busqueda
+            "subcategorias" => $subcat_busqueda,
+            "sexos" => $sexo_busqueda
         ], 200);
     }
 
@@ -190,7 +198,7 @@ class ContactoController extends Controller
         } else {
             DB::update(
                 'update personas set(tipo_documento_persona_id, numero_documento, nombres, 
-                    apellidos, celular, sexo, usuario_actualizacion, updated_at) 
+                    apellidos, celular, sexo_id, usuario_actualizacion, updated_at) 
                         = (?, ?, ?, ?, ?, ?, ?, ?) where id = ?',
                 [
                     $solicitud['tipo_documento_persona_id'],
@@ -198,7 +206,7 @@ class ContactoController extends Controller
                     $solicitud['nombres'],
                     $solicitud['apellidos'],
                     $solicitud['celular'],
-                    $solicitud['sexo'],
+                    $solicitud['sexo_id'],
                     $creador,
                     Carbon::now(),
                     $solicitud['persona_id']
@@ -241,7 +249,7 @@ class ContactoController extends Controller
                 'personas.apellidos',
                 'personas.tipo_documento_persona_id',
                 'personas.numero_documento',
-                'personas.sexo',
+                'personas.sexo_id',
                 'personas.celular'
             )
             ->where('contactos.id', '=', $contacto_id)
@@ -293,7 +301,7 @@ class ContactoController extends Controller
 
         DB::update(
             'update personas set(tipo_documento_persona_id, numero_documento, nombres, 
-                apellidos, celular, sexo, usuario_actualizacion, updated_at) 
+                apellidos, celular, sexo_id, usuario_actualizacion, updated_at) 
                     = (?, ?, ?, ?, ?, ?, ?, ?) where id = ?',
             [
                 $solicitud['tipo_documento_persona_id'],
@@ -301,7 +309,7 @@ class ContactoController extends Controller
                 $solicitud['nombres'],
                 $solicitud['apellidos'],
                 $solicitud['celular'],
-                $solicitud['sexo'],
+                $solicitud['sexo_id'],
                 $creador,
                 Carbon::now(),
                 $solicitud['persona_id']

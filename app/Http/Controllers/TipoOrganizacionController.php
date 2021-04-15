@@ -14,7 +14,7 @@ class TipoOrganizacionController extends Controller
     {
         return response()->json([
             "success" => true,
-            "Tipos" => TipoOrganizacion::all()
+            "tipos" => TipoOrganizacion::all()
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class TipoOrganizacionController extends Controller
 
         return response()->json([
             "success" => true,
-            "Tipo" => $tipoOrganizacion->id
+            "tipo" => $tipoOrganizacion->id
         ], 200);
     }
 
@@ -43,7 +43,7 @@ class TipoOrganizacionController extends Controller
 
         return response()->json([
             "success" => true,
-            "Tipo" => $tipo_busqueda[0]
+            "tipo" => $tipo_busqueda[0]
         ], 200);
     }
 

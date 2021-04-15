@@ -31,7 +31,10 @@ class DepartamentoEstadoController extends Controller
             ->orderBy('nombre')
             ->get();
 
-        return response()->json(['estados' => $estados_busqueda], 200);
+        return response()->json([
+            "success" => true,
+            'estados' => $estados_busqueda
+        ], 200);
     }
 
 
@@ -50,7 +53,10 @@ class DepartamentoEstadoController extends Controller
             ->where('departamento_estados.nombre', 'ilike', $nombre)
             ->get();
 
-        return response()->json($estados_busqueda, 200);
+        return response()->json([
+            "success" => true,
+            "estados" => $estados_busqueda
+        ], 200);
     }
 
 

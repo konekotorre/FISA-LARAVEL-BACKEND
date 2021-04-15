@@ -18,6 +18,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings
     {
         $contacto_busqueda = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
+            ->leftJoin('sexos', 'sexos.id', '=', 'personas.sexo_id')
             ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
             ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
             ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
@@ -41,7 +42,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings
                 'oficinas.direccion as dir',
                 'personas.id as persona_id',
                 'ciudads.nombre as ciudad',
-                'personas.sexo',
+                'sexos.nombre',
                 'contactos.control_informacion as control',
                 'contactos.envio_informacion as envio',
                 'contactos.observaciones',

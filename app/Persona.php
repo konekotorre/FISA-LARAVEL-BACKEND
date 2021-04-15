@@ -12,7 +12,7 @@ class Persona extends Model
         'numero_documento',
         'nombres',
         'apellidos',
-        'sexo',
+        'sexo_id',
         'celular',
         'usuario_creacion',
         'usuario_actualizacion'
@@ -21,6 +21,11 @@ class Persona extends Model
     public function documento()
     {
         return $this->belongsTo('App\TipoDocumentoPersona', 'tipo_documento_persona_id', 'id');
+    }
+
+    public function sexo()
+    {
+        return $this->belongsTo('App\Sexo', 'sexo_id', 'id');
     }
 
     public function creacion()

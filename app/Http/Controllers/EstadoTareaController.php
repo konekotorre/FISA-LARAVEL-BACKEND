@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\EstadoTarea;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EstadoTareaController extends Controller
 {
@@ -29,7 +30,7 @@ class EstadoTareaController extends Controller
 
         $estado_busqueda = DB::table('estado_tareas')
             ->select(
-                '*'
+                'estado_tareas.*'
             )
             ->where('estado_tareas.id', '=', $estado_id)
             ->get();

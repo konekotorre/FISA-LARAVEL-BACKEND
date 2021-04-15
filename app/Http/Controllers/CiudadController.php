@@ -41,7 +41,7 @@ class CiudadController extends Controller
             ->where('ciudads.departamento_estado_id', '=', $dep_id)
             ->get();
 
-        return response()->json(['ciudades' => $ciudades_busqueda], 200);
+        return response()->json([ "success" => true, 'ciudades' => $ciudades_busqueda], 200);
     }
 
 

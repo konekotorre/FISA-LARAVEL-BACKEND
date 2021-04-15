@@ -14,7 +14,7 @@ class TipoOficinaController extends Controller
     {
         return response()->json([
             "success" => true,
-            "Tipos" => TipoOficina::all()
+            "tipos" => TipoOficina::all()
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class TipoOficinaController extends Controller
 
         return response()->json([
             "success" => true,
-            "Tipo" => $tipoOficina->id
+            "tipo" => $tipoOficina->id
         ], 200);
     }
 
@@ -43,7 +43,7 @@ class TipoOficinaController extends Controller
 
         return response()->json([
             "success" => true,
-            "Tipo" => $tipo_busqueda[0]
+            "tipo" => $tipo_busqueda[0]
         ], 200);
     }
 

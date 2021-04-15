@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\EstadoVisita;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EstadoVisitaController extends Controller
 {
@@ -30,7 +31,7 @@ class EstadoVisitaController extends Controller
 
         $estado_busqueda = DB::table('estado_visitas')
             ->select(
-                '*'
+                'estado_visitas.*'
             )
             ->where('estado_visitas.id', '=', $estado_id)
             ->get();

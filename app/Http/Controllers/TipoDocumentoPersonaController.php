@@ -14,7 +14,7 @@ class TipoDocumentoPersonaController extends Controller
     {
         return response()->json([
             "success" => true,
-            "Tipos" => TipoDocumentoPersona::all()
+            "tipos" => TipoDocumentoPersona::all()
         ], 200);
     }
 
@@ -25,7 +25,7 @@ class TipoDocumentoPersonaController extends Controller
 
         return response()->json([
             "success" => true,
-            "Tipo" => $tipoDocumentoPersona->id
+            "tipo" => $tipoDocumentoPersona->id
         ], 200);
     }
 
@@ -43,7 +43,7 @@ class TipoDocumentoPersonaController extends Controller
 
         return response()->json([
             "success" => true,
-            "Tipo" => $tipo_busqueda[0]
+            "tipo" => $tipo_busqueda[0]
         ], 200);
     }
 

@@ -209,6 +209,14 @@ Route::group([
             Route::put('Sector/{sector}', 'SectorController@update');
             Route::delete('Sector/{sector}', 'SectorController@destroy');
 
+            // Sexo
+
+            Route::get('Sexo', 'SexoController@index');
+            Route::get('Sexo/{secxo}', 'SexoController@show');
+            Route::post('Sexo/', 'SexoController@store');
+            Route::put('Sexo/{sexo}', 'SexoController@update');
+            Route::delete('Sexo/{sexo}', 'SexoController@destroy');
+
             // Subcategoria
 
             Route::get('Subcategoria', 'SubcategoriaController@index');

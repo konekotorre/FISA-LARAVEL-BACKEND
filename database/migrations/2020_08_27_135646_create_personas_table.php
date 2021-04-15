@@ -20,13 +20,14 @@ class CreatePersonasTable extends Migration
             $table->string('numero_documento')->nullable();
             $table->string('nombres');
             $table->string('apellidos');
-            $table->string('sexo')->nullable();
+            $table->integer('sexo_id')->nullable();
             $table->string('celular')->nullable();
             $table->integer('usuario_creacion');
             $table->integer('usuario_actualizacion');
             $table->timestamps();
 
             $table->foreign('tipo_documento_persona_id')->references('id')->on('tipo_documento_personas');
+            $table->foreign('sexo_id')->references('id')->on('sexo');
 
         });
     }

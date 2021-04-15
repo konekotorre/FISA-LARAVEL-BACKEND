@@ -31,7 +31,8 @@ class DatabaseSeeder extends Seeder
             TipoOficinaSeeder::class,
             ClasificacionSeeder::class,
             EstadoVisitaSeeder::class,
-            EstadoTareaSeeder::class
+            EstadoTareaSeeder::class,
+            SexoSeeder::class
         ]);
     }
 }
