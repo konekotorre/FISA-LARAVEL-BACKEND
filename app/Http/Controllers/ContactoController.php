@@ -93,11 +93,11 @@ class ContactoController extends Controller
     public function listForms()
     {
         $sexo_busqueda = DB::table('sexos')
-        ->select(
-            'sexos.*'
-        )
-        ->orderBy('sexos.nombre')
-        ->get();
+            ->select(
+                'sexos.*'
+            )
+            ->orderBy('sexos.nombre')
+            ->get();
 
         $tipo_busqueda = DB::table('tipo_documento_personas')
             ->select(
@@ -212,20 +212,23 @@ class ContactoController extends Controller
                     $solicitud['persona_id']
                 ]
             );
-
-            $categorias_eliminar = DB::table('detalle_categoria_personas')
-                ->where('persona_id', '=', $solicitud['persona_id'])
-                ->delete();
         }
 
+        $categorias_eliminar = DB::table('detalle_categoria_personas')
+            ->where('persona_id', '=', $solicitud['persona_id'])
+            ->delete();
+
         $key = $request->categorias;
-        $count = count($key);
+        if (!empty($key)) {
 
-        for ($i = 0; $i < $count; $i++) {
-            $categoria['persona_id'] = $solicitud['persona_id'];
-            $categoria['subcategoria_id'] = $key[$i];
+            $count = count($key);
 
-            DetalleCategoriaPersona::create($categoria);
+            for ($i = 0; $i < $count; $i++) {
+                $categoria['persona_id'] = $solicitud['persona_id'];
+                $categoria['subcategoria_id'] = $key[$i];
+
+                DetalleCategoriaPersona::create($categoria);
+            }
         }
 
         $contacto = Contacto::create($solicitud);
@@ -298,36 +301,46 @@ class ContactoController extends Controller
         $creador = $creador_auth['id'];
 
         $solicitud['usuario_actualizacion'] = $creador;
+        if ($solicitud['persona_id'] == null) {
 
-        DB::update(
-            'update personas set(tipo_documento_persona_id, numero_documento, nombres, 
-                apellidos, celular, sexo_id, usuario_actualizacion, updated_at) 
-                    = (?, ?, ?, ?, ?, ?, ?, ?) where id = ?',
-            [
-                $solicitud['tipo_documento_persona_id'],
-                $solicitud['numero_documento'],
-                $solicitud['nombres'],
-                $solicitud['apellidos'],
-                $solicitud['celular'],
-                $solicitud['sexo_id'],
-                $creador,
-                Carbon::now(),
-                $solicitud['persona_id']
-            ]
-        );
+            $persona = Persona::create($solicitud);
+
+            $solicitud['persona_id'] = $persona->id;
+        } else {
+            DB::update(
+                'update personas set(tipo_documento_persona_id, numero_documento, nombres, 
+                    apellidos, celular, sexo_id, usuario_actualizacion, updated_at) 
+                        = (?, ?, ?, ?, ?, ?, ?, ?) where id = ?',
+                [
+                    $solicitud['tipo_documento_persona_id'],
+                    $solicitud['numero_documento'],
+                    $solicitud['nombres'],
+                    $solicitud['apellidos'],
+                    $solicitud['celular'],
+                    $solicitud['sexo_id'],
+                    $creador,
+                    Carbon::now(),
+                    $solicitud['persona_id']
+                ]
+            );
+        }
 
         $categorias_eliminar = DB::table('detalle_categoria_personas')
             ->where('persona_id', '=', $solicitud['persona_id'])
             ->delete();
 
         $key = $request->categorias;
-        $count = count($key);
 
-        for ($i = 0; $i < $count; $i++) {
-            $categoria['persona_id'] = $solicitud['persona_id'];
-            $categoria['subcategoria_id'] = $key[$i];
+        if (!empty($key)) {
 
-            DetalleCategoriaPersona::create($categoria);
+            $count = count($key);
+
+            for ($i = 0; $i < $count; $i++) {
+                $categoria['persona_id'] = $solicitud['persona_id'];
+                $categoria['subcategoria_id'] = $key[$i];
+
+                DetalleCategoriaPersona::create($categoria);
+            }
         }
 
         $contacto->update($solicitud);

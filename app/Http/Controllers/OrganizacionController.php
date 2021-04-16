@@ -219,7 +219,9 @@ class OrganizacionController extends Controller
     {
         $solicitud = $request->all();
 
-        if ($solicitud['fecha_desafiliacion'] != null) {
+        $fec_des = $request->fecha_desafiliacion;
+
+        if (!empty($fec_des)) {
             $carbon = new Carbon(now());
             $solicitud['fecha_edicion'] = $carbon;
         } else {

@@ -106,12 +106,14 @@ class VisitaController extends Controller
         $oficina_busqueda = DB::table('oficinas')
             ->join('pais', 'pais.id', '=', 'oficinas.pais_id')
             ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
+            ->join('departamento_estados', 'departamento_estados.id', '=', 'oficinas.departamento_estado_id')
             ->select(
                 'oficinas.id',
                 'oficinas.direccion',
                 'oficinas.complemento_direccion as complemento',
                 'pais.nombre as pais',
-                'ciudads.nombre as ciudad'
+                'ciudads.nombre as ciudad',
+                'departamento_estados.nombre as departamento_estado'
             )
             ->where('oficinas.organizacion_id', '=', $org_id)
             ->orderBy('oficinas.updated_at')
@@ -127,9 +129,8 @@ class VisitaController extends Controller
 
     public function today()
     {
-
         $now = Carbon::now()->format('d/m/Y');
-        $future = Carbon::now()->addDays(5)->format('d/m/Y');
+        $future = Carbon::now()->addDays(7)->format('d/m/Y');
 
         $visitas = DB::table('visitas')
             ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
