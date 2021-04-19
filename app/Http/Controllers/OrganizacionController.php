@@ -219,15 +219,6 @@ class OrganizacionController extends Controller
     {
         $solicitud = $request->all();
 
-        $fec_des = $request->fecha_desafiliacion;
-
-        if (!empty($fec_des)) {
-            $carbon = new Carbon(now());
-            $solicitud['fecha_edicion'] = $carbon;
-        } else {
-            $solicitud['fecha_edicion'] = null;
-        }
-
         //CREACION DE ORGANIZACION
 
         $creador_auth = Auth::user();
@@ -322,20 +313,6 @@ class OrganizacionController extends Controller
     {
         //ACTUALIZACION DE DATOS
         $solicitud = $request->all();
-
-        $fecha_exixtente_busqueda = DB::table('organizacions')
-            ->select('fecha_edicion')
-            ->where('id', '=', $organizacion->id)
-            ->get();
-
-        $fecha_existente = $fecha_exixtente_busqueda->pluck('fecha_edicion');
-
-        if ($solicitud['fecha_desafiliacion'] != null && $fecha_existente[0] == null) {
-            $carbon = new Carbon(now());
-            $solicitud['fecha_edicion'] = $carbon;
-        } else {
-            $solicitud['fecha_edicion'] = $fecha_existente[0];
-        }
 
         $creador_auth = Auth::user();
         $creador = $creador_auth['id'];

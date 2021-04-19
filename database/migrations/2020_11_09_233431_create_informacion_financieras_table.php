@@ -33,8 +33,10 @@ class CreateInformacionFinancierasTable extends Migration
             $table->year('temporada_cuota')->nullable();
             $table->double('cuota_anual')->nullable();
             $table->double('cuota_real_pagada')->nullable();
-            $table->double('cuota_sostenimiento_real_pagada')->nullable();
+            $table->double('cuota_unica_ingreso')->nullable();
             $table->double('cuota_pautas')->nullable();
+            $table->date('fecha_edicion_pauta')->nullable();
+            $table->double('pendiente_facturacion')->nullable();
             $table->boolean('exporta')->nullable();
             $table->boolean('importa')->nullable();
             $table->integer('usuario_creacion');

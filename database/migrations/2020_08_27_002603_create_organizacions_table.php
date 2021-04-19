@@ -34,7 +34,6 @@ class CreateOrganizacionsTable extends Migration
             $table->integer('empleados_indirectos')->nullable();
             $table->longText('motivo_afiliacion')->nullable();
             $table->date('fecha_desafiliacion')->nullable();
-            $table->date('fecha_edicion')->nullable();
             $table->longText('motivo_desafiliacion')->nullable();
             $table->boolean('estado');
             $table->integer('usuario_creacion');

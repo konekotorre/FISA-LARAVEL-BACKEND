@@ -24,7 +24,6 @@ class Organizacion extends Model
     'motivo_afiliacion',
     'fecha_afiliacion',
     'fecha_desafiliacion',
-    'fecha_edicion',
     'motivo_desafiliacion',
     'empleados_directos',
     'empleados_indirectos',

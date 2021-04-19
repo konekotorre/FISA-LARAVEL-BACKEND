@@ -43,16 +43,37 @@ class InfoFinGenExport implements FromCollection, WithHeadings
                 'informacion_financieras.temporada_cuota',
                 'informacion_financieras.cuota_anual',
                 'informacion_financieras.cuota_real_pagada',
-                'informacion_financieras.cuota_sostenimiento_real_pagada',
+                'informacion_financieras.cuota_unica_ingreso',
+                'informacion_financieras.pendiente_facturacion',
                 'informacion_financieras.cuota_pautas',
+                'informacion_financieras.fecha_edicion_pauta',
                 'informacion_financieras.created_at',
+                'users.usuario',
                 'informacion_financieras.updated_at',
-                'users.usuario'
+                'users.usuario as editor'
             )
             ->distinct('informacion_financieras.updated_at')
             ->orderByDesc('informacion_financieras.updated_at')
             ->get();
 
+        $count = count($info_busqueda);
+
+        for ($i = 0; $i < $count; $i++) {
+
+            $id_bus = $info_busqueda->id;
+
+            $editor =  DB::table('users')
+                ->join('informacion_financieras', 'informacion_financieras.usuario_actualizacion', '=', 'users.id')
+                ->select('users.usuario as editor')
+                ->where('organizacions.id', '=', $id_bus)
+                ->get();
+
+            $edit = $editor->pluck('editor');
+            $sal_edit = $edit->toArray();
+            $sal_editor = implode(", ", $sal_edit);
+
+            $info_busqueda[$i]->editor = $sal_editor;
+        }
         return $info_busqueda;
     }
 
@@ -82,12 +103,14 @@ class InfoFinGenExport implements FromCollection, WithHeadings
             'Clasificación',
             'Año Cuota',
             'Cuota Anual',
-            'Cuota Real Pagada',
-            'Cuota de Sostenimiento Real Pagada',
+            'Cuota Anual Pagada',
+            'Cuota Única Ingreso',
+            'Pendiente Facturación',
             'Cuota Pautas',
-            'Fecha Creación',
-            'Última Actualización',
-            'Último Editor'
+            'Fecha Edición Pauta',
+            'Usuario Creación',
+            'Fecha Modificación',
+            'Usuario Última Modificación'
         ];
     }
 }
