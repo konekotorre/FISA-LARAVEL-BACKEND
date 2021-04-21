@@ -15,7 +15,7 @@ class CreateCiiusTable extends Migration
     {
         Schema::create('ciius', function (Blueprint $table) {
 
-            $table->increments('id');
+            $table->increments('id')->unsigned();
             $table->text('nombre')->unique();
             $table->string('codigo');
             $table->timestamps();

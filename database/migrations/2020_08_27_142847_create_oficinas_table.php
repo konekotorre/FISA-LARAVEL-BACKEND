@@ -15,21 +15,21 @@ class CreateOficinasTable extends Migration
     {
         Schema::create('oficinas', function (Blueprint $table) {
 
-            $table->bigIncrements('id');
-            $table->bigInteger('organizacion_id');
-            $table->string('direccion');
+            $table->bigIncrements('id')->unsigned();
+            $table->bigInteger('organizacion_id')->unsigned();
+            $table->string('direccion', 100);
             $table->string('complemento_direccion')->nullable();
-            $table->integer('tipo_oficina_id');
-            $table->integer('pais_id');
-            $table->bigInteger('departamento_estado_id');
-            $table->bigInteger('ciudad_id');
-            $table->string('telefono_1')->nullable();
-            $table->string('telefono_2')->nullable();
-            $table->string('pbx')->nullable();
+            $table->integer('tipo_oficina_id')->unsigned();
+            $table->integer('pais_id')->unsigned();
+            $table->bigInteger('departamento_estado_id')->unsigned();
+            $table->bigInteger('ciudad_id')->unsigned();
+            $table->string('telefono_1', 20)->nullable();
+            $table->string('telefono_2', 20)->nullable();
+            $table->string('pbx', 20)->nullable();
             $table->boolean('estado');
             $table->timestamps();
-            $table->integer('usuario_creacion');
-            $table->integer('usuario_actualizacion');
+            $table->integer('usuario_creacion')->unsigned();
+            $table->integer('usuario_actualizacion')->unsigned();
 
             $table->foreign('organizacion_id')->references('id')->on('organizacions')->onDelete('cascade');
             $table->foreign('tipo_oficina_id')->references('id')->on('tipo_oficinas');

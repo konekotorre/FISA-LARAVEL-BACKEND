@@ -15,8 +15,8 @@ class CreateTipoDocumentoOrganizacionsTable extends Migration
     {
         Schema::create('tipo_documento_organizacions', function (Blueprint $table) {
 
-            $table->increments('id');
-            $table->string('nombre')->unique();
+            $table->increments('id')->unsigned();
+            $table->string('nombre', 30)->unique();
             $table->string('descripcion')->nullable();
             $table->timestamps();
 

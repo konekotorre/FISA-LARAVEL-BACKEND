@@ -14,9 +14,9 @@ class CreateDetalleActividadEconomicasTable extends Migration
     public function up()
     {
         Schema::create('detalle_actividad_economicas', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->bigInteger('organizacion_id');
-            $table->integer('ciiu_id');
+            $table->bigIncrements('id')->unsigned();
+            $table->bigInteger('organizacion_id')->unsigned();
+            $table->integer('ciiu_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('organizacion_id')->references('id')->on('organizacions')->onDelete('cascade');

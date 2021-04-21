@@ -15,32 +15,32 @@ class CreateInformacionFinancierasTable extends Migration
     {
         Schema::create('informacion_financieras', function (Blueprint $table) {
 
-            $table->bigIncrements('id');
-            $table->bigInteger('organizacion_id');
-            $table->double('ingresos_anuales')->nullable();
-            $table->double('egresos_anuales')->nullable();
-            $table->double('ingresos_operacionales')->nullable();
-            $table->double('egresos_operacionales')->nullable();
-            $table->double('ingresos_no_operacionales')->nullable();
-            $table->double('egresos_no_operacionales')->nullable();
-            $table->double('ventas_anuales')->nullable();
-            $table->double('total_activos')->nullable();
-            $table->double('total_pasivos')->nullable();
-            $table->double('patrimonio_total')->nullable();
-            $table->integer('regimen_id')->nullable();
-            $table->year('temporada_declaracion')->nullable();
-            $table->integer('clasificacion_id')->nullable();
-            $table->year('temporada_cuota')->nullable();
-            $table->double('cuota_anual')->nullable();
-            $table->double('cuota_real_pagada')->nullable();
-            $table->double('cuota_unica_ingreso')->nullable();
-            $table->double('cuota_pautas')->nullable();
+            $table->bigIncrements('id')->unsigned();
+            $table->bigInteger('organizacion_id')->unsigned();
+            $table->double('ingresos_anuales', 15, 2)->nullable()->unsigned();
+            $table->double('egresos_anuales', 15, 2)->nullable()->unsigned();
+            $table->double('ingresos_operacionales', 15, 2)->nullable()->unsigned();
+            $table->double('egresos_operacionales', 15, 2)->nullable()->unsigned();
+            $table->double('ingresos_no_operacionales', 15, 2)->nullable()->unsigned();
+            $table->double('egresos_no_operacionales', 15, 2)->nullable()->unsigned();
+            $table->double('ventas_anuales', 15, 2)->nullable()->unsigned();
+            $table->double('total_activos', 15, 2)->nullable()->unsigned();
+            $table->double('total_pasivos', 15, 2)->nullable()->unsigned();
+            $table->double('patrimonio_total', 15, 2)->nullable()->unsigned();
+            $table->integer('regimen_id')->nullable()->unsigned();
+            $table->year('temporada_declaracion', 4)->nullable()->unsigned();
+            $table->integer('clasificacion_id')->nullable()->unsigned();
+            $table->year('temporada_cuota', 4)->nullable()->unsigned();
+            $table->double('cuota_anual', 15, 2)->nullable()->unsigned();
+            $table->double('cuota_real_pagada', 15, 2)->nullable()->unsigned();
+            $table->double('cuota_unica_ingreso', 15, 2)->nullable()->unsigned();
+            $table->double('cuota_pautas', 15, 2)->nullable()->unsigned();
             $table->date('fecha_edicion_pauta')->nullable();
-            $table->double('pendiente_facturacion')->nullable();
-            $table->boolean('exporta')->nullable();
+            $table->double('pendiente_facturacion', 15, 2)->nullable()->unsigned();
+            $table->boolean('exporta')->nullable()->unsigned();
             $table->boolean('importa')->nullable();
-            $table->integer('usuario_creacion');
-            $table->integer('usuario_actualizacion');
+            $table->integer('usuario_creacion')->unsigned();
+            $table->integer('usuario_actualizacion')->unsigned();
             $table->timestamps();
 
             $table->foreign('regimen_id')->references('id')->on('regimens');

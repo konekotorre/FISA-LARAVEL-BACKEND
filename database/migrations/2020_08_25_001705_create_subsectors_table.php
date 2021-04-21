@@ -15,10 +15,10 @@ class CreateSubsectorsTable extends Migration
     {
         Schema::create('subsectors', function (Blueprint $table) {
 
-            $table->increments('id');
-            $table->string('nombre')->unique();
+            $table->increments('id')->unsigned();
+            $table->string('nombre', 200)->unique();
             $table->string('descripcion')->nullable();
-            $table->integer('sector_id');
+            $table->integer('sector_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('sector_id')->references('id')->on('sectors')->onDelete('cascade');

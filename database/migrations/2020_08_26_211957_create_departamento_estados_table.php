@@ -15,8 +15,8 @@ class CreateDepartamentoEstadosTable extends Migration
     {
         Schema::create('departamento_estados', function (Blueprint $table) {
 
-            $table->bigIncrements('id');
-            $table->string('nombre')->unique();
+            $table->bigIncrements('id')->unsigned();
+            $table->string('nombre', 100)->unique();
             $table->integer('pais_id');
             $table->timestamps();
 

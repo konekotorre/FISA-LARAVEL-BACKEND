@@ -15,11 +15,11 @@ class CreateClasificacionsTable extends Migration
     {
         Schema::create('clasificacions', function (Blueprint $table) {
 
-            $table->increments('id');
-            $table->string('nombre')->unique();
+            $table->increments('id')->unsigned();
+            $table->string('nombre', 100)->unique();
             $table->string('descripcion')->nullable();
-            $table->double('cuota_anual');
-            $table->year('temporada_cuota');
+            $table->double('cuota_anual', 15, 2)->unsigned();
+            $table->year('temporada_cuota', 4)->unsigned();
             $table->timestamps();
 
         });

@@ -14,8 +14,8 @@ class CreateEstadoVisitasTable extends Migration
     public function up()
     {
         Schema::create('estado_visitas', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('nombre');
+            $table->bigIncrements('id')->unsigned();
+            $table->string('nombre', 100);
             $table->timestamps();
         });
     }

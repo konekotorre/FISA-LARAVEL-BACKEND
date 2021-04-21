@@ -15,9 +15,9 @@ class CreateExportacionesTable extends Migration
     {
         Schema::create('exportaciones', function (Blueprint $table) {
             
-            $table->bigIncrements('id');
-            $table->bigInteger('organizacion_id');
-            $table->integer('pais_id');
+            $table->bigIncrements('id')->unsigned();
+            $table->bigInteger('organizacion_id')->unsigned();
+            $table->integer('pais_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('organizacion_id')->references('id')->on('organizacions')->onDelete('cascade');

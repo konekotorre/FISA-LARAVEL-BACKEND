@@ -16,10 +16,10 @@ class CreateOrganizacionsTable extends Migration
     {
         Schema::create('organizacions', function (Blueprint $table) {
 
-            $table->bigIncrements('id');
+            $table->bigIncrements('id')->unsigned();
             $table->longText('nombre');
-            $table->integer('tipo_documento_organizacion_id');
-            $table->string('numero_documento');
+            $table->integer('tipo_documento_organizacion_id')->unsigned();
+            $table->string('numero_documento', 50);
             $table->longText('razon_social')->nullable();
             $table->integer('categoria_id');
             $table->integer('clase_id')->nullable();
@@ -30,14 +30,14 @@ class CreateOrganizacionsTable extends Migration
             $table->string('pagina_web')->nullable();
             $table->longText('observaciones')->nullable();
             $table->date('fecha_afiliacion')->nullable();
-            $table->integer('empleados_directos')->nullable();
-            $table->integer('empleados_indirectos')->nullable();
+            $table->integer('empleados_directos')->nullable()->unsigned();
+            $table->integer('empleados_indirectos')->nullable()->unsigned();
             $table->longText('motivo_afiliacion')->nullable();
             $table->date('fecha_desafiliacion')->nullable();
             $table->longText('motivo_desafiliacion')->nullable();
             $table->boolean('estado');
-            $table->integer('usuario_creacion');
-            $table->integer('usuario_actualizacion');
+            $table->integer('usuario_creacion')->unsigned();
+            $table->integer('usuario_actualizacion')->unsigned();
             $table->timestamps();
 
             $table->foreign('tipo_documento_organizacion_id')->references('id')->on('tipo_documento_organizacions');

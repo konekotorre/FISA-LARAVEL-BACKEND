@@ -15,20 +15,20 @@ class CreateVisitasTable extends Migration
     {
         Schema::create('visitas', function (Blueprint $table) {
 
-            $table->bigIncrements('id');
-            $table->bigInteger('organizacion_id');
-            $table->bigInteger('oficina_id')->nullable();
-            $table->bigInteger('contacto_id')->nullable();
+            $table->bigIncrements('id')->unsigned();
+            $table->bigInteger('organizacion_id')->unsigned();
+            $table->bigInteger('oficina_id')->nullable()->unsigned();
+            $table->bigInteger('contacto_id')->nullable()->unsigned();
             $table->date('fecha_programada');
             $table->date('fecha_ejecucion')->nullable();
             $table->text('titulo');
             $table->text('razon')->nullable();
             $table->text('observaciones')->nullable();
             $table->text('resultado')->nullable();
-            $table->integer('usuario_asignado');
-            $table->integer('estado_id');
-            $table->integer('usuario_creacion');
-            $table->integer('usuario_actualizacion');
+            $table->integer('usuario_asignado')->unsigned();
+            $table->integer('estado_id')->unsigned();
+            $table->integer('usuario_creacion')->unsigned();
+            $table->integer('usuario_actualizacion')->unsigned();
             $table->timestamps();
 
             $table->foreign('contacto_id')->references('id')->on('contactos');

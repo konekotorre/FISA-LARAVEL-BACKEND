@@ -15,9 +15,9 @@ class CreateDetalleCategoriaPersonasTable extends Migration
     {
         Schema::create('detalle_categoria_personas', function (Blueprint $table) {
 
-            $table->bigIncrements('id');
-            $table->bigInteger('persona_id');
-            $table->integer('subcategoria_id');
+            $table->bigIncrements('id')->unsigned();
+            $table->bigInteger('persona_id')->unsigned();
+            $table->integer('subcategoria_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');
