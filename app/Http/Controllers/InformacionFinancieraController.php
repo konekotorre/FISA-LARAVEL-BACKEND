@@ -90,7 +90,7 @@ class InformacionFinancieraController extends Controller
     {
         return Excel::download(new InfoFinGenExport, 'Reporte Financiero.xlsx');
     }
-    
+
     public function listForms()
     {
         $clasificaciones_busqueda = DB::table('clasificacions')
@@ -207,6 +207,20 @@ class InformacionFinancieraController extends Controller
             ->get();
 
         $informacion = $infoFinanciera[0];
+
+        $info_updated = $informacionFinanciera->updated_at;
+        $info_editor = $informacionFinanciera->usuario_actualizacion;
+        $info_org = $informacionFinanciera->organizacion_id;
+
+        DB::update(
+            'update organizacions set(updated_at, usuario_actualizacion) 
+                    = (?, ?) where id = ?',
+            [
+                $info_updated,
+                $info_editor,
+                $info_org
+            ]
+        );
 
         return response()->json([
             "success" => true,
