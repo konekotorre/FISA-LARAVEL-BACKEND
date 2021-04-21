@@ -39,11 +39,11 @@ class InfoFinBusquedaExport implements FromCollection, WithHeadings
                 'informacion_financieras.ventas_anuales',
                 'informacion_financieras.total_activos',
                 'informacion_financieras.total_pasivos',
+                'informacion_financieras.temporada_declaracion',
                 'informacion_financieras.patrimonio_total',
                 'organizacions.empleados_directos',
                 'organizacions.empleados_indirectos',
                 'regimens.nombre as regimen',
-                'informacion_financieras.temporada_declaracion',
                 'clasificacions.nombre as clasificacion',
                 'informacion_financieras.temporada_cuota',
                 'informacion_financieras.cuota_anual',
@@ -55,7 +55,7 @@ class InfoFinBusquedaExport implements FromCollection, WithHeadings
                 'informacion_financieras.created_at',
                 'users.usuario',
                 'informacion_financieras.updated_at',
-                'users.usuario as editor'
+                'informacion_financieras.id as id'
             )
             ->distinct('informacion_financieras.updated_at')
             ->whereIn('informacion_financieras.id', $this->ids)
@@ -66,19 +66,19 @@ class InfoFinBusquedaExport implements FromCollection, WithHeadings
 
         for ($i = 0; $i < $count; $i++) {
 
-            $id_bus = $info_busqueda->id;
+            $id_bus = $info_busqueda[$i]->id;
 
             $editor =  DB::table('users')
                 ->join('informacion_financieras', 'informacion_financieras.usuario_actualizacion', '=', 'users.id')
                 ->select('users.usuario as editor')
-                ->where('organizacions.id', '=', $id_bus)
+                ->where('informacion_financieras.id', '=', $id_bus)
                 ->get();
 
             $edit = $editor->pluck('editor');
             $sal_edit = $edit->toArray();
             $sal_editor = implode(", ", $sal_edit);
 
-            $info_busqueda[$i]->editor = $sal_editor;
+            $info_busqueda[$i]->id = $sal_editor;
         }
         return $info_busqueda;
     }
@@ -101,11 +101,11 @@ class InfoFinBusquedaExport implements FromCollection, WithHeadings
             'Ventas Anuales',
             'Total Activos',
             'Total Pasivos',
+            'Fecha Activos',
             'Patrimonio Total',
             'Emp. Directos',
             'Emp. Indirectos',
             'Regimen',
-            'Año Declaración',
             'Clasificación',
             'Año Cuota',
             'Cuota Anual',
@@ -114,6 +114,7 @@ class InfoFinBusquedaExport implements FromCollection, WithHeadings
             'Pendiente Facturación',
             'Cuota Pautas',
             'Fecha Edición Pauta',
+            'Fecha Creación',
             'Usuario Creación',
             'Fecha Modificación',
             'Usuario Última Modificación'
