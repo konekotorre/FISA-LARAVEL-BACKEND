@@ -22,8 +22,6 @@ class InformacionFinanciera extends Model
         'regimen_id',
         'temporada_declaracion',
         'clasificacion_id',
-        'temporada_cuota',
-        'cuota_anual',
         'cuota_real_pagada',
         'cuota_unica_ingreso',
         'cuota_pautas',

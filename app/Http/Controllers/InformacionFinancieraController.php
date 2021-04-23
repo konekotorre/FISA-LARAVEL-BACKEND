@@ -178,6 +178,20 @@ class InformacionFinancieraController extends Controller
 
             $informacion = $infoFinanciera[0];
 
+            $info_updated = $informacionFinanciera->updated_at;
+            $info_editor = $informacionFinanciera->usuario_actualizacion;
+            $info_org = $informacionFinanciera->organizacion_id;
+
+            DB::update(
+                'update organizacions set(updated_at, usuario_actualizacion) 
+                        = (?, ?) where id = ?',
+                [
+                    $info_updated,
+                    $info_editor,
+                    $info_org
+                ]
+            );
+
             return response()->json([
                 "success" => true,
                 "informacion" => $informacion

@@ -30,8 +30,6 @@ class CreateInformacionFinancierasTable extends Migration
             $table->integer('regimen_id')->nullable()->unsigned();
             $table->year('temporada_declaracion', 4)->nullable()->unsigned();
             $table->integer('clasificacion_id')->nullable()->unsigned();
-            $table->year('temporada_cuota', 4)->nullable()->unsigned();
-            $table->double('cuota_anual', 15, 2)->nullable()->unsigned();
             $table->double('cuota_real_pagada', 15, 2)->nullable()->unsigned();
             $table->double('cuota_unica_ingreso', 15, 2)->nullable()->unsigned();
             $table->double('cuota_pautas', 15, 2)->nullable()->unsigned();

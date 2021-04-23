@@ -132,17 +132,6 @@ class ContactoExport implements FromCollection, WithHeadings
                 $contacto_busqueda[$i]->representante = "N";
             }
 
-            if ($contacto_busqueda[$i]->control == true) {
-                $contacto_busqueda[$i]->control = "S";
-            } else {
-                $contacto_busqueda[$i]->control = "N";
-            }
-            if ($contacto_busqueda[$i]->envio == true) {
-                $contacto_busqueda[$i]->envio = "S";
-            } else {
-                $contacto_busqueda[$i]->envio = "N";
-            }
-
             $contacto_busqueda[$i]->persona_id = $sal_categorias;
             $contacto_busqueda[$i]->nombres = $contacto;
             $contacto_busqueda[$i]->id = $creador_salida;

@@ -36,7 +36,8 @@ class OrgGenExport implements FromCollection, WithHeadings
             'pais.nombre as pais',
             'departamento_estados.nombre as departamento',
             'clasificacions.nombre as clasificacion',
-            'informacion_financieras.cuota_anual',
+            'clasificacions.cuota_anual',
+            'clasificacions.temporada_cuota',
             'informacion_financieras.cuota_real_pagada',
             'informacion_financieras.cuota_unica_ingreso',
             'informacion_financieras.pendiente_facturacion',
@@ -168,16 +169,7 @@ class OrgGenExport implements FromCollection, WithHeadings
                 } else {
                     $organizacion_busqueda[$i]->estado = "Inactivo";
                 }
-                if ($organizacion_busqueda[$i]->exporta == true) {
-                    $organizacion_busqueda[$i]->exporta = "S";
-                } else {
-                    $organizacion_busqueda[$i]->exporta = "N";
-                }
-                if ($organizacion_busqueda[$i]->importa == true) {
-                    $organizacion_busqueda[$i]->importa = "S";
-                } else {
-                    $organizacion_busqueda[$i]->importa = "N";
-                }
+
             }
         return $organizacion_busqueda;
     }
@@ -196,6 +188,7 @@ class OrgGenExport implements FromCollection, WithHeadings
             'Departamento',
             'Clasificación',
             'Cuota Anual',
+            'Año Cuota',
             'Cuota Anual Pagada',
             'Cuota Única Ingreso',
             'Pendiente Facturación',
