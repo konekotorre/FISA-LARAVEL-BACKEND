@@ -212,5 +212,70 @@ class CiiuSeeder extends Seeder
             'nombre' => 'FABRICACION DE OTROS PRODUCTOS QUIMICOS N.C.P.',
             'codigo' => '2029'
         ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ACTIVIDADES DE OTRAS ASOCIACIONES N.C.P',
+            'codigo' => '9499'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'PRESTACIÓN DE SERVICIOS JURÍDICOS, ASESORÍAS, CONSULTORAS Y EN GENERAL TODO TIPO DE ACTIVIDADES RELACIONADAS CON EL EJERCICIO PROFESIONAL DE ABOGACÍA',
+            'codigo' => 'D-03'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'PROCESAMIENTO Y CONSERVACIÓN DE CARNE Y PRODUCTOS CÁRNICOS',
+            'codigo' => '1011'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ELABORACIÓN DE PRODUCTOS LÁCTEOS',
+            'codigo' => '1040'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'EDICIÓN DE PROGRAMAS DE INFORMÁTICA (SOFTWARE)',
+            'codigo' => '5820'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ACTIVIDADES DE LAS AGENCIAS DE VIAJE',
+            'codigo' => '7911'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'BANCOS COMERCIALES',
+            'codigo' => '6412'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'TRILLA DE CAFÉ',
+            'codigo' => '1061'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'PRESTACIÓN DE SERVICIOS',
+            'codigo' => 'D-04'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'FABRICACIÓN DE PULPAS (PASTAS) CELULÓSICAS; PAPEL Y CARTÓN',
+            'codigo' => '1701'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'COMERCIO AL POR MAYOR DE EQUIPO, PARTES Y PIEZAS ELECTRÓNICOS Y DE TELECOMUNICACIONES',
+            'codigo' => '4652'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'FABRICACIÓN DE HILOS Y CABLES ELÉCTRICOS Y DE FIBRA ÓPTICA',
+            'codigo' => '2731'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'EDUCACIÓN BÁSICA PRIMARIA',
+            'codigo' => '8513'
+        ]);
     }
 }

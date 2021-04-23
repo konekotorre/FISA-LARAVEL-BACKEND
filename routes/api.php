@@ -56,6 +56,10 @@ Route::group([
 
         Route::group(['middleware' => ['role:Administrador|Empleado']], function () {
 
+            // User
+
+            Route::post('User/Pass', 'UserController@changePass');
+
             // Archivo
 
             Route::post('Archivo/Org', 'ArchivoController@index');

@@ -37,8 +37,8 @@ class CreateInformacionFinancierasTable extends Migration
             $table->double('cuota_pautas', 15, 2)->nullable()->unsigned();
             $table->date('fecha_edicion_pauta')->nullable();
             $table->double('pendiente_facturacion', 15, 2)->nullable()->unsigned();
-            $table->boolean('exporta')->nullable()->unsigned();
-            $table->boolean('importa')->nullable();
+            $table->string('exporta', 1)->nullable()->unsigned();
+            $table->string('importa', 1)->nullable();
             $table->integer('usuario_creacion')->unsigned();
             $table->integer('usuario_actualizacion')->unsigned();
             $table->timestamps();
