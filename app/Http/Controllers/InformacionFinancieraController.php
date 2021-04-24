@@ -19,8 +19,9 @@ class InformacionFinancieraController extends Controller
         $organizacion_id = $request->input('organizacion_id');
 
         $infoFinanciera_busqueda = DB::table('informacion_financieras')
+        ->leftJoin('clasificacions', 'clasificacions.id', '=', 'informacion_financieras.clasificacion_id')
             ->select(
-                'informacion_financieras.*'
+                'informacion_financieras.*',
             )
             ->where('informacion_financieras.organizacion_id', '=', $organizacion_id)
             ->get();

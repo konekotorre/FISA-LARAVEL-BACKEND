@@ -25,8 +25,8 @@ class CreateContactosTable extends Migration
             $table->string('extension', 10)->nullable();
             $table->string('email', 200)->nullable();
             $table->string('email_2', 200)->nullable();
-            $table->string('control_informacion', 1)->nullable();
-            $table->string('envio_informacion', 1)->nullable();
+            $table->boolean('control_informacion')->nullable();
+            $table->boolean('envio_informacion')->nullable();
             $table->longText('observaciones')->nullable();
             $table->boolean('estado');
             $table->integer('usuario_creacion')->unsigned();
