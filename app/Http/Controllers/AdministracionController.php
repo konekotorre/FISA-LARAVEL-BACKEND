@@ -53,7 +53,7 @@ class AdministracionController extends Controller
     {
         return response()->json([
             "success" => true,
-            "tipos_documentos" => TipoDocumentoPersona::all(),
+            "tipo_documentos" => TipoDocumentoPersona::all(),
             "sexos" => Sexo::all(),
             "subcategorias" => Subcategoria::all(),
             "tipo_oficinas" => TipoOficina::all()
@@ -64,8 +64,8 @@ class AdministracionController extends Controller
     {
         return response()->json([
             "success" => true,
-            "estados" => EstadoTarea::all(),
-            "estados" => EstadoVisita::all()
+            "tareas" => EstadoTarea::all(),
+            "visitas" => EstadoVisita::all()
         ], 200);
     }
 }
