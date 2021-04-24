@@ -47,7 +47,7 @@ Route::group([
             // User
 
             Route::get('User', 'UserController@index');
-            Route::get('User/Role', 'UserController@indexRoles');
+            Route::get('User/Data', 'UserController@listForms');
             Route::get('User/{user}', 'UserController@show');
             Route::post('User/', 'UserController@store');
             Route::put('User/{user}', 'UserController@update');

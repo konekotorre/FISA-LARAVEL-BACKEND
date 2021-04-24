@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\TipoDocumentoPersona;
 use App\User;
 
 use Spatie\Permission\Models\Role;
@@ -34,10 +35,11 @@ class UserController extends Controller
     }
 
 
-    public function indexRoles()
+    public function listForms()
     {
         return response()->json([
             "success" => true,
+            "tipo_documentos" => TipoDocumentoPersona::all(),
             "roles" => Role::all()
         ], 200);
     }
