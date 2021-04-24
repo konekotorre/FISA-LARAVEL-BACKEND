@@ -84,6 +84,7 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
             $sal_editor = implode(", ", $sal_edit);
 
             $info_busqueda[$i]->id = $sal_editor;
+            
         }
         return $info_busqueda;
     }

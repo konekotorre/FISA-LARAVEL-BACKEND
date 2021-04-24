@@ -17,6 +17,7 @@ class ConGenExport implements FromCollection, WithHeadings
         ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
         ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
         ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
+        ->leftJoin('departamento_estados', 'departamento_estados.id', '=', 'oficinas.departamento_estado_id')
         ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
         ->leftJoin('tipo_documento_personas', 'tipo_documento_personas.id', 'personas.tipo_documento_persona_id')
         ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_actualizacion')
@@ -37,6 +38,7 @@ class ConGenExport implements FromCollection, WithHeadings
             'oficinas.direccion as dir',
             'personas.id as persona_id',
             'ciudads.nombre as ciudad',
+            'departamento_estados.nombre as departamento',
             'sexos.nombre',
             'contactos.control_informacion as control',
             'contactos.envio_informacion as envio',
@@ -125,6 +127,17 @@ class ConGenExport implements FromCollection, WithHeadings
                 $contacto_busqueda[$i]->representante = "N";
             }
 
+            if ($contacto_busqueda[$i]->control == true) {
+                $contacto_busqueda[$i]->control = "S";
+            } else {
+                $contacto_busqueda[$i]->control = "N";
+            }
+            if ($contacto_busqueda[$i]->envio == true) {
+                $contacto_busqueda[$i]->envio = "S";
+            } else {
+                $contacto_busqueda[$i]->envio = "N";
+            }
+
             $contacto_busqueda[$i]->persona_id = $sal_categorias;
             $contacto_busqueda[$i]->nombres = $contacto;
             $contacto_busqueda[$i]->id = $creador_salida;
@@ -152,6 +165,7 @@ class ConGenExport implements FromCollection, WithHeadings
             'Dir. Oficina',
             'Subcategorias',
             'Ciudad',
+            'Departamento',
             'Genero',
             'Autoriza tratamiento de datos',
             'Autoriza envío de información',
