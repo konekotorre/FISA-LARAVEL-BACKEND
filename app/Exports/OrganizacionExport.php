@@ -179,14 +179,16 @@ class OrganizacionExport implements FromCollection, WithHeadings
             } else {
                 $organizacion_busqueda[$i]->estado = "Inactivo";
             }
+            
             if ($organizacion_busqueda[$i]->importa == true) {
                 $organizacion_busqueda[$i]->importa = "S";
-            } else {
+            } else if ($organizacion_busqueda[$i]->importa == false) {
                 $organizacion_busqueda[$i]->importa = "N";
             }
+
             if ($organizacion_busqueda[$i]->exporta == true) {
                 $organizacion_busqueda[$i]->exporta = "S";
-            } else {
+            } else  if ($organizacion_busqueda[$i]->exporta == false) {
                 $organizacion_busqueda[$i]->exporta = "N";
             }
         }

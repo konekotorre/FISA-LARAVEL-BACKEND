@@ -19,41 +19,41 @@ class ContactoExport implements FromCollection, WithHeadings
     public function collection()
     {
         $contacto_busqueda = DB::table('contactos')
-        ->join('personas', 'personas.id', '=', 'contactos.persona_id')
-        ->leftJoin('sexos', 'sexos.id', '=', 'personas.sexo_id')
-        ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
-        ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
-        ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
-        ->leftJoin('departamento_estados', 'departamento_estados.id', '=', 'oficinas.departamento_estado_id')
-        ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
-        ->leftJoin('tipo_documento_personas', 'tipo_documento_personas.id', 'personas.tipo_documento_persona_id')
-        ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_actualizacion')
-        ->select(
-            'categorias.nombre as categoria',
-            'organizacions.nombre as nombre_comercial',
-            'organizacions.razon_social',
-            'personas.nombres',
-            'contactos.cargo',
-            'contactos.representante',
-            'contactos.telefono',
-            'contactos.extension',
-            'personas.celular',
-            'contactos.email',
-            'contactos.email_2',
-            'tipo_documento_personas.nombre as tipo_doc',
-            'personas.numero_documento',
-            'oficinas.direccion as dir',
-            'personas.id as persona_id',
-            'ciudads.nombre as ciudad',
-            'departamento_estados.nombre as departamento',
-            'sexos.nombre',
-            'contactos.control_informacion as control',
-            'contactos.envio_informacion as envio',
-            'contactos.observaciones',
-            'contactos.created_at',
-            'contactos.id',
-            'contactos.updated_at',
-            'users.usuario'
+            ->join('personas', 'personas.id', '=', 'contactos.persona_id')
+            ->leftJoin('sexos', 'sexos.id', '=', 'personas.sexo_id')
+            ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
+            ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
+            ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
+            ->leftJoin('departamento_estados', 'departamento_estados.id', '=', 'oficinas.departamento_estado_id')
+            ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
+            ->leftJoin('tipo_documento_personas', 'tipo_documento_personas.id', 'personas.tipo_documento_persona_id')
+            ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_actualizacion')
+            ->select(
+                'categorias.nombre as categoria',
+                'organizacions.nombre as nombre_comercial',
+                'organizacions.razon_social',
+                'personas.nombres',
+                'contactos.cargo',
+                'contactos.representante',
+                'contactos.telefono',
+                'contactos.extension',
+                'personas.celular',
+                'contactos.email',
+                'contactos.email_2',
+                'tipo_documento_personas.nombre as tipo_doc',
+                'personas.numero_documento',
+                'oficinas.direccion as dir',
+                'personas.id as persona_id',
+                'ciudads.nombre as ciudad',
+                'departamento_estados.nombre as departamento',
+                'sexos.nombre',
+                'contactos.control_informacion as control',
+                'contactos.envio_informacion as envio',
+                'contactos.observaciones',
+                'contactos.created_at',
+                'contactos.id',
+                'contactos.updated_at',
+                'users.usuario'
             )
             ->distinct('contactos.updated_at')
             ->where([
@@ -99,33 +99,33 @@ class ContactoExport implements FromCollection, WithHeadings
             $creador_salida = implode(", ", $crea_sal);
 
             $oficinas = DB::table('oficinas')
-            ->leftJoin('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
-            ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
-            ->join('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
-            ->select(
-                'tipo_oficinas.nombre',
-                'oficinas.direccion',
-                'ciudads.nombre as ciudad',
-                'departamento_estados.nombre as estado'
-            )
-            ->where('oficinas.organizacion_id', '=', $id_bus)
-            ->orderBy('tipo_oficinas.nombre')
-            ->get();
+                ->leftJoin('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
+                ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
+                ->join('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
+                ->select(
+                    'tipo_oficinas.nombre',
+                    'oficinas.direccion',
+                    'ciudads.nombre as ciudad',
+                    'departamento_estados.nombre as estado'
+                )
+                ->where('oficinas.organizacion_id', '=', $id_bus)
+                ->orderBy('tipo_oficinas.nombre')
+                ->get();
 
-        if (!$oficinas->isEmpty() && $i < $count) {
-            $oficina_nom = $oficinas->pluck('nombre')->toArray();
-            $oficina_dir = $oficinas->pluck('direccion')->toArray();
-            $oficina_ciudad = $oficinas->pluck('ciudad')->toArray();
-            $oficina_estado = $oficinas->pluck('estado')->toArray();
+            if (!$oficinas->isEmpty() && $i < $count) {
+                $oficina_nom = $oficinas->pluck('nombre')->toArray();
+                $oficina_dir = $oficinas->pluck('direccion')->toArray();
+                $oficina_ciudad = $oficinas->pluck('ciudad')->toArray();
+                $oficina_estado = $oficinas->pluck('estado')->toArray();
 
-            $sal_oficinas = $oficina_nom . ":" . $oficina_dir .
-                " (" . $oficina_ciudad . "," . $oficina_estado . ")";
+                $sal_oficinas = $oficina_nom . ":" . $oficina_dir .
+                    " (" . $oficina_ciudad . "," . $oficina_estado . ")";
 
-            $contacto_busqueda[$i]->dir = $sal_oficinas;
-            // implode(", ", $sal_oficinas);
-        } else {
-            $contacto_busqueda[$i]->dir = "";
-        }
+                $contacto_busqueda[$i]->dir = $sal_oficinas;
+                // implode(", ", $sal_oficinas);
+            } else {
+                $contacto_busqueda[$i]->dir = "";
+            }
 
 
             if ($contacto_busqueda[$i]->representante == true) {
@@ -136,12 +136,13 @@ class ContactoExport implements FromCollection, WithHeadings
 
             if ($contacto_busqueda[$i]->control == true) {
                 $contacto_busqueda[$i]->control = "S";
-            } else {
+            } else if ($contacto_busqueda[$i]->control == false) {
                 $contacto_busqueda[$i]->control = "N";
             }
+
             if ($contacto_busqueda[$i]->envio == true) {
                 $contacto_busqueda[$i]->envio = "S";
-            } else {
+            } else if ($contacto_busqueda[$i]->envio == false) {
                 $contacto_busqueda[$i]->envio = "N";
             }
 

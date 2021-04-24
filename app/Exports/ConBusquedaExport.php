@@ -117,7 +117,6 @@ class ConBusquedaExport implements FromCollection, WithHeadings
                     " (" . $oficina_ciudad . "," . $oficina_estado . ")";
 
                 $contacto_busqueda[$i]->dir = $sal_oficinas;
-                // implode(", ", $sal_oficinas);
             } else {
                 $contacto_busqueda[$i]->dir = "";
             }
@@ -130,12 +129,13 @@ class ConBusquedaExport implements FromCollection, WithHeadings
 
             if ($contacto_busqueda[$i]->control == true) {
                 $contacto_busqueda[$i]->control = "S";
-            } else {
+            } else if ($contacto_busqueda[$i]->control == false) {
                 $contacto_busqueda[$i]->control = "N";
             }
+
             if ($contacto_busqueda[$i]->envio == true) {
                 $contacto_busqueda[$i]->envio = "S";
-            } else {
+            } else if ($contacto_busqueda[$i]->envio == false) {
                 $contacto_busqueda[$i]->envio = "N";
             }
 

@@ -60,6 +60,14 @@ Route::group([
 
             Route::post('User/Pass', 'UserController@changePass');
 
+            // Administracion
+
+            Route::get('Administracion/Varios', 'AdministracionController@indexOrgVarios');
+            Route::get('Administracion/Actividad', 'AdministracionController@indexOrgActividad');
+            Route::get('Administracion/InfoFinan', 'AdministracionController@indexInfoFinanciera');
+            Route::get('Administracion/OfiCont', 'AdministracionController@indexOfiCont');
+            Route::get('Administracion/Seguimiento', 'AdministracionController@indexSeguimiento');
+
             // Archivo
 
             Route::post('Archivo/Org', 'ArchivoController@index');
