@@ -163,6 +163,8 @@ class UserController extends Controller
         $solicitud = $request->all();
 
         $num_doc = $solicitud['numero_documento'];
+        $email = $solicitud['email'];
+
         $password = bcrypt($solicitud['password']);
         $usuario = Auth::user();
         $id = $usuario['id'];
@@ -171,6 +173,7 @@ class UserController extends Controller
             ->select('users.id')
             ->where('users.id', '=', $id)
             ->where('users.numero_documento', '=', $num_doc)
+            ->where('users.email', '=', $email)
             ->first();
 
         if ($confirmacion != null) {
