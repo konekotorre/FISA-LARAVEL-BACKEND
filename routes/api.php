@@ -187,7 +187,7 @@ Route::group([
             Route::post('Organizacion/DelAct', 'OrganizacionController@destroyActividad');
 
             // Pais
-
+            Route::get('Pais', 'PaisController@index');
             Route::get('Pais/{pais}', 'PaisController@show');
             Route::post('Pais/', 'PaisController@store');
             Route::put('Pais/{pais}', 'PaisController@update');
