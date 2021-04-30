@@ -85,11 +85,9 @@ class OficinaController extends Controller
             ->where('oficinas.id', '=', $oficina_id)
             ->get();
 
-        $oficina = $office[0];
-
         return response()->json([
             'success' => true,
-            'oficina' => $oficina,
+            'oficina' => $$office[0],
         ], 201);
     }
 
@@ -105,11 +103,9 @@ class OficinaController extends Controller
             ->where('oficinas.id', '=', $oficina_id)
             ->get();
 
-        $oficina = $office[0];
-
         return response()->json([
             "success" => true,
-            'oficina' => $oficina
+            'oficina' => $office[0]
         ], 200);
     }
 
@@ -118,14 +114,12 @@ class OficinaController extends Controller
     {
         $solicitud = $request->all();
 
-        //ACTUALIZACION DE REGISTRO
         $creador_auth = Auth::user();
         $creador = $creador_auth['id'];
         $solicitud['usuario_actualizacion'] = $creador;
 
         $oficina->update($solicitud);
 
-        //BUSQUEDA DE RETORNO
         $oficina_id = $oficina->id;
 
         $office = DB::table('oficinas')
@@ -135,11 +129,9 @@ class OficinaController extends Controller
             ->where('oficinas.id', '=', $oficina_id)
             ->get();
 
-        $oficina = $office[0];
-
         return response()->json([
             'success' => true,
-            'oficina' => $oficina
+            'oficina' => $office[0]
         ], 200);
     }
 

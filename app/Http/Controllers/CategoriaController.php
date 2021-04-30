@@ -9,23 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 class CategoriaController extends Controller
 {
-
-    public function index()
-    {
-        return response()->json([
-            "success" => true,
-            "categorias" => Categoria::all()
-        ], 200);
-    }
-
-
     public function store(Request $request)
     {
-        $categoria = Categoria::create($request->all());
+        Categoria::create($request->all());
 
         return response()->json([
             "success" => true,
-            "categoria" => $categoria->id
         ], 200);
     }
 

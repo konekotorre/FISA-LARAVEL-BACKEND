@@ -9,23 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 class RegimenController extends Controller
 {
-
-    public function index()
-    {
-        return response()->json([
-            "success" => true,
-            "regimenes" => Regimen::all()
-        ], 200);
-    }
-
-
     public function store(Request $request)
     {
-        $regimen = Regimen::create($request->all());
+        Regimen::create($request->all());
 
         return response()->json([
             "success" => true,
-            "regimen" => $regimen->id
         ], 200);
     }
 

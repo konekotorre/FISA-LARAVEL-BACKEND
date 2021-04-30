@@ -12,8 +12,6 @@ class DepartamentoEstadoSeeder extends Seeder
      */
     public function run()
     {
-        // Seed states
-
         DB::table('departamento_estados')->insert([
             'nombre' => 'Amazonas',
             'pais_id' => '10'

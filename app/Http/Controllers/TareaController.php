@@ -66,15 +66,11 @@ class TareaController extends Controller
             ->where('tareas.id', '=', $tarea_id)
             ->get();
 
-        $todo = $todo_busqueda[0];
-
         $creador_busqueda = DB::table('tareas')
             ->join('users', 'users.id', '=', 'tareas.usuario_creacion')
             ->select('users.usuario as usuario_creacion')
             ->where('tareas.id', '=', $tarea_id)
             ->get();
-
-        $creador = $creador_busqueda[0];
 
         $editor_busqueda = DB::table('tareas')
             ->join('users', 'users.id', '=', 'tareas.usuario_actualizacion')
@@ -82,13 +78,11 @@ class TareaController extends Controller
             ->where('tareas.id', '=', $tarea_id)
             ->get();
 
-        $editor = $editor_busqueda[0];
-
         return response()->json([
             "success" => true,
-            "tarea" => $todo,
-            "usuario_creacion" => $creador,
-            "usuario_actualizacion" => $editor
+            "tarea" => $todo_busqueda[0],
+            "usuario_creacion" => $creador_busqueda[0],
+            "usuario_actualizacion" => $editor_busqueda[0]
         ], 200);
     }
 

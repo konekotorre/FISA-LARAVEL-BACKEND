@@ -12,8 +12,6 @@ class CategoriaSeeder extends Seeder
      */
     public function run()
     {
-        // Seed Categories
-
         DB::table('categorias')->insert([
             'nombre' => 'AFILIADO',
             'descripcion' => 'Son las organizaciones afiliadas',

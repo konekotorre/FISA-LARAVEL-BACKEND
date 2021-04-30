@@ -10,22 +10,12 @@ use Illuminate\Support\Facades\DB;
 class PaisController extends Controller
 {
 
-    public function index()
-    {
-        return response()->json([
-            "success" => true,
-            "paises" => Pais::all()
-        ], 200);
-    }
-
-
     public function store(Request $request)
     {
-        $pais = Pais::create($request->all());
+        Pais::create($request->all());
 
         return response()->json([
             "success" => true,
-            "pais" => $pais->id
         ], 200);
     }
 

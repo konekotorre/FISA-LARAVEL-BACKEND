@@ -12,7 +12,6 @@ class CiudadSeeder extends Seeder
      */
     public function run()
     {
-        // Seed cities
 
         DB::table('ciudads')->insert([
             'nombre' => 'Leticia',

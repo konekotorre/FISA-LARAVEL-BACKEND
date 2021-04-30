@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ContactoController extends Controller
@@ -214,7 +213,7 @@ class ContactoController extends Controller
             );
         }
 
-        $categorias_eliminar = DB::table('detalle_categoria_personas')
+        DB::table('detalle_categoria_personas')
             ->where('persona_id', '=', $solicitud['persona_id'])
             ->delete();
 
@@ -231,7 +230,7 @@ class ContactoController extends Controller
             }
         }
 
-        $contacto = Contacto::create($solicitud);
+        Contacto::create($solicitud);
 
         return response()->json([
             "success" => true,
@@ -325,7 +324,7 @@ class ContactoController extends Controller
             );
         }
 
-        $categorias_eliminar = DB::table('detalle_categoria_personas')
+        DB::table('detalle_categoria_personas')
             ->where('persona_id', '=', $solicitud['persona_id'])
             ->delete();
 

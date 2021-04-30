@@ -12,8 +12,6 @@ class PaisSeeder extends Seeder
      */
     public function run()
     {
-        //Seed countrys
-
         DB::table('pais')->insert([
             'nombre' => 'Antigua y Barbuda',
         ]);

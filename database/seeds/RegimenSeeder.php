@@ -12,8 +12,7 @@ class RegimenSeeder extends Seeder
      */
     public function run()
     {
-        // Seed regimens
-
+        
         DB::table('regimens')->insert([
             'nombre' => 'Regimen Contributivo',
             'descripcion' => 'Contribuye'

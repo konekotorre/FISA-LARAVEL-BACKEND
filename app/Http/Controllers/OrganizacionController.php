@@ -46,6 +46,7 @@ class OrganizacionController extends Controller
         return Excel::download(new OrganizacionExport($request), 'Reporte de Organizaciones.xlsx');
     }
 
+
     public function repBusqueda(Request $request)
     {
         $solicitud = $request->all();
@@ -53,10 +54,12 @@ class OrganizacionController extends Controller
         return Excel::download(new OrgBusquedaExport($solicitud), 'Reporte de Organizaciones.xlsx');
     }
 
+
     public function repGen()
     {
         return Excel::download(new OrgGenExport, 'Reporte de Organizaciones.xlsx');
     }
+
 
     public function listForms()
     {
@@ -152,7 +155,7 @@ class OrganizacionController extends Controller
         $categorias = $request->categorias;
         $parametros = $request->parametros;
 
-        $orgs = DB::table('organizacions')
+        $organizacion_busqueda = DB::table('organizacions')
             ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', '=', 'organizacions.tipo_documento_organizacion_id')
             ->leftJoin('subsectors', 'subsectors.id', '=', 'organizacions.subsector_id')
             ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
@@ -179,7 +182,7 @@ class OrganizacionController extends Controller
 
         return response()->json([
             "success" => true,
-            "organizaciones" => $orgs
+            "organizaciones" => $organizacion_busqueda
         ], 200);
     }
 
@@ -206,11 +209,9 @@ class OrganizacionController extends Controller
             ->where('organizacions.id', '=', $org_id)
             ->get();
 
-        $organizacion = $organizacion_busqueda[0];
-
         return response()->json([
             "success" => true,
-            "organizacion" => $organizacion
+            "organizacion" => $organizacion_busqueda[0]
         ], 200);
     }
 
@@ -219,8 +220,6 @@ class OrganizacionController extends Controller
     {
         $solicitud = $request->all();
 
-        //CREACION DE ORGANIZACION
-
         $creador_auth = Auth::user();
         $creador = $creador_auth['id'];
 
@@ -228,8 +227,6 @@ class OrganizacionController extends Controller
         $solicitud['usuario_actualizacion'] = $creador;
 
         $organizacion = Organizacion::create($solicitud);
-
-        //BUSQUEDAS PARA REGRESO DE DATOS RELACIONADOS
 
         $org_id = $organizacion->id;
 
@@ -249,8 +246,6 @@ class OrganizacionController extends Controller
             }
         }
 
-        //RETORNO DE DATOS
-
         return response()->json([
             "success" => true,
             'organizacion' => $org_id
@@ -260,18 +255,14 @@ class OrganizacionController extends Controller
 
     public function show(Organizacion $organizacion)
     {
-        //BUSQUEDAS PARA REGRESO DE DATOS RELACIONADOS
-
         $org_id = $organizacion->id;
 
-        $org = DB::table('organizacions')
+        $organizacion_busqueda = DB::table('organizacions')
             ->select(
                 'organizacions.*'
             )
             ->where('organizacions.id', '=', $org_id)
             ->get();
-
-        $empresa = $org[0];
 
         $creador_busqueda = DB::table('organizacions')
             ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_creacion')
@@ -279,15 +270,11 @@ class OrganizacionController extends Controller
             ->where('organizacions.id', '=', $org_id)
             ->get();
 
-        $creador = $creador_busqueda[0];
-
         $editor_busqueda = DB::table('organizacions')
             ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_actualizacion')
             ->select('users.usuario as usuario_actualizacion')
             ->where('organizacions.id', '=', $org_id)
             ->get();
-
-        $editor = $editor_busqueda[0];
 
         $actividades_busqueda = DB::table('detalle_actividad_economicas')
             ->select('ciiu_id')
@@ -297,13 +284,11 @@ class OrganizacionController extends Controller
 
         $actividades = $actividades_busqueda->pluck('ciiu_id');
 
-        //RETORNO DE DATOS
-
         return response()->json([
             "success" => true,
-            'organizacion' => $empresa,
-            'usuario_creacion' => $creador,
-            'usuario_actualizacion' => $editor,
+            'organizacion' => $organizacion_busqueda[0],
+            'usuario_creacion' => $creador_busqueda[0],
+            'usuario_actualizacion' => $editor_busqueda[0],
             'actividades' => $actividades
         ], 200);
     }
@@ -311,7 +296,6 @@ class OrganizacionController extends Controller
 
     public function update(Request $request, Organizacion $organizacion)
     {
-        //ACTUALIZACION DE DATOS
         $solicitud = $request->all();
 
         $creador_auth = Auth::user();
@@ -322,7 +306,7 @@ class OrganizacionController extends Controller
 
         $org_id = $organizacion->id;
 
-        $organizacion_busqueda = DB::table('detalle_actividad_economicas')
+        DB::table('detalle_actividad_economicas')
             ->where('organizacion_id', '=', $org_id)
             ->delete();
 
@@ -341,7 +325,6 @@ class OrganizacionController extends Controller
                 }
             }
         }
-        //RETORNO DE DATOS
 
         return response()->json([
             "success" => true

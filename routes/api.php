@@ -77,7 +77,6 @@ Route::group([
 
             // Categoria
 
-            Route::get('Categoria', 'CategoriaController@index');
             Route::get('Categoria/{categoria}', 'CategoriaController@show');
             Route::post('Categoria/', 'CategoriaController@store');
             Route::put('Categoria/{categoria}', 'CategoriaController@update');
@@ -85,7 +84,6 @@ Route::group([
 
             // Ciiu
 
-            Route::get('Ciiu', 'CiiuController@index');
             Route::get('Ciiu/Search', 'CiiuController@search');
             Route::get('Ciiu/{ciiu}', 'CiiuController@show');
             Route::post('Ciiu/', 'CiiuController@store');
@@ -94,9 +92,7 @@ Route::group([
 
             // Ciudad
 
-            Route::get('Ciudad', 'CiudadController@index');
             Route::post('Ciudad/Dep', 'CiudadController@indexByDepartamento');
-            Route::get('Ciudad/Search', 'CiudadController@search');
             Route::get('Ciudad/{ciudad}', 'CiudadController@show');
             Route::post('Ciudad/', 'CiudadController@store');
             Route::put('Ciudad/{ciudad}', 'CiudadController@update');
@@ -104,7 +100,6 @@ Route::group([
 
             // Clase
 
-            Route::get('Clase', 'ClaseController@index');
             Route::get('Clase/{clase}', 'ClaseController@show');
             Route::post('Clase/', 'ClaseController@store');
             Route::put('Clase/{clase}', 'ClaseController@update');
@@ -112,7 +107,6 @@ Route::group([
 
             // Clasificacion
 
-            Route::get('Clasificacion', 'ClasificacionController@index');
             Route::get('Clasificacion/{clasificacion}', 'ClasificacionController@show');
             Route::post('Clasificacion/', 'ClasificacionController@store');
             Route::put('Clasificacion/{clasificacion}', 'ClasificacionController@update');
@@ -135,9 +129,7 @@ Route::group([
 
             // Departamento Estado
 
-            Route::get('DepartamentoEstado', 'DepartamentoEstadoController@index');
             Route::post('DepartamentoEstado/Pais', 'DepartamentoEstadoController@indexByPais');
-            Route::get('DepartamentoEstado/Search', 'DepartamentoEstadoController@search');
             Route::get('DepartamentoEstado/{departamentoEstado}', 'DepartamentoEstadoController@show');
             Route::post('DepartamentoEstado/', 'DepartamentoEstadoController@store');
             Route::put('DepartamentoEstado/{departamentoEstado}', 'DepartamentoEstadoController@update');
@@ -145,7 +137,6 @@ Route::group([
 
             //Estado Visita
 
-            Route::get('EstadoVisita', 'EstadoVisitaController@index');
             Route::get('EstadoVisita/{estadoVisita}', 'EstadoVisitaController@show');
             Route::post('EstadoVisita/', 'EstadoVisitaController@store');
             Route::put('EstadoVisita/{estadoVisita}', 'EstadoVisitaController@update');
@@ -153,7 +144,6 @@ Route::group([
 
             //Estado Tarea
 
-            Route::get('EstadoTarea', 'EstadoTareaController@index');
             Route::get('EstadoTarea/{estadoTarea}', 'EstadoTareaController@show');
             Route::post('EstadoTarea/', 'EstadoTareaController@store');
             Route::put('EstadoTarea/{estadoTarea}', 'EstadoTareaController@update');
@@ -163,7 +153,6 @@ Route::group([
 
             Route::post('InformacionFinanciera/Org', 'InformacionFinancieraController@show');
             Route::get('InformacionFinanciera/Data', 'InformacionFinancieraController@listForms');
-            Route::post('InformacionFinanciera/Clasi', 'InformacionFinancieraController@clasiInfo');
             Route::post('InformacionFinanciera/RepFec', 'InformacionFinancieraController@repFecha');
             Route::post('InformacionFinanciera/RepBus', 'InformacionFinancieraController@repBusqueda');
             Route::get('InformacionFinanciera/RepGen', 'InformacionFinancieraController@repGen');
@@ -199,7 +188,6 @@ Route::group([
 
             // Pais
 
-            Route::get('Pais', 'PaisController@index');
             Route::get('Pais/{pais}', 'PaisController@show');
             Route::post('Pais/', 'PaisController@store');
             Route::put('Pais/{pais}', 'PaisController@update');
@@ -207,7 +195,6 @@ Route::group([
 
             // Regimen
 
-            Route::get('Regimen', 'RegimenController@index');
             Route::get('Regimen/{regimen}', 'RegimenController@show');
             Route::post('Regimen/', 'RegimenController@store');
             Route::put('Regimen/{regimen}', 'RegimenController@update');
@@ -215,7 +202,6 @@ Route::group([
 
             // Sector
 
-            Route::get('Sector', 'SectorController@index');
             Route::get('Sector/{sector}', 'SectorController@show');
             Route::post('Sector/', 'SectorController@store');
             Route::put('Sector/{sector}', 'SectorController@update');
@@ -223,7 +209,6 @@ Route::group([
 
             // Sexo
 
-            Route::get('Sexo', 'SexoController@index');
             Route::get('Sexo/{sexo}', 'SexoController@show');
             Route::post('Sexo/', 'SexoController@store');
             Route::put('Sexo/{sexo}', 'SexoController@update');
@@ -231,7 +216,6 @@ Route::group([
 
             // Subcategoria
 
-            Route::get('Subcategoria', 'SubcategoriaController@index');
             Route::get('Subcategoria/{subcategoria}', 'SubcategoriaController@show');
             Route::post('Subcategoria/', 'SubcategoriaController@store');
             Route::put('Subcategoria/{subcategoria}', 'SubcategoriaController@update');
@@ -239,7 +223,6 @@ Route::group([
 
             // Subsector
 
-            Route::get('Subsector', 'SubsectorController@index');
             Route::post('Subsector/Sector', 'SubsectorController@indexBySector');
             Route::get('Subsector/{subsector}', 'SubsectorController@show');
             Route::post('Subsector/', 'SubsectorController@store');
@@ -256,7 +239,6 @@ Route::group([
 
             // Tipo Organizacion
 
-            Route::get('TipoOrganizacion', 'TipoOrganizacionController@index');
             Route::get('TipoOrganizacion/{tipoOrganizacion}', 'TipoOrganizacionController@show');
             Route::post('TipoOrganizacion/', 'TipoOrganizacionController@store');
             Route::put('TipoOrganizacion/{tipoOrganizacion}', 'TipoOrganizacionController@update');
@@ -264,7 +246,6 @@ Route::group([
 
             // Tipo Documento Organizacion
 
-            Route::get('TipoDocumentoOrganizacion', 'TipoDocumentoOrganizacionController@index');
             Route::get('TipoDocumentoOrganizacion/{tipoDocumentoOrganizacion}', 'TipoDocumentoOrganizacionController@show');
             Route::post('TipoDocumentoOrganizacion/', 'TipoDocumentoOrganizacionController@store');
             Route::put('TipoDocumentoOrganizacion/{tipoDocumentoOrganizacion}', 'TipoDocumentoOrganizacionController@update');
@@ -272,7 +253,6 @@ Route::group([
 
             // Tipo Documento Persona
 
-            Route::get('TipoDocumentoPersona', 'TipoDocumentoPersonaController@index');
             Route::get('TipoDocumentoPersona/{tipoDocumentoPersona}', 'TipoDocumentoPersonaController@show');
             Route::post('TipoDocumentoPersona/', 'TipoDocumentoPersonaController@store');
             Route::put('TipoDocumentoPersona/{tipoDocumentoPersona}', 'TipoDocumentoPersonaController@update');
@@ -280,7 +260,6 @@ Route::group([
 
             // Tipo Oficina
 
-            Route::get('TipoOficina', 'TipoOficinaController@index');
             Route::get('TipoOficina/{tipoOficina}', 'TipoOficinaController@show');
             Route::post('TipoOficina/', 'TipoOficinaController@store');
             Route::put('TipoOficina/{tipoOficina}', 'TipoOficinaController@update');

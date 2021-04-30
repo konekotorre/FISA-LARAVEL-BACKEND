@@ -18,8 +18,8 @@ class CreatePersonasTable extends Migration
             $table->bigIncrements('id')->unsigned();
             $table->integer('tipo_documento_persona_id')->nullable()->unsigned();
             $table->string('numero_documento', 20)->nullable();
-            $table->string('nombres', 50);
-            $table->string('apellidos', 50);
+            $table->string('nombres', 100);
+            $table->string('apellidos', 100);
             $table->integer('sexo_id')->nullable()->unsigned();
             $table->string('celular', 20)->nullable();
             $table->integer('usuario_creacion')->unsigned();

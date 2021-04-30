@@ -8,19 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class ClaseController extends Controller
 {
-
-    public function index()
-    {
-        return response()->json([
-            "success" => true,
-            "clases" => Clase::all()
-        ], 200);
-    }
-
-
     public function store(Request $request)
     {
-        $clase = Clase::create($request->all());
+        Clase::create($request->all());
 
         return response()->json(["success" => true], 200);
     }

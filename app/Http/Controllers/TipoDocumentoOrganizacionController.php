@@ -9,23 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 class TipoDocumentoOrganizacionController extends Controller
 {
-
-    public function index()
-    {
-        return response()->json([
-            "success" => true,
-            "tipos" => TipoDocumentoOrganizacion::all()
-        ], 200);
-    }
-
-
     public function store(Request $request)
     {
-        $tipoDocumentoOrganizacion = TipoDocumentoOrganizacion::create($request->all());
+        TipoDocumentoOrganizacion::create($request->all());
 
         return response()->json([
             "success" => true,
-            "tipo" => $tipoDocumentoOrganizacion->id
         ], 200);
     }
 

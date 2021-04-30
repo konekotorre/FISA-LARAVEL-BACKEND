@@ -10,22 +10,12 @@ use Illuminate\Support\Facades\DB;
 class SectorController extends Controller
 {
 
-    public function index()
-    {
-        return response()->json([
-            "success" => true,
-            "sectores" => Sector::all()
-        ], 200);
-    }
-
-
     public function store(Request $request)
     {
-        $sector = Sector::create($request->all());
+        Sector::create($request->all());
 
         return response()->json([
             "success" => true,
-            "sector" => $sector->id
         ], 200);
     }
 

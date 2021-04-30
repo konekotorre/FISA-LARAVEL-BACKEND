@@ -49,7 +49,6 @@ class UserController extends Controller
     {
         $solicitud = $request->all();
         $solicitud['password'] = bcrypt($solicitud['password']);
-        $rol = $solicitud['rol'];
 
         $creador_auth = Auth::user();
         $creador = $creador_auth['id'];
@@ -58,10 +57,10 @@ class UserController extends Controller
 
         $user = User::create($solicitud);
 
-        if ($rol == 1) {
+        if ($request->rol == 1) {
             $role = Role::find(1);
             $user->assignRole($role);
-        } elseif ($rol == 2) {
+        } elseif ($request->rol == 2) {
             $role = Role::find(2);
             $user->assignRole($role);
         } else {
@@ -138,23 +137,19 @@ class UserController extends Controller
 
         $user->update($solicitud);
 
-        $rol = $request->rol;
-
-        if ($rol == 1) {
+        if ($request->rol == 1) {
             $role = Role::find(1);
             $user->assignRole($role);
-        } elseif ($rol == 2) {
+        } elseif ($request->rol == 2) {
             $role = Role::find(2);
             $user->assignRole($role);
         } else {
             return response()->json(["success" => false], 200);
         }
 
-        $user_id = $user->id;
-
         return response()->json([
             "success" => true,
-            "usuario" => $user_id,
+            "usuario" => $user->id,
         ], 200);
     }
 
@@ -193,8 +188,6 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        // $user->delete();
-
         DB::table('users')
             ->where('users.id', '=', $user->id)
             ->delete();

@@ -19,7 +19,7 @@ class InformacionFinancieraController extends Controller
         $organizacion_id = $request->input('organizacion_id');
 
         $infoFinanciera_busqueda = DB::table('informacion_financieras')
-        ->leftJoin('clasificacions', 'clasificacions.id', '=', 'informacion_financieras.clasificacion_id')
+            ->leftJoin('clasificacions', 'clasificacions.id', '=', 'informacion_financieras.clasificacion_id')
             ->select(
                 'informacion_financieras.*',
             )
@@ -128,23 +128,6 @@ class InformacionFinancieraController extends Controller
         ], 200);
     }
 
-    public function clasiInfo(Request $request)
-    {
-        $clasi_id = $request->input('clasificacion_id');
-
-        $info = DB::table('clasificacions')
-            ->select('cuota_anual', 'temporada_cuota')
-            ->where('id', '=', $clasi_id)
-            ->get();
-
-        $info_salida = $info[0];
-
-        return response()->json([
-            "success" => true,
-            "informacion" => $info_salida
-        ], 200);
-    }
-
     public function store(Request $request)
     {
         $solicitud = $request->all();
@@ -177,25 +160,19 @@ class InformacionFinancieraController extends Controller
                 ->where('id', '=', $info_id)
                 ->get();
 
-            $informacion = $infoFinanciera[0];
-
-            $info_updated = $informacionFinanciera->updated_at;
-            $info_editor = $informacionFinanciera->usuario_actualizacion;
-            $info_org = $informacionFinanciera->organizacion_id;
-
             DB::update(
                 'update organizacions set(updated_at, usuario_actualizacion) 
                         = (?, ?) where id = ?',
                 [
-                    $info_updated,
-                    $info_editor,
-                    $info_org
+                    $informacionFinanciera->updated_at,
+                    $informacionFinanciera->usuario_actualizacion,
+                    $informacionFinanciera->organizacion_id
                 ]
             );
 
             return response()->json([
                 "success" => true,
-                "informacion" => $informacion
+                "informacion" => $infoFinanciera[0]
             ], 200);
         }
     }
@@ -221,25 +198,19 @@ class InformacionFinancieraController extends Controller
             ->where('id', '=', $info_id)
             ->get();
 
-        $informacion = $infoFinanciera[0];
-
-        $info_updated = $informacionFinanciera->updated_at;
-        $info_editor = $informacionFinanciera->usuario_actualizacion;
-        $info_org = $informacionFinanciera->organizacion_id;
-
         DB::update(
             'update organizacions set(updated_at, usuario_actualizacion) 
                     = (?, ?) where id = ?',
             [
-                $info_updated,
-                $info_editor,
-                $info_org
+                $informacionFinanciera->updated_at,
+                $informacionFinanciera->usuario_actualizacion,
+                $informacionFinanciera->organizacion_id
             ]
         );
 
         return response()->json([
             "success" => true,
-            "informacion" => $informacion
+            "informacion" => $infoFinanciera[0]
         ], 200);
     }
 
@@ -247,11 +218,11 @@ class InformacionFinancieraController extends Controller
     {
         $organizacion_id = $request->input('organizacion_id');
 
-        $organizacion_busqueda = DB::table('importaciones')
+        DB::table('importaciones')
             ->where('organizacion_id', '=', $organizacion_id)
             ->delete();
 
-        $organizacion_busqueda = DB::table('exportaciones')
+        DB::table('exportaciones')
             ->where('organizacion_id', '=', $organizacion_id)
             ->delete();
 

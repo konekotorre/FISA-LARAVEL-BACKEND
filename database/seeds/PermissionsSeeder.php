@@ -18,13 +18,11 @@ class PermissionsSeeder extends Seeder
 
         $empleado = Role::create(['name' => 'Empleado']);
 
-        // Asign roles
         $user01 = User::find(1);
         $user01->assignRole($admin);
 
         $user02 = User::find(2);
         $user02->assignRole($empleado);
 
-        //
     }
 }

@@ -8,18 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class EstadoTareaController extends Controller
 {
-    public function index()
-    {
-        return response()->json([
-            "success" => true,
-            "estados" => EstadoTarea::all()
-        ], 200);
-    }
-
-
     public function store(Request $request)
     {
-        $estadoTarea = EstadoTarea::create($request->all());
+        EstadoTarea::create($request->all());
 
         return response()->json(["success" => true], 200);
     }

@@ -8,21 +8,13 @@ use Illuminate\Support\Facades\DB;
 
 class SexoController extends Controller
 {
-    public function index()
-    {
-        return response()->json([
-            "success" => true,
-            "sexos" => Sexo::all()
-        ], 200);
-    }
 
     public function store(Request $request)
     {
-        $sexo = Sexo::create($request->all());
+        Sexo::create($request->all());
 
         return response()->json([
             "success" => true,
-            "sexo" => $sexo->id
         ], 200);
     }
 

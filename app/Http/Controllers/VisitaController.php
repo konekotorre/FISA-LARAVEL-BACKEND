@@ -235,11 +235,9 @@ class VisitaController extends Controller
 
         $visita = Visita::create($solicitud);
 
-        $visita_id = $visita->id;
-
         return response()->json([
             "success" => true,
-            "visita" => $visita_id
+            "visita" => $visita->id
         ], 200);
     }
 
@@ -255,15 +253,11 @@ class VisitaController extends Controller
             ->where('visitas.id', '=', $visita_id)
             ->get();
 
-        $visit = $visita_busqueda[0];
-
         $creador_busqueda = DB::table('visitas')
             ->join('users', 'users.id', '=', 'visitas.usuario_creacion')
             ->select('users.usuario as usuario_creacion')
             ->where('visitas.id', '=', $visita_id)
             ->get();
-
-        $creador = $creador_busqueda[0];
 
         $editor_busqueda = DB::table('visitas')
             ->join('users', 'users.id', '=', 'visitas.usuario_actualizacion')
@@ -271,13 +265,11 @@ class VisitaController extends Controller
             ->where('visitas.id', '=', $visita_id)
             ->get();
 
-        $editor = $editor_busqueda[0];
-
         return response()->json([
             "success" => true,
-            "visita" => $visit,
-            "usuario_creacion" => $creador,
-            "usuario_actualizacion" => $editor
+            "visita" => $visita_busqueda[0],
+            "usuario_creacion" => $creador_busqueda[0],
+            "usuario_actualizacion" => $editor_busqueda[0]
         ], 200);
     }
 

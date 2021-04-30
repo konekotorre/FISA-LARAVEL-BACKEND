@@ -9,26 +9,12 @@ use Validator;
 
 class ClasificacionController extends Controller
 {
-
-    public function index()
-    {
-
-        return response()->json([
-            "success" => true,
-            "clasificaciones" => Clasificacion::all()
-        ], 200);
-    }
-
-
     public function store(Request $request)
     {
-        $solicitud = $request->all();
-
-        $clasificacion = Clasificacion::create($solicitud);
+        Clasificacion::create($request->all());
 
         return response()->json([
-            "success" => true,
-            "clasificacion" => $clasificacion->id
+            "success" => true
         ], 200);
     }
 

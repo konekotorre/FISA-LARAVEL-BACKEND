@@ -9,59 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 class CiiuController extends Controller
 {
-
-    public function index()
-    {
-        return response()->json([
-            "success" => true,
-            "ciius" => Ciiu::all()
-        ], 200);
-    }
-
-
-    public function search(Request $request)
-    {
-        $tipo = $request->input('tipo');
-        $palabra = $request->input('palabra');
-
-        if ($tipo == "nombre") {
-
-            $nombre = '%' . $palabra . '%';
-
-            $ciiu_busqueda = DB::table('ciius')
-                ->select(
-                    'ciius.*'
-                )
-                ->where('ciius.nombre', 'ilike', $nombre)
-                ->get();
-
-            return response()->json([
-                "success" => true,
-                "ciius" => $ciiu_busqueda[0]
-            ], 200);
-        } else if ($tipo == "codigo") {
-
-            $ciiu_busqueda = DB::table('ciius')
-                ->select(
-                    'ciius.*'
-                )
-                ->orWhere('ciius.codigo', '=', $palabra)
-                ->get();
-
-            return response()->json([
-                "success" => true,
-                "ciius" => $ciiu_busqueda[0]
-            ], 200);
-        }
-    }
-
     public function store(Request $request)
     {
-        $ciiu = ciiu::create($request->all());
+        ciiu::create($request->all());
 
         return response()->json([
             "success" => true,
-            "ciiu_id" => $ciiu->id
         ], 200);
     }
 

@@ -12,7 +12,6 @@ class CiiuSeeder extends Seeder
      */
     public function run()
     {
-        // Seed ciius
         DB::table('ciius')->insert([
             'nombre' => 'Cultivo de cereales (excepto arroz), legumbres y semillas oleaginosas',
             'codigo' => '0111',

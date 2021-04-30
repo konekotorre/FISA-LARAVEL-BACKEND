@@ -8,19 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class EstadoVisitaController extends Controller
 {
-
-    public function index()
-    {
-        return response()->json([
-            "success" => true,
-            "estados" => EstadoVisita::all()
-        ], 200);
-    }
-
-
     public function store(Request $request)
     {
-        $estadoVisita = EstadoVisita::create($request->all());
+        EstadoVisita::create($request->all());
 
         return response()->json(["success" => true], 200);
     }

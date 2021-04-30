@@ -9,23 +9,12 @@ use Illuminate\Support\Facades\DB;
 
 class SubcategoriaController extends Controller
 {
-
-    public function index()
-    {
-        return response()->json([
-            "success" => true,
-            "subcategorias" => Subcategoria::all()
-        ], 200);
-    }
-
-
     public function store(Request $request)
     {
-        $subcategoria = Subcategoria::create($request->all());
+        Subcategoria::create($request->all());
 
         return response()->json([
             "success" => true,
-            "subcategoria" => $subcategoria->id
         ], 200);
     }
 

@@ -9,16 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class SubsectorController extends Controller
 {
-
-    public function index()
-    {
-        return response()->json([
-            "success" => true,
-            "subsectores" => Subsector::all()
-        ], 200);
-    }
-
-
     public function indexBySector(Request $request)
     {
         $sector_id = $request->input('sector_id');
@@ -41,11 +31,10 @@ class SubsectorController extends Controller
 
     public function store(Request $request)
     {
-        $subsector = Subsector::create($request->all());
+        Subsector::create($request->all());
 
         return response()->json([
             "success" => true,
-            "subsector" => $subsector->id
         ], 200);
     }
 
