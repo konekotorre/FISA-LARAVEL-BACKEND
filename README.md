@@ -77,3 +77,20 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 "# FISA-LARAVEL-BACKEND" 
+
+## Despliegue local 
+
+composer install
+php artisan migrate
+php artisan db:seed
+
+## Generar llave privada de JWT
+
+php artisan key:generate
+php artisan jwt:secret
+php artisan cache:clear
+php artisan config:clear
+
+## iniciar servidor
+
+php artisan serve
