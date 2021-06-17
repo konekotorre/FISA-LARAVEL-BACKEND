@@ -37,7 +37,7 @@ class OficinaController extends Controller
         ], 200);
     }
 
-    
+
     public function listForms()
     {
         $tipo_busqueda = DB::table('tipo_oficinas')
@@ -67,27 +67,19 @@ class OficinaController extends Controller
     public function store(Request $request)
     {
         $solicitud = $request->all();
-
         $creador_auth = Auth::user();
-        $creador = $creador_auth['id'];
-
-        $solicitud['usuario_creacion'] = $creador;
-        $solicitud['usuario_actualizacion'] = $creador;
-
+        $solicitud['usuario_creacion'] = $creador_auth['id'];
+        $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $oficina = Oficina::create($solicitud);
-
-        // $oficina_id = $oficina->id;
-
-        // $office = DB::table('oficinas')
-        //     ->select(
-        //         'oficinas.id'
-        //     )
-        //     ->where('oficinas.id', '=', $oficina_id)
-        //     ->get();
-
+        $office = DB::table('oficinas')
+            ->select(
+                'oficinas.id'
+            )
+            ->where('oficinas.id', '=', $oficina->id)
+            ->get();
         return response()->json([
             'success' => true,
-            //'oficina' => $$office[0],
+            'oficina' => $$office[0],
         ], 200);
     }
 
