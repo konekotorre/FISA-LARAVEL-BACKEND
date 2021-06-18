@@ -40,28 +40,10 @@ class OficinaController extends Controller
 
     public function listForms()
     {
-        $tipo_busqueda = TipoOficina::orderBy('nombre')->get();
-/*         DB::table('tipo_oficinas')
-            ->select(
-                'tipo_oficinas.id',
-                'tipo_oficinas.nombre'
-            )
-            ->orderBy('tipo_oficinas.nombre')
-            ->get();
- */
-        $pais_busqueda = Pais::orderBy('nombre')->get();
-/*         DB::table('pais')
-            ->select(
-                'pais.id',
-                'pais.nombre',
-            )
-            ->orderBy('pais.nombre')
-            ->get(); */
-
         return response()->json([
             "success" => true,
-            'tipos' => $tipo_busqueda,
-            'paises' => $pais_busqueda
+            'tipos' => TipoOficina::orderBy('nombre')->get(),
+            'paises' => Pais::orderBy('nombre')->get()
         ], 200);
     }
 
@@ -88,9 +70,7 @@ class OficinaController extends Controller
 
     public function show(Oficina $oficina)
     {
-        $oficina_id = $oficina->id;
-
-        $office = DB::table('oficinas')
+        $oficina = DB::table('oficinas')
             ->select(
                 'oficinas.*'
             )
@@ -98,7 +78,7 @@ class OficinaController extends Controller
             ->get();
         return response()->json([
             "success" => true,
-            'oficina' => $office[0]
+            'oficina' => $oficina[0]
         ], 200);
     }
 
