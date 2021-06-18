@@ -12,7 +12,6 @@ class CategoriaController extends Controller
     public function store(Request $request)
     {
         Categoria::create($request->all());
-
         return response()->json([
             "success" => true,
         ], 200);
@@ -21,15 +20,12 @@ class CategoriaController extends Controller
 
     public function show(Categoria $categoria)
     {
-        $cat_id = $categoria->id;
-
         $categoria_busqueda = DB::table('categorias')
             ->select(
                 'categorias.*'
             )
-            ->where('categorias.id', '=', $cat_id)
+            ->where('categorias.id', '=', $categoria->id)
             ->get();
-
         return response()->json([
             "success" => true,
             "categoria" => $categoria_busqueda[0]
@@ -40,7 +36,6 @@ class CategoriaController extends Controller
     public function update(Request $request, Categoria $categoria)
     {
         $categoria->update($request->all());
-
         return response()->json(["success" => true], 200);
     }
 
@@ -48,7 +43,6 @@ class CategoriaController extends Controller
     public function destroy(Categoria $categoria)
     {
         $categoria->delete();
-
         return response()->json(["success" => true], 200);
     }
 }

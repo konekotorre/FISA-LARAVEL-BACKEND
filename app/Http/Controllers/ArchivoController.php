@@ -11,8 +11,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ArchivoController extends Controller
 {
-    //Comentario de prueba GIT
-
+    
     public function index(Request $request)
     {
         $archivos = DB::table('archivos')

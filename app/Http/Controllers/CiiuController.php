@@ -12,7 +12,6 @@ class CiiuController extends Controller
     public function store(Request $request)
     {
         ciiu::create($request->all());
-
         return response()->json([
             "success" => true,
         ], 200);
@@ -21,15 +20,12 @@ class CiiuController extends Controller
 
     public function show(Ciiu $ciiu)
     {
-        $ciiu_id = $ciiu->id;
-
         $ciiu_busqueda = DB::table('ciius')
             ->select(
                 'ciius.*'
             )
-            ->where('ciius.id', '=', $ciiu_id)
+            ->where('ciius.id', '=', $ciiu->id)
             ->get();
-
         return response()->json([
             "success" => true,
             "ciius" => $ciiu_busqueda[0]
@@ -39,7 +35,6 @@ class CiiuController extends Controller
     public function update(Request $request, Ciiu $ciiu)
     {
         $ciiu->update($request->all());
-
         return response()->json(["success" => true], 200);
     }
 
@@ -47,7 +42,6 @@ class CiiuController extends Controller
     public function destroy(Ciiu $ciiu)
     {
         $ciiu->delete();
-
         return response()->json(["success" => true], 200);
     }
 }

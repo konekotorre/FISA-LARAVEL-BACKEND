@@ -25,8 +25,8 @@ class AdministracionController extends Controller
         return response()->json([
             "success" => true,
             "tipo_documentos" => TipoDocumentoOrganizacion::orderBy('nombre')->get(),
-            "categorias" => orderBy('nombre')->get(),
-            "tipo_organizaciones" => orderBy('nombre')->get(),
+            "categorias" => Categoria::orderBy('nombre')->get(),
+            "tipo_organizaciones" => TipoOrganizacion::orderBy('nombre')->get(),
             "clases" => Clase::orderBy('nombre')->get()
         ], 200);
     }

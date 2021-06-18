@@ -12,7 +12,6 @@ class ClasificacionController extends Controller
     public function store(Request $request)
     {
         Clasificacion::create($request->all());
-
         return response()->json([
             "success" => true
         ], 200);
@@ -21,15 +20,12 @@ class ClasificacionController extends Controller
 
     public function show(Clasificacion $clasificacion)
     {
-        $clasi_id = $clasificacion->id;
-
         $clasificacion = DB::table('clasificacions')
             ->select(
                 'clasificacions.*'
             )
-            ->where('clasificacions.id', '=', $clasi_id)
+            ->where('clasificacions.id', '=', $clasificacion->id)
             ->get();
-
         return response()->json([
             "success" => true,
             "clasificacion" => $clasificacion[0]
@@ -40,7 +36,6 @@ class ClasificacionController extends Controller
     public function update(Request $request, Clasificacion $clasificacion)
     {
         $clasificacion->update($request->all());
-
         return response()->json(["success" => true], 200);
     }
 
@@ -48,7 +43,6 @@ class ClasificacionController extends Controller
     public function destroy(Clasificacion $clasificacion)
     {
         $clasificacion->delete();
-
         return response()->json(["success" => true], 200);
     }
 }
