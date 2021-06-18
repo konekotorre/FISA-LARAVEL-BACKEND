@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Visita;
 use App\EstadoVisita;
-use App\EstadoTarea;xml_error_string
+use App\EstadoTarea;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -67,7 +67,7 @@ class VisitaController extends Controller
             "success" => true,
             "estadoVisitas" => EstadoVisita::orderBy('nombre')->get(),
             "estadoTareas" => EstadoTarea::orderBy('nombre')->get(),
-            "usuarios" => User::select('nombre, id')->get,
+            "usuarios" => User::select('nombre, id')->get(),
         ], 200);
     }
 
