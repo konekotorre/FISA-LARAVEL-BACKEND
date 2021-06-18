@@ -228,15 +228,16 @@ class OrganizacionController extends Controller
         $creador_auth = Auth::user();
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $organizacion->update($solicitud);
+        $organizacion_id = $organizacion->id;
         DB::table('detalle_actividad_economicas')
-            ->where('organizacion_id', '=', $organizacion->id)
+            ->where('organizacion_id', '=', $organizacion_id)
             ->delete();
         $key = $request->actividades;
         if (!empty($key)) {
             $count = count($key);
             if ($count > 0) {
                 for ($i = 0; $i < $count; $i++) {
-                    $detalle['organizacion_id'] = $organizacion->id;
+                    $detalle['organizacion_id'] = $organizacion_id;
                     $detalle['ciiu_id'] = $key[$i];
                     DetalleActividadEconomica::create($detalle);
                 }
