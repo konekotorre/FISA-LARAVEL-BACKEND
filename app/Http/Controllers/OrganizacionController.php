@@ -212,12 +212,13 @@ class OrganizacionController extends Controller
             ->where('organizacion_id', '=', $organizacion->id)
             ->orderBy('ciiu_id')
             ->get();
+        $actividades = $actividades_busqueda->pluck('ciiu_id');
         return response()->json([
             "success" => true,
             'organizacion' => $organizacion_busqueda[0],
             'usuario_creacion' => $creador_busqueda[0],
             'usuario_actualizacion' => $editor_busqueda[0],
-            'actividades' => $actividades_busqueda->pluck('ciiu_id')
+            'actividades' => $actividades
         ], 200);
     }
 
