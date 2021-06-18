@@ -233,19 +233,21 @@ class OrganizacionController extends Controller
         DB::table('detalle_actividad_economicas')
             ->where('organizacion_id', '=', $organizacion_id)
             ->delete();
-        $key = $request->actividades;
+       $key = $request->actividades;
         if (!empty($key)) {
             $count = count($key);
             if ($count > 0) {
                 for ($i = 0; $i < $count; $i++) {
-                    $detalle['organizacion_id'] = $organizacion_id;
+                    $detalle['organizacion_id'] = $organizacion->id;
                     $detalle['ciiu_id'] = $key[$i];
                     DetalleActividadEconomica::create($detalle);
+                    
                 }
             }
         }
         return response()->json([
-            "success" => true
+            "success" => true,
+            "num" => $i
         ], 200);
     }
 
