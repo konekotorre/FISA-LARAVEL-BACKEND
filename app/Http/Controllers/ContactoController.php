@@ -294,7 +294,7 @@ class ContactoController extends Controller
         if ($contactos->count() == 1) {
             $contacto->delete();
             DB::table('personas')
-                ->where('id', '=', $id)
+                ->where('id', '=', $id_temp[0])
                 ->delete();
         } else {
             $contacto->delete();
