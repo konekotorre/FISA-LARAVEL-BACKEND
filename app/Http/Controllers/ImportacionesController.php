@@ -10,15 +10,10 @@ class ImportacionesController extends Controller
 {
     public function store(Request $request)
     {
-        $org_id = $request->organizacion_id;
-
         $key = $request->paises;
-        $count = count($key);
-
-        for ($i = 0; $i < $count; $i++) {
-            $detalle['organizacion_id'] = $org_id;
+        for ($i = 0; $i < count($key); $i++) {
+            $detalle['organizacion_id'] = $equest->organizacion_id;
             $detalle['pais_id'] = $key[$i];
-
             Importaciones::create($detalle);
         }
         return response()->json(["success" => true], 200);

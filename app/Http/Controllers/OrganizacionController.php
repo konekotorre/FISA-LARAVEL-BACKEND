@@ -7,6 +7,13 @@ use App\Exports\OrganizacionExport;
 use App\Exports\OrgBusquedaExport;
 use App\Exports\OrgGenExport;
 use App\Organizacion;
+use App\TipoDocumentoOrganizacion;
+use App\Categoria;
+use App\Pais;
+use App\Clase;
+use App\Sector;
+use App\Ciiu;
+use App\TipoOrganizacion;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -63,69 +70,15 @@ class OrganizacionController extends Controller
 
     public function listForms()
     {
-        $documento_busqueda = DB::table('tipo_documento_organizacions')
-            ->select(
-                'tipo_documento_organizacions.id',
-                'tipo_documento_organizacions.nombre'
-            )
-            ->orderBy('tipo_documento_organizacions.nombre')
-            ->get();
-
-        $categoria_busqueda = DB::table('categorias')
-            ->select(
-                'categorias.id',
-                'categorias.nombre'
-            )
-            ->get();
-
-        $pais_busqueda = DB::table('pais')
-            ->select(
-                'pais.id',
-                'pais.nombre',
-            )
-            ->orderBy('pais.nombre')
-            ->get();
-
-        $clase_busqueda = DB::table('clases')
-            ->select(
-                'clases.id',
-                'clases.nombre'
-            )
-            ->get();
-
-        $sector_busqueda = DB::table('sectors')
-            ->select(
-                'sectors.id',
-                'sectors.nombre'
-            )
-            ->orderBy('sectors.id')
-            ->get();
-
-        $ciiu_busqueda = DB::table('ciius')
-            ->select(
-                'ciius.nombre',
-                'ciius.id',
-                'ciius.codigo'
-            )
-            ->get();
-
-        $tipo_busqueda = DB::table('tipo_organizacions')
-            ->select(
-                'tipo_organizacions.id',
-                'tipo_organizacions.nombre'
-            )
-            ->orderBy('tipo_organizacions.nombre')
-            ->get();
-
         return response()->json([
             'success' => true,
-            'documentos' => $documento_busqueda,
-            'categorias' => $categoria_busqueda,
-            'paises' => $pais_busqueda,
-            'clases' => $clase_busqueda,
-            'sectores' => $sector_busqueda,
-            'ciius' => $ciiu_busqueda,
-            'tipos' => $tipo_busqueda
+            'documentos' => TipoDocumentoOrganizacion::orderBy('nombre')->get(),
+            'categorias' => Categoria::orderBy('nombre')->get(),
+            'paises' => Pais::orderBy('nombre')->get(),
+            'clases' => Clase::orderBy('nombre')->get(),
+            'sectores' => Sector::all(),
+            'ciius' => Ciiu::orderBy('codigo')->get(),
+            'tipos' => TipoOrganizacion::orderBy('nombre')->get()
         ], 200);
     }
 
@@ -148,13 +101,12 @@ class OrganizacionController extends Controller
 
     public function search(Request $request)
     {
-        $numero_documento = $request->input('numero_documento');
-        $nombre = $request->input('nombre');
-        $razon_social = $request->input('razon_social');
+        $numero_documento = $request->numero_documento;
+        $nombre = $request->nombre;
+        $razon_social = $request->razon_social;
         $documentos = $request->documentos;
         $categorias = $request->categorias;
         $parametros = $request->parametros;
-
         $organizacion_busqueda = DB::table('organizacions')
             ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', '=', 'organizacions.tipo_documento_organizacion_id')
             ->leftJoin('subsectors', 'subsectors.id', '=', 'organizacions.subsector_id')
@@ -175,11 +127,9 @@ class OrganizacionController extends Controller
             ])
             ->whereIn('organizacions.tipo_documento_organizacion_id', $documentos)
             ->whereIn('organizacions.categoria_id', $categorias)
-
             ->orderBy('organizacions.nombre')
             ->orderByDesc('organizacions.updated_at')
             ->get();
-
         return response()->json([
             "success" => true,
             "organizaciones" => $organizacion_busqueda
@@ -188,8 +138,6 @@ class OrganizacionController extends Controller
 
     public function editOrg(Request $request)
     {
-        $org_id = $request->input('org_id');
-
         $organizacion_busqueda = DB::table('organizacions')
             ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', '=', 'organizacions.tipo_documento_organizacion_id')
             ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
@@ -206,7 +154,7 @@ class OrganizacionController extends Controller
                 'pais.nombre as pais',
                 'organizacions.estado'
             )
-            ->where('organizacions.id', '=', $org_id)
+            ->where('organizacions.id', '=', $request->org_id)
             ->get();
 
         return response()->json([
@@ -219,77 +167,57 @@ class OrganizacionController extends Controller
     public function store(Request $request)
     {
         $solicitud = $request->all();
-
         $creador_auth = Auth::user();
-        $creador = $creador_auth['id'];
-
-        $solicitud['usuario_creacion'] = $creador;
-        $solicitud['usuario_actualizacion'] = $creador;
-
+        $solicitud['usuario_creacion'] = $creador_auth['id'];
+        $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $organizacion = Organizacion::create($solicitud);
-
-        $org_id = $organizacion->id;
-
         $key = $request->actividades;
-
         if (!empty($key)) {
             $count = count($key);
-
             if ($count > 0) {
-
                 for ($i = 0; $i < $count; $i++) {
-                    $detalle['organizacion_id'] = $org_id;
+                    $detalle['organizacion_id'] = $organizacion->id;
                     $detalle['ciiu_id'] = $key[$i];
-
                     DetalleActividadEconomica::create($detalle);
                 }
             }
         }
-
         return response()->json([
             "success" => true,
-            'organizacion' => $org_id
+            'organizacion' => $organizacion->id
         ], 200);
     }
 
 
     public function show(Organizacion $organizacion)
     {
-        $org_id = $organizacion->id;
-
         $organizacion_busqueda = DB::table('organizacions')
             ->select(
                 'organizacions.*'
             )
-            ->where('organizacions.id', '=', $org_id)
+            ->where('organizacions.id', '=', $organizacion->id)
             ->get();
-
         $creador_busqueda = DB::table('organizacions')
             ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_creacion')
             ->select('users.usuario as usuario_creacion')
-            ->where('organizacions.id', '=', $org_id)
+            ->where('organizacions.id', '=', $organizacion->id)
             ->get();
-
         $editor_busqueda = DB::table('organizacions')
             ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_actualizacion')
             ->select('users.usuario as usuario_actualizacion')
-            ->where('organizacions.id', '=', $org_id)
+            ->where('organizacions.id', '=', $organizacion->id)
             ->get();
-
         $actividades_busqueda = DB::table('detalle_actividad_economicas')
             ->select('ciiu_id')
-            ->where('organizacion_id', '=', $org_id)
+            ->where('organizacion_id', '=', $organizacion->id)
             ->orderBy('ciiu_id')
             ->get();
-
-        $actividades = $actividades_busqueda->pluck('ciiu_id');
-
         return response()->json([
             "success" => true,
             'organizacion' => $organizacion_busqueda[0],
             'usuario_creacion' => $creador_busqueda[0],
             'usuario_actualizacion' => $editor_busqueda[0],
-            'actividades' => $actividades
+            'actividades' => $actividades_busqueda->pluck('ciiu_id')
         ], 200);
     }
 
@@ -297,35 +225,23 @@ class OrganizacionController extends Controller
     public function update(Request $request, Organizacion $organizacion)
     {
         $solicitud = $request->all();
-
         $creador_auth = Auth::user();
-        $creador = $creador_auth['id'];
-        $solicitud['usuario_actualizacion'] = $creador;
-
+        $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $organizacion->update($solicitud);
-
-        $org_id = $organizacion->id;
-
         DB::table('detalle_actividad_economicas')
-            ->where('organizacion_id', '=', $org_id)
+            ->where('organizacion_id', '=', $organizacion->id)
             ->delete();
-
         $key = $request->actividades;
-
         if (!empty($key)) {
             $count = count($key);
-
             if ($count > 0) {
-
                 for ($i = 0; $i < $count; $i++) {
-                    $detalle['organizacion_id'] = $org_id;
+                    $detalle['organizacion_id'] = $organizacion->id;
                     $detalle['ciiu_id'] = $key[$i];
-
                     DetalleActividadEconomica::create($detalle);
                 }
             }
         }
-
         return response()->json([
             "success" => true
         ], 200);
@@ -334,7 +250,6 @@ class OrganizacionController extends Controller
     public function destroy(Organizacion $organizacion)
     {
         $organizacion->delete();
-
         return response()->json(["success" => true], 200);
     }
 }

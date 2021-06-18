@@ -94,9 +94,8 @@ class OficinaController extends Controller
             ->select(
                 'oficinas.*'
             )
-            ->where('oficinas.id', '=', $oficina_id)
+            ->where('oficinas.id', '=', $oficina->id)
             ->get();
-
         return response()->json([
             "success" => true,
             'oficina' => $office[0]
@@ -107,22 +106,16 @@ class OficinaController extends Controller
     public function update(Request $request, Oficina $oficina)
     {
         $solicitud = $request->all();
-
         $creador_auth = Auth::user();
-        $creador = $creador_auth['id'];
-        $solicitud['usuario_actualizacion'] = $creador;
-
+        $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $oficina->update($solicitud);
-
         $oficina_id = $oficina->id;
-
         $office = DB::table('oficinas')
             ->select(
                 'oficinas.id'
             )
             ->where('oficinas.id', '=', $oficina_id)
             ->get();
-
         return response()->json([
             'success' => true,
             'oficina' => $office[0]
@@ -133,7 +126,6 @@ class OficinaController extends Controller
     public function destroy(Oficina $oficina)
     {
         $oficina->delete();
-
         return response()->json(["success" => true], 200);
     }
 }
