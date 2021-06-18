@@ -67,7 +67,7 @@ class VisitaController extends Controller
             "success" => true,
             "estadoVisitas" => EstadoVisita::orderBy('nombre')->get(),
             "estadoTareas" => EstadoTarea::orderBy('nombre')->get(),
-            "usuarios" => User::select('nombre, id')->get(),
+            "usuarios" => $usuario_busqueda,
         ], 200);
     }
 
