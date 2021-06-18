@@ -27,7 +27,7 @@ class AdministracionController extends Controller
             "tipo_documentos" => TipoDocumentoOrganizacion::orderBy('nombre')->get(),
             "categorias" => Categoria::all(),
             "tipo_organizaciones" => TipoOrganizacion::all(),
-            "clases" => Clase::all()
+            "clases" => Clase::orderBy('nombre')->get()
         ], 200);
     }
 
