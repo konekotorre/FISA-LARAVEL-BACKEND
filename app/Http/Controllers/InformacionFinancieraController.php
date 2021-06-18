@@ -54,7 +54,7 @@ class InformacionFinancieraController extends Controller
                 "success" => true,
                 "informacion" => $infoFinanciera_busqueda[0],
                 "importaciones" => $importaciones,
-                "exportaciones" => exportaciones,
+                "exportaciones" => $exportaciones,
                 "usuario_creacion" => $creador_busqueda[0],
                 "usuario_actualizacion" => $editor_busqueda[0]
             ], 200);
