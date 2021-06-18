@@ -76,19 +76,19 @@ class OficinaController extends Controller
 
         $oficina = Oficina::create($solicitud);
 
-        $oficina_id = $oficina->id;
+        // $oficina_id = $oficina->id;
 
-        $office = DB::table('oficinas')
-            ->select(
-                'oficinas.id'
-            )
-            ->where('oficinas.id', '=', $oficina_id)
-            ->get();
+        // $office = DB::table('oficinas')
+        //     ->select(
+        //         'oficinas.id'
+        //     )
+        //     ->where('oficinas.id', '=', $oficina_id)
+        //     ->get();
 
         return response()->json([
             'success' => true,
-            'oficina' => $$office[0],
-        ], 201);
+            //'oficina' => $$office[0],
+        ], 200);
     }
 
 
