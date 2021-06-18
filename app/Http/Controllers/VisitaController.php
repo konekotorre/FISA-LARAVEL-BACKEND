@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Visita;
 use App\EstadoVisita;
 use App\EstadoTarea;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,14 +61,11 @@ class VisitaController extends Controller
 
     public function listForm()
     {
-        $usuario_busqueda = DB::table('users')
-            ->select('usuario', 'id')
-            ->get();
         return response()->json([
             "success" => true,
             "estadoVisitas" => EstadoVisita::orderBy('nombre')->get(),
             "estadoTareas" => EstadoTarea::orderBy('nombre')->get(),
-            "usuarios" => $usuario_busqueda,
+            "usuarios" => User::orderBy('usuario')->get(['usuario', 'id']),
         ], 200);
     }
 
