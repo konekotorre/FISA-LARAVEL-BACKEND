@@ -15,8 +15,6 @@ class ArchivoController extends Controller
 
     public function index(Request $request)
     {
-        $org_id = $request->input('organizacion_id');
-
         $archivos = DB::table('archivos')
             ->leftJoin('users', 'users.id', '=', 'archivos.usuario_creacion')
             ->select(
@@ -26,10 +24,9 @@ class ArchivoController extends Controller
                 'users.usuario as usuario_creacion',
                 'archivos.created_at as creacion'
             )
-            ->where('archivos.organizacion_id', '=', $org_id)
+            ->where('archivos.organizacion_id', '=', $request->organizacion_id)
             ->orderByDesc('archivos.updated_at')
             ->get();
-
         return response()->json([
             "success" => true,
             "archivos" => $archivos
@@ -43,43 +40,26 @@ class ArchivoController extends Controller
             'organizacion_id' => 'required',
             'file' => 'file|required|mimes:pdf,xls,xlsx,doc,docx,jpg,jpeg,png,csv,txt|max:5120',
         ]);
-
-        $org_id = $request->input('organizacion_id');
-
         $organizacion = DB::table('organizacions')
             ->select('organizacions.razon_social')
-            ->where('organizacions.id', '=', $org_id)
+            ->where('organizacions.id', '=', $request->organizacion_id)
             ->get();
-
         $razon_social = $organizacion->pluck('razon_social');
-
-        $razon = $razon_social['0'];
-
         $uploadedFile = $request->file('file');
         $nombre = $uploadedFile->getClientOriginalName();
-
         $tipo = $uploadedFile->getClientOriginalExtension();
-
-        $path_temp = 'public' . '/' . $razon . '/' . $nombre;
-
+        $path_temp = 'public' . '/' . $razon_social['0'] . '/' . $nombre;
         if (Storage::exists($path_temp)) {
-
             return response()->json(["success" => false], 404);
         } else {
-
-            $path = $request->file('file')->storeAs($razon, $nombre, 'public');
-
+            $path = $request->file('file')->storeAs($razon_social['0'], $nombre, 'public');
             $creador_auth = Auth::user();
-            $creador = $creador_auth['id'];
-
             $upload = new Archivo();
-
             $upload->nombre = $nombre;
             $upload->path = $path;
             $upload->tipo = $tipo;
             $upload->organizacion_id = $request['organizacion_id'];
-            $upload->usuario_creacion = $creador;
-
+            $upload->usuario_creacion = $creador_auth['id'];
             $upload->save();
             return response()->json(["success" => true], 200);
         }
@@ -88,48 +68,32 @@ class ArchivoController extends Controller
 
     public function download(Archivo $archivo)
     {
-        $arc_id = $archivo->id;
-
         $path_busqueda = DB::table('archivos')
             ->select(
                 'path',
                 'nombre'
             )
-            ->where('archivos.id',  '=', $arc_id)
+            ->where('archivos.id',  '=', $archivo->id)
             ->get();
-
         $path = $path_busqueda->pluck('path');
-        $path_temp = $path['0'];
-        $path_real = 'public' . '/' . $path_temp;
-
+        $path_real = 'public' . '/' . $path['0'];
         $nombre = $path_busqueda->pluck('nombre');
-        $nombre_real = $nombre['0'];
-
-
-        $arc = Storage::download($path_real, $nombre_real);
-
-        return $arc;
+        $archivo = Storage::download($path_real, $nombre['0']);
+        return $archivo;
     }
 
 
     public function destroy(Archivo $archivo)
     {
-        $arc_id = $archivo['id'];
-
         $path_busqueda = DB::table('archivos')
             ->select(
                 'path',
             )
-            ->where('archivos.id',  '=', $arc_id)
+            ->where('archivos.id',  '=', $archivo['id'])
             ->get();
-
         $path = $path_busqueda->pluck('path');
-        $path_temp = $path['0'];
-        $path_real = 'public' . '/' . $path_temp;
-
-        Storage::delete($path_real);
+        Storage::delete('public' . '/' . $path['0']);
         $archivo->delete();
-
         return response()->json(["success" => true], 200);
     }
 }

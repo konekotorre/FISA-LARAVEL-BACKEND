@@ -25,8 +25,8 @@ class AdministracionController extends Controller
         return response()->json([
             "success" => true,
             "tipo_documentos" => TipoDocumentoOrganizacion::orderBy('nombre')->get(),
-            "categorias" => Categoria::all(),
-            "tipo_organizaciones" => TipoOrganizacion::all(),
+            "categorias" => orderBy('nombre')->get(),
+            "tipo_organizaciones" => orderBy('nombre')->get(),
             "clases" => Clase::orderBy('nombre')->get()
         ], 200);
     }
@@ -36,7 +36,7 @@ class AdministracionController extends Controller
         return response()->json([
             "success" => true,
             "sectores" => Sector::all(),
-            "ciius" => Ciiu::all()
+            "ciius" => Ciiu::orderBy('codigo')->get()
         ], 200);
     }
 
@@ -44,8 +44,8 @@ class AdministracionController extends Controller
     {
         return response()->json([
             "success" => true,
-            "clasificaciones" => Clasificacion::all(),
-            "regimenes" => Regimen::all()
+            "clasificaciones" => Clasificacion::orderBy('nombre')->get(),
+            "regimenes" => Regimen::orderBy('nombre')->get()
         ], 200);
     }
 
@@ -53,10 +53,10 @@ class AdministracionController extends Controller
     {
         return response()->json([
             "success" => true,
-            "tipo_documentos" => TipoDocumentoPersona::all(),
-            "sexos" => Sexo::all(),
-            "subcategorias" => Subcategoria::all(),
-            "tipo_oficinas" => TipoOficina::all()
+            "tipo_documentos" => TipoDocumentoPersona::orderBy('nombre')->get(),
+            "sexos" => Sexo::orderBy('nombre')->get(),
+            "subcategorias" => Subcategoria::orderBy('nombre')->get(),
+            "tipo_oficinas" => TipoOficina::orderBy('nombre')->get()
         ], 200);
     }
 
@@ -64,8 +64,8 @@ class AdministracionController extends Controller
     {
         return response()->json([
             "success" => true,
-            "tareas" => EstadoTarea::all(),
-            "visitas" => EstadoVisita::all()
+            "tareas" => EstadoTarea::orderBy('nombre')->get(),
+            "visitas" => EstadoVisita::orderBy('nombre')->get()
         ], 200);
     }
 }

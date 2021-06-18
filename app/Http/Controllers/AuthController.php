@@ -16,26 +16,20 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credencials = $request->only(['usuario', 'password']);
-
         $validator = Validator::make($credencials, [
             'usuario' => 'required',
             'password' => 'required'
         ]);
-
         if ($validator->fails()) {
             return response()->json([
                 'success' => false
             ], 422);
         }
-
         $token = JWTAuth::attempt($credencials);
-
         if ($token) {
-
             $user = Auth::user();
             $rol = $user->getRoleNames();
             $role = $rol[0];
-
             return response()
             ->json([
                 'success' => true,
@@ -45,7 +39,6 @@ class AuthController extends Controller
                 'rol' => $role,
             ], 200)
             ->header("Access-Control-Max-Age", "86400");
-
         } else {
             return response()->json([
                 'success' => false
@@ -56,7 +49,6 @@ class AuthController extends Controller
     public function refreshToken()
     {
         $token = JWTAuth::getToken();
-
         try {
             $token = JWTAuth::refresh($token);
             return response()->json([
@@ -77,10 +69,8 @@ class AuthController extends Controller
     public function logout()
     {
         $token = JWTAuth::getToken();
-
         try {
             JWTAuth::invalidate($token);
-
             return response()->json([
                 'success' => true
             ], 200);
