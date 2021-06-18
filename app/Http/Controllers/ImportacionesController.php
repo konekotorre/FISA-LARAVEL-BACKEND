@@ -12,7 +12,7 @@ class ImportacionesController extends Controller
     {
         $key = $request->paises;
         for ($i = 0; $i < count($key); $i++) {
-            $detalle['organizacion_id'] = $equest->organizacion_id;
+            $detalle['organizacion_id'] = $request->organizacion_id;
             $detalle['pais_id'] = $key[$i];
             Importaciones::create($detalle);
         }

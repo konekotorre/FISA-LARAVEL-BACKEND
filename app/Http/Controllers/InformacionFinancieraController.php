@@ -48,11 +48,13 @@ class InformacionFinancieraController extends Controller
                 ->select('pais_id')
                 ->where('organizacion_id', '=', $request->organizacion_id)
                 ->get();
+            $importaciones = $importaciones_busqueda->pluck('pais_id');
+            $exportaciones = $exportaciones_busqueda->pluck('pais_id');
             return response()->json([
                 "success" => true,
                 "informacion" => $infoFinanciera_busqueda[0],
-                "importaciones" => $importaciones_busqueda->pluck('pais_id'),
-                "exportaciones" => $exportaciones_busqueda->pluck('pais_id'),
+                "importaciones" => $importaciones,
+                "exportaciones" => exportaciones,
                 "usuario_creacion" => $creador_busqueda[0],
                 "usuario_actualizacion" => $editor_busqueda[0]
             ], 200);
