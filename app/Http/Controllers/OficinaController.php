@@ -6,14 +6,14 @@ use App\Oficina;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\TipoOficina;
+use App\Pais;
 
 class OficinaController extends Controller
 {
 
     public function index(Request $request)
     {
-        $org_id = $request->input('organizacion_id');
-
         $oficinas = DB::table('oficinas')
             ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
             ->leftJoin('pais', 'pais.id', '=', 'oficinas.pais_id')
@@ -27,7 +27,7 @@ class OficinaController extends Controller
                 'ciudads.nombre as ciudad',
                 'pais.nombre as pais'
             )
-            ->where('oficinas.organizacion_id', '=', $org_id)
+            ->where('oficinas.organizacion_id', '=', $request->organizacion_id)
             ->orderBy('oficinas.updated_at')
             ->get();
 
@@ -40,21 +40,23 @@ class OficinaController extends Controller
 
     public function listForms()
     {
-        $tipo_busqueda = DB::table('tipo_oficinas')
+        $tipo_busqueda = TipoOficina::orderBy('nombre')->get();
+/*         DB::table('tipo_oficinas')
             ->select(
                 'tipo_oficinas.id',
                 'tipo_oficinas.nombre'
             )
             ->orderBy('tipo_oficinas.nombre')
             ->get();
-
-        $pais_busqueda = DB::table('pais')
+ */
+        $pais_busqueda = Pais::orderBy('nombre')->get();
+/*         DB::table('pais')
             ->select(
                 'pais.id',
                 'pais.nombre',
             )
             ->orderBy('pais.nombre')
-            ->get();
+            ->get(); */
 
         return response()->json([
             "success" => true,
@@ -79,7 +81,7 @@ class OficinaController extends Controller
             ->get();
         return response()->json([
             'success' => true,
-            'oficina' => $$office[0],
+            'oficina' => $office[0],
         ], 200);
     }
 
