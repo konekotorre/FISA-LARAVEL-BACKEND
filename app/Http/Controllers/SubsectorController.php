@@ -11,17 +11,14 @@ class SubsectorController extends Controller
 {
     public function indexBySector(Request $request)
     {
-        $sector_id = $request->input('sector_id');
-
         $subsector_busqueda = DB::table('subsectors')
             ->select(
                 'subsectors.id',
                 'subsectors.nombre'
             )
-            ->where('subsectors.sector_id', '=', $sector_id)
+            ->where('subsectors.sector_id', '=', $request->sector_id)
             ->orderBy('subsectors.nombre')
             ->get();
-
         return response()->json([
             "success" => true,
             "subsectores" => $subsector_busqueda
@@ -32,7 +29,6 @@ class SubsectorController extends Controller
     public function store(Request $request)
     {
         Subsector::create($request->all());
-
         return response()->json([
             "success" => true,
         ], 200);
@@ -41,14 +37,12 @@ class SubsectorController extends Controller
 
     public function show(Subsector $subsector)
     {
-        $subsec_id = $subsector->id;
-
         $sector_busqueda = DB::table('subsectors')
             ->join('sectors', 'sectors.id', '=', 'subsectors.sector_id')
             ->select(
                 'subsectors.*'
             )
-            ->where('subsectors.id', '=', $subsec_id)
+            ->where('subsectors.id', '=', $subsector->id)
             ->get();
 
         return response()->json([
@@ -60,7 +54,6 @@ class SubsectorController extends Controller
     public function update(Request $request, Subsector $subsector)
     {
         $subsector->update($request->all());
-
         return response()->json(["success" => true], 200);
     }
 
@@ -68,7 +61,6 @@ class SubsectorController extends Controller
     public function destroy(Subsector $subsector)
     {
         $subsector->delete();
-
         return response()->json(["success" => true], 200);
     }
 }

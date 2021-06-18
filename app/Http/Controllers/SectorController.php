@@ -13,7 +13,6 @@ class SectorController extends Controller
     public function store(Request $request)
     {
         Sector::create($request->all());
-
         return response()->json([
             "success" => true,
         ], 200);
@@ -22,13 +21,11 @@ class SectorController extends Controller
 
     public function show(Sector $sector)
     {
-        $sector_id = $sector->id;
-
         $sector_busqueda = DB::table('sectors')
             ->select(
                 'sectors.*'
             )
-            ->where('sectors.id', '=', $sector_id)
+            ->where('sectors.id', '=', $sector->id)
             ->get();
 
         return response()->json([
@@ -41,7 +38,6 @@ class SectorController extends Controller
     public function update(Request $request, Sector $sector)
     {
         $sector->update($request->all());
-
         return response()->json(["success" => true], 200);
     }
 
@@ -49,7 +45,6 @@ class SectorController extends Controller
     public function destroy(Sector $sector)
     {
         $sector->delete();
-
         return response()->json(["success" => true], 200);
     }
 }

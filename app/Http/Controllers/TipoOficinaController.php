@@ -12,7 +12,6 @@ class TipoOficinaController extends Controller
     public function store(Request $request)
     {
         TipoOficina::create($request->all());
-
         return response()->json([
             "success" => true,
         ], 200);
@@ -21,15 +20,12 @@ class TipoOficinaController extends Controller
 
     public function show(TipoOficina $tipoOficina)
     {
-        $tipo_id = $tipoOficina->id;
-
         $tipo_busqueda = DB::table('tipo_oficinas')
             ->select(
                 'tipo_oficinas.*'
             )
-            ->where('tipo_oficinas.id', '=', $tipo_id)
+            ->where('tipo_oficinas.id', '=', $tipoOficina->id)
             ->get();
-
         return response()->json([
             "success" => true,
             "tipo" => $tipo_busqueda[0]
@@ -40,7 +36,6 @@ class TipoOficinaController extends Controller
     public function update(Request $request, TipoOficina $tipoOficina)
     {
         $tipoOficina->update($request->all());
-
         return response()->json(["success" => true], 200);
     }
 
@@ -48,7 +43,6 @@ class TipoOficinaController extends Controller
     public function destroy(TipoOficina $tipoOficina)
     {
         $tipoOficina->delete();
-
         return response()->json(["success" => true], 200);
     }
 }

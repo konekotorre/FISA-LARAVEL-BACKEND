@@ -12,7 +12,6 @@ class SexoController extends Controller
     public function store(Request $request)
     {
         Sexo::create($request->all());
-
         return response()->json([
             "success" => true,
         ], 200);
@@ -21,15 +20,12 @@ class SexoController extends Controller
 
     public function show(sexo $sexo)
     {
-        $sexo_id = $sexo->id;
-
         $sexo_busqueda = DB::table('sexos')
             ->select(
                 'sexos.*'
             )
-            ->where('sexos.id', '=', $sexo_id)
+            ->where('sexos.id', '=', $sexo->id)
             ->get();
-
         return response()->json([
             "success" => true,
             "sexo" => $sexo_busqueda[0]
@@ -40,7 +36,6 @@ class SexoController extends Controller
     public function update(Request $request, sexo $sexo)
     {
         $sexo->update($request->all());
-
         return response()->json(["success" => true], 200);
     }
 
@@ -48,7 +43,6 @@ class SexoController extends Controller
     public function destroy(sexo $sexo)
     {
         $sexo->delete();
-
         return response()->json(["success" => true], 200);
     }
 }

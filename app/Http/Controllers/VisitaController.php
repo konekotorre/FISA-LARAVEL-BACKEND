@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Visita;
+use App\EstadoVisita;
+use App\EstadoTarea;xml_error_string
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +29,6 @@ class VisitaController extends Controller
             )
             ->orderBy('visitas.fecha_programada')
             ->get();
-
         return response()->json([
             "success" => true,
             "visitas" => $visitas
@@ -37,8 +38,6 @@ class VisitaController extends Controller
 
     public function indexByOrganizacion(Request $request)
     {
-        $organizacion_id = $request->organizacion_id;
-
         $visitas = DB::table('visitas')
             ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
             ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
@@ -50,10 +49,9 @@ class VisitaController extends Controller
                 'users.usuario',
                 'estado_visitas.nombre'
             )
-            ->where('organizacion.id', '=', $organizacion_id)
+            ->where('organizacion.id', '=', $request->organizacion_id)
             ->orderBy('visitas.fecha_programada')
             ->get();
-
         return response()->json([
             "success" => true,
             "visitas" => $visitas
@@ -62,31 +60,19 @@ class VisitaController extends Controller
 
     public function listForm()
     {
-
-        $estado_busqueda_v = DB::table('estado_visitas')
-            ->select('*')
-            ->get();
-
-        $estado_busqueda_t = DB::table('estado_tareas')
-            ->select('*')
-            ->get();
-
         $usuario_busqueda = DB::table('users')
             ->select('usuario', 'id')
             ->get();
-
         return response()->json([
             "success" => true,
-            "estadoVisitas" => $estado_busqueda_v,
-            "estadoTareas" => $estado_busqueda_t,
-            "usuarios" => $usuario_busqueda,
+            "estadoVisitas" => EstadoVisita::orderBy('nombre')->get(),
+            "estadoTareas" => EstadoTarea::orderBy('nombre')->get(),
+            "usuarios" => User::select('nombre, id')->get,
         ], 200);
     }
 
     public function orgData(Request $request)
     {
-        $org_id = $request->organizacion_id;
-
         $contacto_busqueda = DB::table('contactos')
             ->join('personas', 'personas.id', 'contactos.persona_id')
             ->select(
@@ -99,10 +85,9 @@ class VisitaController extends Controller
                 'contactos.extension',
                 'contactos.oficina_id'
             )
-            ->where('contactos.organizacion_id', '=', $org_id)
+            ->where('contactos.organizacion_id', '=', $request->organizacion_id)
             ->orderBy('contactos.updated_at')
             ->get();
-
         $oficina_busqueda = DB::table('oficinas')
             ->join('pais', 'pais.id', '=', 'oficinas.pais_id')
             ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
@@ -115,10 +100,9 @@ class VisitaController extends Controller
                 'ciudads.nombre as ciudad',
                 'departamento_estados.nombre as departamento_estado'
             )
-            ->where('oficinas.organizacion_id', '=', $org_id)
+            ->where('oficinas.organizacion_id', '=', $request->organizacion_id)
             ->orderBy('oficinas.updated_at')
             ->get();
-
         return response()->json([
             "success" => true,
             "contactos" => $contacto_busqueda,
@@ -131,7 +115,6 @@ class VisitaController extends Controller
     {
         $now = Carbon::now()->format('d/m/Y');
         $future = Carbon::now()->addDays(7)->format('d/m/Y');
-
         $visitas = DB::table('visitas')
             ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
             ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
@@ -148,7 +131,6 @@ class VisitaController extends Controller
             ->where('visitas.fecha_programada', '<=', $future)
             ->orderBy('visitas.fecha_programada')
             ->get();
-
         return response()->json([
             "success" => true,
             "visitas" => $visitas
@@ -158,12 +140,10 @@ class VisitaController extends Controller
 
     public function search(Request $request)
     {
-        $tipo = $request->input('tipo');
-        $palabra = $request->input('palabra');
-
+        $tipo = $request->tipo;
+        $palabra = $request->palabra;
         if ($tipo == "titulo") {
             $palabra_final = '%' . $palabra . '%';
-
             $visitas = DB::table('visitas')
                 ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
                 ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
@@ -181,7 +161,6 @@ class VisitaController extends Controller
                 ->get();
         } elseif ($tipo == "organizacion") {
             $palabra_final = '%' . $palabra . '%';
-
             $visitas = DB::table('visitas')
                 ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
                 ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
@@ -209,10 +188,8 @@ class VisitaController extends Controller
     public function store(Request $request)
     {
         $solicitud = $request->all();
-
         $fecha_validate = $solicitud['fecha_programada'];
         $organizacion_validate = $solicitud['organizacion_id'];
-
         $validate = DB::table('visitas')
             ->select('fecha_programada')
             ->where([
@@ -220,21 +197,15 @@ class VisitaController extends Controller
                 ['organizacion_id', '=', $organizacion_validate]
             ])
             ->get();
-
         if (!$validate->isEmpty()) {
             return response()->json([
                 "success" => false
             ]);
         }
-
         $creador_auth = Auth::user();
-        $creador = $creador_auth['id'];
-
-        $solicitud['usuario_creacion'] = $creador;
-        $solicitud['usuario_actualizacion'] = $creador;
-
+        $solicitud['usuario_creacion'] = $creador_auth['id'];
+        $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $visita = Visita::create($solicitud);
-
         return response()->json([
             "success" => true,
             "visita" => $visita->id
@@ -244,25 +215,23 @@ class VisitaController extends Controller
 
     public function show(visita $visita)
     {
-        $visita_id = $visita->id;
-
         $visita_busqueda = DB::table('visitas')
             ->select(
                 'visitas.*'
             )
-            ->where('visitas.id', '=', $visita_id)
+            ->where('visitas.id', '=', $visita->id)
             ->get();
 
         $creador_busqueda = DB::table('visitas')
             ->join('users', 'users.id', '=', 'visitas.usuario_creacion')
             ->select('users.usuario as usuario_creacion')
-            ->where('visitas.id', '=', $visita_id)
+            ->where('visitas.id', '=', $visita->id)
             ->get();
 
         $editor_busqueda = DB::table('visitas')
             ->join('users', 'users.id', '=', 'visitas.usuario_actualizacion')
             ->select('users.usuario as usuario_actualizacion')
-            ->where('visitas.id', '=', $visita_id)
+            ->where('visitas.id', '=', $visita->id)
             ->get();
 
         return response()->json([
@@ -277,33 +246,22 @@ class VisitaController extends Controller
     public function update(Request $request, Visita $visita)
     {
         $solicitud = $request->all();
-
         $creador_auth = Auth::user();
-        $creador = $creador_auth['id'];
-
-        $solicitud['usuario_actualizacion'] = $creador;
-
+        $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $visita->update($solicitud);
-
-        $visita_id = $visita->id;
-
         return response()->json([
             "success" => true,
-            "visita" => $visita_id
+            "visita" => $visita->id
         ], 200);
     }
 
 
     public function destroy(Visita $visita)
     {
-        $visita_id = $visita->id;
-
         DB::table('tareas')
-            ->where('tareas.visita_id', $visita_id)
+            ->where('tareas.visita_id', $visita->id)
             ->delete();
-
         $visita->delete();
-
         return response()->json(["success" => true], 200);
     }
 }

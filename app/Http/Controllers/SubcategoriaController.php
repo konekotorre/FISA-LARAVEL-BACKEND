@@ -12,7 +12,6 @@ class SubcategoriaController extends Controller
     public function store(Request $request)
     {
         Subcategoria::create($request->all());
-
         return response()->json([
             "success" => true,
         ], 200);
@@ -21,15 +20,12 @@ class SubcategoriaController extends Controller
 
     public function show(Subcategoria $subcategoria)
     {
-        $subcat_id = $subcategoria->id;
-
         $subcat_busqueda = DB::table('subcategorias')
             ->select(
                 'subcategorias.*'
             )
-            ->where('subcategorias.id', '=', $subcat_id)
+            ->where('subcategorias.id', '=', $subcategoria->id)
             ->get();
-
         return response()->json([
             "success" => true,
             "subcategoria" => $subcat_busqueda[0]
@@ -39,7 +35,6 @@ class SubcategoriaController extends Controller
     public function update(Request $request, Subcategoria $subcategoria)
     {
         $subcategoria->update($request->all());
-
         return response()->json(["success" => true], 200);
     }
 
@@ -47,7 +42,6 @@ class SubcategoriaController extends Controller
     public function destroy(Subcategoria $subcategoria)
     {
         $subcategoria->delete();
-
         return response()->json(["success" => true], 200);
     }
 }

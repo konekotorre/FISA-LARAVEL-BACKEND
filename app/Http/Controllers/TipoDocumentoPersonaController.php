@@ -12,7 +12,6 @@ class TipoDocumentoPersonaController extends Controller
     public function store(Request $request)
     {
         TipoDocumentoPersona::create($request->all());
-
         return response()->json([
             "success" => true,
         ], 200);
@@ -21,15 +20,12 @@ class TipoDocumentoPersonaController extends Controller
 
     public function show(TipoDocumentoPersona $tipoDocumentoPersona)
     {
-        $tipo_id = $tipoDocumentoPersona->id;
-
         $tipo_busqueda = DB::table('tipo_documento_personas')
             ->select(
                 'tipo_documento_personas.*'
             )
-            ->where('tipo_documento_personas.id', '=', $tipo_id)
+            ->where('tipo_documento_personas.id', '=', $tipoDocumentoPersona->id)
             ->get();
-
         return response()->json([
             "success" => true,
             "tipo" => $tipo_busqueda[0]
@@ -40,7 +36,6 @@ class TipoDocumentoPersonaController extends Controller
     public function update(Request $request, TipoDocumentoPersona $tipoDocumentoPersona)
     {
         $tipoDocumentoPersona->update($request->all());
-
         return response()->json(["success" => true], 200);
     }
 
@@ -48,7 +43,6 @@ class TipoDocumentoPersonaController extends Controller
     public function destroy(TipoDocumentoPersona $tipoDocumentoPersona)
     {
         $tipoDocumentoPersona->delete();
-
         return response()->json(["success" => true], 200);
     }
 }

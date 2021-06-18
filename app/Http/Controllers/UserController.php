@@ -27,7 +27,6 @@ class UserController extends Controller
             )
             ->orderBy('users.updated_at')
             ->get();
-
         return response()->json([
             "success" => true,
             "usuarios" => $users
@@ -49,14 +48,10 @@ class UserController extends Controller
     {
         $solicitud = $request->all();
         $solicitud['password'] = bcrypt($solicitud['password']);
-
         $creador_auth = Auth::user();
-        $creador = $creador_auth['id'];
-        $solicitud['usuario_creacion'] = $creador;
-        $solicitud['usuario_actualizacion'] = $creador;
-
+        $solicitud['usuario_creacion'] = $creador_auth['id'];
+        $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $user = User::create($solicitud);
-
         if ($request->rol == 1) {
             $role = Role::find(1);
             $user->assignRole($role);
@@ -66,20 +61,15 @@ class UserController extends Controller
         } else {
             return response()->json(["success" => false], 200);
         }
-
-        $user_id = $user->id;
-
         return response()->json([
             "success" => true,
-            "usuario" => $user_id,
+            "usuario" => $user->id,
         ], 200);
     }
 
 
     public function show(User $user)
     {
-        $user_id = $user->id;
-
         $user = DB::table('users')
             ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
             ->select(
@@ -98,22 +88,18 @@ class UserController extends Controller
                 'users.updated_at',
 
             )
-            ->where('users.id', '=', $user_id)
+            ->where('users.id', '=', $user->id)
             ->get();
-
         $id_creador = $user->pluck('usuario_creacion');
         $id_editor = $user->pluck('usuario_actualizacion');
-
         $creador_busqueda = DB::table('users')
             ->select('users.usuario as creador')
             ->where('users.id', '=', $id_creador)
             ->get();
-
         $editor_busqueda = DB::table('users')
             ->select('users.usuario as editor')
             ->where('users.id', '=', $id_editor)
             ->get();
-
         return response()->json([
             "success" => true,
             "usuario" => $user[0],
@@ -126,17 +112,12 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $solicitud = $request->all();
-
         $creador_auth = Auth::user();
-        $creador = $creador_auth['id'];
-        $solicitud['usuario_actualizacion'] = $creador;
-
+        $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         if (!empty($solicitud['password'])) {
             $solicitud['password'] = bcrypt($solicitud['password']);
         }
-
         $user->update($solicitud);
-
         if ($request->rol == 1) {
             $role = Role::find(1);
             $user->assignRole($role);
@@ -146,7 +127,6 @@ class UserController extends Controller
         } else {
             return response()->json(["success" => false], 200);
         }
-
         return response()->json([
             "success" => true,
             "usuario" => $user->id,
@@ -156,23 +136,18 @@ class UserController extends Controller
     public function changePass(Request $request)
     {
         $solicitud = $request->all();
-
         $num_doc = $solicitud['numero_documento'];
         $email = $solicitud['email'];
-
         $password = bcrypt($solicitud['password']);
         $usuario = Auth::user();
         $id = $usuario['id'];
-
         $confirmacion = DB::table('users')
             ->select('users.id')
             ->where('users.id', '=', $id)
             ->where('users.numero_documento', '=', $num_doc)
             ->where('users.email', '=', $email)
             ->first();
-
         if ($confirmacion != null) {
-
             DB::update(
                 'update users set password = ? where id = ?',
                 [
@@ -191,7 +166,6 @@ class UserController extends Controller
         DB::table('users')
             ->where('users.id', '=', $user->id)
             ->delete();
-
         return response()->json(["success" => true], 200);
     }
 }
