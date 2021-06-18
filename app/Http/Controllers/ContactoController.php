@@ -100,16 +100,18 @@ class ContactoController extends Controller
 
         $tipo_busqueda = DB::table('tipo_documento_personas')
             ->select(
-                'tipo_documento_personas.*'
+                'tipo_documento_personas.id',
+                'tipo_documento_personas.nombre'
             )
             ->orderBy('tipo_documento_personas.nombre')
             ->get();
 
         $subcat_busqueda = DB::table('subcategorias')
             ->select(
-                'subcategorias.*'
+                'subcategorias.id',
+                'subcategorias.nombre'
             )
-            ->orderBy('subcategorias.nombre')
+            ->orderBy('subcategorias.id')
             ->get();
 
         return response()->json([
@@ -180,12 +182,17 @@ class ContactoController extends Controller
     public function store(Request $request)
     {
         $solicitud = $request->all();
+
         $creador_auth = Auth::user();
-        // $creador = $creador_auth['id'];
-        $solicitud['usuario_creacion'] = $creador_auth['id'];
-        $solicitud['usuario_actualizacion'] = $creador_auth['id'];
+        $creador = $creador_auth['id'];
+
+        $solicitud['usuario_creacion'] = $creador;
+        $solicitud['usuario_actualizacion'] = $creador;
+
         if ($solicitud['persona_id'] == null) {
+
             $persona = Persona::create($solicitud);
+
             $solicitud['persona_id'] = $persona->id;
         } else {
             DB::update(
@@ -199,21 +206,26 @@ class ContactoController extends Controller
                     $solicitud['apellidos'],
                     $solicitud['celular'],
                     $solicitud['sexo_id'],
-                    $creador_auth['id'],
+                    $creador,
                     Carbon::now(),
                     $solicitud['persona_id']
                 ]
             );
         }
+
         DB::table('detalle_categoria_personas')
             ->where('persona_id', '=', $solicitud['persona_id'])
             ->delete();
+
         $key = $request->categorias;
         if (!empty($key)) {
+
             $count = count($key);
+
             for ($i = 0; $i < $count; $i++) {
                 $categoria['persona_id'] = $solicitud['persona_id'];
                 $categoria['subcategoria_id'] = $key[$i];
+
                 DetalleCategoriaPersona::create($categoria);
             }
         }
@@ -245,6 +257,8 @@ class ContactoController extends Controller
             ->where('contactos.id', '=', $contacto_id)
             ->get();
 
+        $cont = $contacto_busqueda[0];
+
         $persona_id = $contacto_busqueda->pluck('persona_id');
 
         $categorias = DB::table('detalle_categoria_personas')
@@ -266,12 +280,12 @@ class ContactoController extends Controller
             ->get();
 
 
-        //$cats = $categorias->pluck('subcategoria_id');
+        $cats = $categorias->pluck('subcategoria_id');
 
         return response()->json([
             "success" => true,
-            "contacto" => $contacto_busqueda[0],
-            "categorias" => $categorias->pluck('subcategoria_id'),
+            "contacto" => $cont,
+            "categorias" => $cats,
             "usuario_creacion" => $creador[0],
             "usuario_actualizacion" => $editor[0]
         ], 200);

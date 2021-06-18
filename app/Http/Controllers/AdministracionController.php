@@ -16,6 +16,7 @@ use App\TipoDocumentoOrganizacion;
 use App\TipoDocumentoPersona;
 use App\TipoOficina;
 use App\TipoOrganizacion;
+use Illuminate\Http\Request;
 
 class AdministracionController extends Controller
 {
@@ -23,10 +24,10 @@ class AdministracionController extends Controller
     {
         return response()->json([
             "success" => true,
-            "tipo_documentos" => TipoDocumentoOrganizacion::orderBy('nombre')->get(),
-            "categorias" => Categoria::orderBy('nombre')->get(),
-            "tipo_organizaciones" => TipoOrganizacion::orderBy('nombre')->get(),
-            "clases" => Clase::orderBy('nombre')->get()
+            "tipo_documentos" => TipoDocumentoOrganizacion::all(),
+            "categorias" => Categoria::all(),
+            "tipo_organizaciones" => TipoOrganizacion::all(),
+            "clases" => Clase::all()
         ], 200);
     }
 
@@ -35,7 +36,7 @@ class AdministracionController extends Controller
         return response()->json([
             "success" => true,
             "sectores" => Sector::all(),
-            "ciius" => Ciiu::orderBy('nombre')->get()
+            "ciius" => Ciiu::all()
         ], 200);
     }
 
@@ -43,8 +44,8 @@ class AdministracionController extends Controller
     {
         return response()->json([
             "success" => true,
-            "clasificaciones" => Clasificacion::orderBy('nombre')->get(),
-            "regimenes" => Regimen::orderBy('nombre')->get()
+            "clasificaciones" => Clasificacion::all(),
+            "regimenes" => Regimen::all()
         ], 200);
     }
 
@@ -52,10 +53,10 @@ class AdministracionController extends Controller
     {
         return response()->json([
             "success" => true,
-            "tipo_documentos" => TipoDocumentoPersona::orderBy('nombre')->get(),
-            "sexos" => Sexo::orderBy('nombre')->get(),
-            "subcategorias" => Subcategoria::orderBy('nombre')->get(),
-            "tipo_oficinas" => TipoOficina::orderBy('nombre')->get()
+            "tipo_documentos" => TipoDocumentoPersona::all(),
+            "sexos" => Sexo::all(),
+            "subcategorias" => Subcategoria::all(),
+            "tipo_oficinas" => TipoOficina::all()
         ], 200);
     }
 
@@ -63,8 +64,8 @@ class AdministracionController extends Controller
     {
         return response()->json([
             "success" => true,
-            "tareas" => EstadoTarea::orderBy('nombre')->get(),
-            "visitas" => EstadoVisita::orderBy('nombre')->get()
+            "tareas" => EstadoTarea::all(),
+            "visitas" => EstadoVisita::all()
         ], 200);
     }
 }
