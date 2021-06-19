@@ -23,6 +23,8 @@ class InformacionFinancieraController extends Controller
             ->leftJoin('clasificacions', 'clasificacions.id', '=', 'informacion_financieras.clasificacion_id')
             ->select(
                 'informacion_financieras.*',
+                'clasificacions.cuota_anual',
+                'clasificacions.temporada_cuota',
             )
             ->where('informacion_financieras.organizacion_id', '=', $request->organizacion_id)
             ->get();
