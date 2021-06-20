@@ -208,17 +208,18 @@ class OrganizacionController extends Controller
             ->where('organizacions.id', '=', $organizacion->id)
             ->get();
         $actividades_busqueda = DB::table('detalle_actividad_economicas')
-            ->select('ciiu_id')
+            ->select('ciiu_id',
+                     'nombre',
+                     'codigo')
             ->where('organizacion_id', '=', $organizacion->id)
             ->orderBy('ciiu_id')
             ->get();
-        $actividades = $actividades_busqueda->pluck('ciiu_id');
         return response()->json([
             "success" => true,
             'organizacion' => $organizacion_busqueda[0],
             'usuario_creacion' => $creador_busqueda[0],
             'usuario_actualizacion' => $editor_busqueda[0],
-            'actividades' => $actividades
+            'actividades' => $actividades_busqueda
         ], 200);
     }
 
