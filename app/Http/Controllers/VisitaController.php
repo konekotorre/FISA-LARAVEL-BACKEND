@@ -111,8 +111,8 @@ class VisitaController extends Controller
 
     public function today()
     {
-        $now = Carbon::now()->format('d-m-Y');
-        $future = Carbon::now()->addDays(7)->format('d-m-Y');
+        $now = Carbon::now()->format('Y/m/d');
+        $future = Carbon::now()->addDays(7)->format('Y/m/d');
         $visitas = DB::table('visitas')
             ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
             ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
