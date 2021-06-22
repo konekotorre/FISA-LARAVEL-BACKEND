@@ -38,11 +38,6 @@ class CiiuSeeder extends Seeder
         ]);
 
         DB::table('ciius')->insert([
-            'nombre' => 'AGENCIAMIENTO ADUANERO LAS DEMAS ACTIVIDADES INHERENTES AL MISMO Y ASESORÍA EN COMERCIO INTERNACIONAL',
-            'codigo' => 'D-01'
-        ]);
-
-        DB::table('ciius')->insert([
             'nombre' => 'FABRICACION DE OTROS ARTÍCULOS DE PAPEL Y CARTON',
             'codigo' => '1709'
         ]);
@@ -52,10 +47,6 @@ class CiiuSeeder extends Seeder
             'codigo' => '1702'
         ]);
         
-        DB::table('ciius')->insert([
-            'nombre' => 'ASOCIACION GREMIAL SIN ANIMO DE LUCRO',
-            'codigo' => 'D-02'
-        ]);
 
         DB::table('ciius')->insert([
             'nombre' => 'ACTIVIDADES DE CONSULTORÍA DE GESTIÓN',
@@ -276,5 +267,16 @@ class CiiuSeeder extends Seeder
             'nombre' => 'EDUCACIÓN BÁSICA PRIMARIA',
             'codigo' => '8513'
         ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'AGENCIAMIENTO ADUANERO LAS DEMAS ACTIVIDADES INHERENTES AL MISMO Y ASESORÍA EN COMERCIO INTERNACIONAL',
+            'codigo' => 'D-01'
+        ]);
+
+        DB::table('ciius')->insert([
+            'nombre' => 'ASOCIACION GREMIAL SIN ANIMO DE LUCRO',
+            'codigo' => 'D-02'
+        ]);
+
     }
 }

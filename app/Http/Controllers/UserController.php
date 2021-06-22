@@ -17,6 +17,7 @@ class UserController extends Controller
     {
         $users = DB::table('users')
             ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
+            ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
             ->select(
                 'users.id',
                 'users.nombres',
@@ -25,6 +26,7 @@ class UserController extends Controller
                 'users.numero_documento',
                 'users.usuario',
             )
+            ->where('model_has_roles.role_id', '!=', 1)
             ->orderBy('users.updated_at')
             ->get();
         return response()->json([
@@ -39,7 +41,7 @@ class UserController extends Controller
         return response()->json([
             "success" => true,
             "tipo_documentos" => TipoDocumentoPersona::all(),
-            "roles" => Role::all()
+            "roles" => Role::where('id', '!=', 1)->get()
         ], 200);
     }
 
@@ -52,11 +54,11 @@ class UserController extends Controller
         $solicitud['usuario_creacion'] = $creador_auth['id'];
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $user = User::create($solicitud);
-        if ($request->rol == 1) {
-            $role = Role::find(1);
-            $user->assignRole($role);
-        } elseif ($request->rol == 2) {
+        if ($request->rol == 2) {
             $role = Role::find(2);
+            $user->assignRole($role);
+        } elseif ($request->rol == 3) {
+            $role = Role::find(3);
             $user->assignRole($role);
         } else {
             return response()->json(["success" => false], 200);
@@ -118,11 +120,11 @@ class UserController extends Controller
             $solicitud['password'] = bcrypt($solicitud['password']);
         }
         $user->update($solicitud);
-        if ($request->rol == 1) {
-            $role = Role::find(1);
-            $user->assignRole($role);
-        } elseif ($request->rol == 2) {
+        if ($request->rol == 2) {
             $role = Role::find(2);
+            $user->assignRole($role);
+        } elseif ($request->rol == 3) {
+            $role = Role::find(3);
             $user->assignRole($role);
         } else {
             return response()->json(["success" => false], 200);

@@ -42,7 +42,7 @@ Route::group([
         Route::get('logout', 'AuthController@logout');
         Route::get('refresh', 'AuthController@refreshToken');
 
-        Route::group(['middleware' => ['role:Administrador']], function () {
+        Route::group(['middleware' => ['role:Administrador|MasterUser']], function () {
 
             // User
 
@@ -54,7 +54,7 @@ Route::group([
             Route::delete('User/{user}', 'UserController@destroy');
         });
 
-        Route::group(['middleware' => ['role:Administrador|Empleado']], function () {
+        Route::group(['middleware' => ['role:Administrador|Empleado|MasterUser']], function () {
 
             // User
 
