@@ -19,5 +19,9 @@ class TipoOrganizacionSeeder extends Seeder
         DB::table('tipo_organizacions')->insert([
             'nombre' => 'PÚBLICA'
         ]);
+
+        DB::table('tipo_organizacions')->insert([
+            'nombre' => 'MIXTA'
+        ]);
     }
 }

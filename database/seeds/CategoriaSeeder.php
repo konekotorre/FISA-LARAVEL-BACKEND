@@ -64,7 +64,7 @@ class CategoriaSeeder extends Seeder
 
         DB::table('categorias')->insert([
             'nombre' => 'POTENCIAL',
-            'descripcion' => 'EOrganizaciones potenciales a futuro',
+            'descripcion' => 'Organizaciones potenciales a futuro',
         ]);
     }
 }

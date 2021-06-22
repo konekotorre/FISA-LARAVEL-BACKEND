@@ -420,5 +420,9 @@ class SubcategoriaSeeder extends Seeder
         DB::table('sexos')->insert([
             'nombre' => 'Otro'
         ]);
+
+        DB::table('sexos')->insert([
+            'nombre' => 'No Desea informar'
+        ]);
     }
 }

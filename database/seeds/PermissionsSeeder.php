@@ -17,7 +17,7 @@ class PermissionsSeeder extends Seeder
 
         $admin = Role::create(['name' => 'Administrador']);
 
-        $empleado = Role::create(['name' => 'Empleado']);
+        $empleado = Role::create(['name' => 'Colaborador']);
 
         $user01 = User::find(1);
         $user01->assignRole($master);

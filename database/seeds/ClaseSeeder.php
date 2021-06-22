@@ -18,7 +18,7 @@ class ClaseSeeder extends Seeder
         ]);
 
         DB::table('clases')->insert([
-            'nombre' => 'ENTIDAD PÚBLICA EXTRANJERAL',
+            'nombre' => 'ENTIDAD PÚBLICA EXTRANJERA',
         ]);
 
         DB::table('clases')->insert([
