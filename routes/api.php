@@ -54,7 +54,7 @@ Route::group([
             Route::delete('User/{user}', 'UserController@destroy');
         });
 
-        Route::group(['middleware' => ['role:Administrador|Empleado|MasterUser']], function () {
+        Route::group(['middleware' => ['role:Administrador|Colaborador|MasterUser']], function () {
 
             // User
 
