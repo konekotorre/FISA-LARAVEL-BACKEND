@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class NewRoleSeeder extends Seeder
 {
@@ -11,6 +13,7 @@ class NewRoleSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('roles')->where('name', 'Colaborador')->update(['name' => 'Soporte']);
+        Role::create(['name' => 'Comercial']);
     }
 }
