@@ -267,6 +267,13 @@ Route::group([
             Route::post('Contacto/RepBus', 'ContactoController@repBusqueda');
             Route::get('Contacto/RepGen', 'ContactoController@repGen');
 
+            //Informacion Financiera InformacionFinanciera/Org
+
+            Route::post('InformacionFinanciera/InformacionFinanciera/Org', 'InformacionFinancieraController@show');
+            Route::get('InformacionFinanciera/RepGen', 'InformacionFinancieraController@repGen');
+            Route::post('InformacionFinanciera/RepBus', 'InformacionFinancieraController@repBusqueda');
+            Route::post('InformacionFinanciera/RepFec', 'InformacionFinancieraController@repFecha');
+
             // Visita
 
             Route::get('Visita', 'VisitaController@index');
