@@ -110,10 +110,10 @@ class ConBusquedaExport implements FromCollection, WithHeadings
                 ->get();
 
             if ($oficinas->isNotEmpty() && $i < $count) {
-                $oficina_nom = $oficinas->pluck('nombre')->toArray();
-                $oficina_dir = $oficinas->pluck('direccion')->toArray();
-                $oficina_ciudad = $oficinas->pluck('ciudad')->toArray();
-                $oficina_estado = $oficinas->pluck('estado')->toArray();
+                $oficina_nom = $oficinas->pluck('nombre');
+                $oficina_dir = $oficinas->pluck('direccion');
+                $oficina_ciudad = $oficinas->pluck('ciudad');
+                $oficina_estado = $oficinas->pluck('estado');
 
                 $sal_oficinas = $oficina_nom . ":" . $oficina_dir .
                     " (" . $oficina_ciudad . "," . $oficina_estado . ")";
