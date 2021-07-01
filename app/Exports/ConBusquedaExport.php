@@ -54,8 +54,8 @@ class ConBusquedaExport implements FromCollection, WithHeadings
                 'users.usuario'
             )
             ->whereIn('contactos.id', $this->ids)
-            ->orderByDesc('contactos.nombres')
-            ->orderByDesc('contactos.apellidos')
+            ->orderByDesc('personas.nombres')
+            ->orderByDesc('personas.apellidos')
             ->get();
 
         $count = count($contacto_busqueda);

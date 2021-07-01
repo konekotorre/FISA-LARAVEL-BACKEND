@@ -12,44 +12,44 @@ class ConGenExport implements FromCollection, WithHeadings
     public function collection()
     {
         $contacto_busqueda = DB::table('contactos')
-        ->join('personas', 'personas.id', '=', 'contactos.persona_id')
-        ->leftJoin('sexos', 'sexos.id', '=', 'personas.sexo_id')
-        ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
-        ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
-        ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
-        ->leftJoin('departamento_estados', 'departamento_estados.id', '=', 'oficinas.departamento_estado_id')
-        ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
-        ->leftJoin('tipo_documento_personas', 'tipo_documento_personas.id', 'personas.tipo_documento_persona_id')
-        ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_actualizacion')
-        ->select(
-            'categorias.nombre as categoria',
-            'organizacions.nombre as nombre_comercial',
-            'organizacions.razon_social',
-            'personas.nombres',
-            'contactos.cargo',
-            'contactos.representante',
-            'contactos.telefono',
-            'contactos.extension',
-            'personas.celular',
-            'contactos.email',
-            'contactos.email_2',
-            'tipo_documento_personas.nombre as tipo_doc',
-            'personas.numero_documento',
-            'oficinas.direccion as dir',
-            'personas.id as persona_id',
-            'ciudads.nombre as ciudad',
-            'departamento_estados.nombre as departamento',
-            'sexos.nombre',
-            'contactos.control_informacion as control',
-            'contactos.envio_informacion as envio',
-            'contactos.observaciones',
-            'contactos.created_at',
-            'contactos.id',
-            'contactos.updated_at',
-            'users.usuario'
+            ->join('personas', 'personas.id', '=', 'contactos.persona_id')
+            ->leftJoin('sexos', 'sexos.id', '=', 'personas.sexo_id')
+            ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
+            ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
+            ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
+            ->leftJoin('departamento_estados', 'departamento_estados.id', '=', 'oficinas.departamento_estado_id')
+            ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
+            ->leftJoin('tipo_documento_personas', 'tipo_documento_personas.id', 'personas.tipo_documento_persona_id')
+            ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_actualizacion')
+            ->select(
+                'categorias.nombre as categoria',
+                'organizacions.nombre as nombre_comercial',
+                'organizacions.razon_social',
+                'personas.nombres',
+                'contactos.cargo',
+                'contactos.representante',
+                'contactos.telefono',
+                'contactos.extension',
+                'personas.celular',
+                'contactos.email',
+                'contactos.email_2',
+                'tipo_documento_personas.nombre as tipo_doc',
+                'personas.numero_documento',
+                'oficinas.direccion as dir',
+                'personas.id as persona_id',
+                'ciudads.nombre as ciudad',
+                'departamento_estados.nombre as departamento',
+                'sexos.nombre',
+                'contactos.control_informacion as control',
+                'contactos.envio_informacion as envio',
+                'contactos.observaciones',
+                'contactos.created_at',
+                'contactos.id',
+                'contactos.updated_at',
+                'users.usuario'
             )
-            ->orderByDesc('contactos.nombres')
-            ->orderByDesc('contactos.apellidos')
+            ->orderByDesc('personas.nombres')
+            ->orderByDesc('personas.apellidos')
             ->get();
 
         $count = count($contacto_busqueda);
