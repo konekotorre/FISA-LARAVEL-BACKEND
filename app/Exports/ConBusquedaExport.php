@@ -95,6 +95,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings
             $creador_salida = implode(", ", $crea_sal);
 
             $oficinas = DB::table('oficinas')
+                ->leftJoin('contactos', 'contactos.oficina_id', '=', 'oficinas.id')
                 ->leftJoin('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
                 ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
                 ->join('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
@@ -104,7 +105,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings
                     'ciudads.nombre as ciudad',
                     'departamento_estados.nombre as estado'
                 )
-                ->where('oficinas.organizacion_id', '=', $id_contacto)
+                ->where('contactos.id', '=', $id_contacto)
                 ->orderBy('tipo_oficinas.nombre')
                 ->get();
 
