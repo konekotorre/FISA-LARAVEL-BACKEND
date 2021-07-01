@@ -210,7 +210,7 @@ class CiiuSeeder extends Seeder
 
         DB::table('ciius')->insert([
             'nombre' => 'PRESTACIÓN DE SERVICIOS JURÍDICOS, ASESORÍAS, CONSULTORAS Y EN GENERAL TODO TIPO DE ACTIVIDADES RELACIONADAS CON EL EJERCICIO PROFESIONAL DE ABOGACÍA',
-            'codigo' => 'D-03'
+            'codigo' => 'CD03'
         ]);
 
         DB::table('ciius')->insert([
@@ -245,7 +245,7 @@ class CiiuSeeder extends Seeder
 
         DB::table('ciius')->insert([
             'nombre' => 'PRESTACIÓN DE SERVICIOS',
-            'codigo' => 'D-04'
+            'codigo' => 'CD04'
         ]);
 
         DB::table('ciius')->insert([
@@ -270,12 +270,12 @@ class CiiuSeeder extends Seeder
 
         DB::table('ciius')->insert([
             'nombre' => 'AGENCIAMIENTO ADUANERO LAS DEMAS ACTIVIDADES INHERENTES AL MISMO Y ASESORÍA EN COMERCIO INTERNACIONAL',
-            'codigo' => 'D-01'
+            'codigo' => 'CD01'
         ]);
 
         DB::table('ciius')->insert([
             'nombre' => 'ASOCIACION GREMIAL SIN ANIMO DE LUCRO',
-            'codigo' => 'D-02'
+            'codigo' => 'CD02'
         ]);
 
     }

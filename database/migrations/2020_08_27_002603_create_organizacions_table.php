@@ -18,8 +18,8 @@ class CreateOrganizacionsTable extends Migration
 
             $table->bigIncrements('id')->unsigned();
             $table->longText('nombre');
-            $table->integer('tipo_documento_organizacion_id')->unsigned();
-            $table->string('numero_documento', 50);
+            $table->integer('tipo_documento_organizacion_id')->nullable();
+            $table->string('numero_documento', 50)->nullable();
             $table->longText('razon_social')->nullable();
             $table->integer('categoria_id');
             $table->integer('clase_id')->nullable();
