@@ -53,9 +53,9 @@ class ConBusquedaExport implements FromCollection, WithHeadings
                 'contactos.updated_at',
                 'users.usuario'
             )
-            ->distinct('contactos.created_at')
             ->whereIn('contactos.id', $this->ids)
-            ->orderByDesc('contactos.created_at')
+            ->orderByDesc('contactos.nombres')
+            ->orderByDesc('contactos.apellidos')
             ->get();
 
         $count = count($contacto_busqueda);
