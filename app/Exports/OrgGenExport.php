@@ -11,61 +11,61 @@ class OrgGenExport implements FromCollection, WithHeadings
     public function collection()
     {
         $organizacion_busqueda = DB::table('organizacions')
-            ->leftJoin('tipo_organizacions', 'tipo_organizacions.id', '=', 'organizacions.tipo_organizacion_id')
-            ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', '=', 'organizacions.tipo_documento_organizacion_id')
-            ->leftJoin('subsectors', 'subsectors.id', '=', 'organizacions.subsector_id')
-            ->leftJoin('sectors', 'sectors.id', '=', 'organizacions.sector_id')
-            ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
-            ->leftJoin('pais', 'pais.id', '=', 'organizacions.pais_id')
-            ->leftJoin('clases', 'clases.id', '=', 'organizacions.clase_id')
-            ->leftJoin('informacion_financieras', 'informacion_financieras.organizacion_id', '=', 'organizacions.id')
-            ->leftJoin('clasificacions', 'clasificacions.id', '=', 'informacion_financieras.clasificacion_id')
-            ->leftJoin('importaciones', 'importaciones.organizacion_id', '=', 'organizacions.id')
-            ->leftJoin('exportaciones', 'exportaciones.organizacion_id', '=', 'organizacions.id')
-            ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_creacion')
-            ->leftJoin('oficinas', 'oficinas.organizacion_id', '=', 'organizacions.id')
-            ->leftJoin('departamento_estados', 'departamento_estados.id', '=', 'oficinas.departamento_estado_id')
-            ->select(
-                'categorias.nombre as categoria',
-                'tipo_documento_organizacions.nombre as tipo_doc',
-                'organizacions.numero_documento',
-                'tipo_organizacions.nombre as tipo',
-                'organizacions.nombre as nombre_comercial',
-                'organizacions.razon_social',
-                'clases.nombre as clase',
-                'pais.nombre as pais',
-                'departamento_estados.nombre as departamento',
-                'clasificacions.nombre as clasificacion',
-                'clasificacions.cuota_anual',
-                'clasificacions.temporada_cuota',
-                'informacion_financieras.cuota_real_pagada',
-                'informacion_financieras.cuota_unica_ingreso',
-                'informacion_financieras.pendiente_facturacion',
-                'informacion_financieras.cuota_pautas',
-                'informacion_financieras.fecha_edicion_pauta',
-                'informacion_financieras.total_activos',
-                'informacion_financieras.temporada_declaracion',
-                'organizacions.empleados_indirectos',
-                'organizacions.estado',
-                'sectors.nombre as sector',
-                'subsectors.nombre as subsector',
-                'organizacions.id',
-                'informacion_financieras.exporta',
-                'exportaciones.id as expo',
-                'informacion_financieras.importa',
-                'importaciones.id as impo',
-                'organizacions.pagina_web',
-                'organizacions.observaciones',
-                'organizacions.fecha_afiliacion',
-                'organizacions.motivo_afiliacion',
-                'organizacions.fecha_desafiliacion',
-                'organizacions.motivo_desafiliacion',
-                'organizacions.created_at',
-                'users.usuario',
-                'organizacions.updated_at',
-                'users.usuario as editor'
-            )
-            ->distinct('organizacions.created_at')
+        ->leftJoin('tipo_organizacions', 'tipo_organizacions.id', '=', 'organizacions.tipo_organizacion_id')
+        ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', '=', 'organizacions.tipo_documento_organizacion_id')
+        ->leftJoin('subsectors', 'subsectors.id', '=', 'organizacions.subsector_id')
+        ->leftJoin('sectors', 'sectors.id', '=', 'organizacions.sector_id')
+        ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
+        ->leftJoin('pais', 'pais.id', '=', 'organizacions.pais_id')
+        ->leftJoin('clases', 'clases.id', '=', 'organizacions.clase_id')
+        ->leftJoin('informacion_financieras', 'informacion_financieras.organizacion_id', '=', 'organizacions.id')
+        ->leftJoin('clasificacions', 'clasificacions.id', '=', 'informacion_financieras.clasificacion_id')
+        //->leftJoin('importaciones', 'importaciones.organizacion_id', '=', 'organizacions.id')
+        //->leftJoin('exportaciones', 'exportaciones.organizacion_id', '=', 'organizacions.id')
+        ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_creacion')
+        //->leftJoin('oficinas', 'oficinas.organizacion_id', '=', 'organizacions.id')
+        //->leftJoin('departamento_estados', 'departamento_estados.id', '=', 'oficinas.departamento_estado_id')
+        ->select(
+            'categorias.nombre as categoria',
+            'tipo_documento_organizacions.nombre as tipo_doc',
+            'organizacions.numero_documento',
+            'tipo_organizacions.nombre as tipo',
+            'organizacions.nombre as nombre_comercial',
+            'organizacions.razon_social',
+            'clases.nombre as clase',
+            'pais.nombre as pais',
+            'organizacions.id as departamento',
+            'clasificacions.nombre as clasificacion',
+            'clasificacions.cuota_anual',
+            'clasificacions.temporada_cuota',
+            'informacion_financieras.cuota_real_pagada',
+            'informacion_financieras.cuota_unica_ingreso',
+            'informacion_financieras.pendiente_facturacion',
+            'informacion_financieras.cuota_pautas',
+            'informacion_financieras.fecha_edicion_pauta',
+            'informacion_financieras.total_activos',
+            'informacion_financieras.temporada_declaracion',
+            'organizacions.empleados_indirectos',
+            'organizacions.estado',
+            'sectors.nombre as sector',
+            'subsectors.nombre as subsector',
+            'organizacions.id',
+            'informacion_financieras.exporta',
+            'organizacions.id as expo',
+            'informacion_financieras.importa',
+            'organizacions.id as impo',
+            'organizacions.pagina_web',
+            'organizacions.observaciones',
+            'organizacions.fecha_afiliacion',
+            'organizacions.motivo_afiliacion',
+            'organizacions.fecha_desafiliacion',
+            'organizacions.motivo_desafiliacion',
+            'organizacions.created_at',
+            'users.usuario',
+            'organizacions.updated_at',
+            'users.usuario as editor'
+        )
+        //->distinct('organizacions.updated_at')
             ->orderByDesc('organizacions.created_at')
             ->get();
 
