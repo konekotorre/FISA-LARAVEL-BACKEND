@@ -62,17 +62,18 @@ class ConBusquedaExport implements FromCollection, WithHeadings
 
         for ($i = 0; $i < $count; $i++) {
 
-            $id_bus =  $contacto_busqueda[$i]->persona_id;
+            $id_persona =  $contacto_busqueda[$i]->persona_id;
+            $id_contacto =  $contacto_busqueda[$i]->id;
 
             $categorias = DB::table('detalle_categoria_personas')
                 ->leftJoin('subcategorias', 'subcategorias.id', '=', 'detalle_categoria_personas.subcategoria_id')
                 ->select('subcategorias.nombre')
-                ->where('detalle_categoria_personas.persona_id', '=', $id_bus)
+                ->where('detalle_categoria_personas.persona_id', '=', $id_persona)
                 ->get();
 
             $apellido = DB::table('personas')
                 ->select('personas.apellidos')
-                ->where('personas.id', '=', $id_bus)
+                ->where('personas.id', '=', $id_persona)
                 ->get();
 
             $categoria = $categorias->pluck('nombre');
@@ -86,7 +87,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings
             $creador_busqueda = DB::table('contactos')
                 ->leftJoin('users', 'users.id', '=', 'contactos.usuario_creacion')
                 ->select('users.usuario')
-                ->where('contactos.id', '=', $id_bus)
+                ->where('contactos.id', '=', $id_persona)
                 ->get();
 
             $creador = $creador_busqueda->pluck('usuario');
@@ -103,11 +104,11 @@ class ConBusquedaExport implements FromCollection, WithHeadings
                     'ciudads.nombre as ciudad',
                     'departamento_estados.nombre as estado'
                 )
-                ->where('oficinas.organizacion_id', '=', $id_bus)
+                ->where('oficinas.organizacion_id', '=', $id_contacto)
                 ->orderBy('tipo_oficinas.nombre')
                 ->get();
 
-            if (!$oficinas->isEmpty() && $i < $count) {
+            if ($oficinas->isNotEmpty() && $i < $count) {
                 $oficina_nom = $oficinas->pluck('nombre')->toArray();
                 $oficina_dir = $oficinas->pluck('direccion')->toArray();
                 $oficina_ciudad = $oficinas->pluck('ciudad')->toArray();
