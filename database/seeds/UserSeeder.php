@@ -90,5 +90,18 @@ class UserSeeder extends Seeder
             'usuario_actualizacion' => '1',
         ]);
 
+        DB::table('users')->insert([
+            'nombres' => 'Comercial',
+            'apellidos' => 'Sistema',
+            'tipo_documento_persona_id' => '1',
+            'numero_documento' => '667788900',
+            'usuario' => 'Comercial',
+            'password' => bcrypt('Fisa@1109'),
+            'email' => 'Fisa03@gmail.com',
+            'estado' => true,
+            'usuario_creacion' => '1',
+            'usuario_actualizacion' => '1',
+        ]);
+        
     }
 }

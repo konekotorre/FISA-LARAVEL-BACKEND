@@ -17,7 +17,9 @@ class PermissionsSeeder extends Seeder
 
         $admin = Role::create(['name' => 'Administrador']);
 
-        $empleado = Role::create(['name' => 'Colaborador']);
+        $empleado = Role::create(['name' => 'Soporte']);
+
+        $comercial = Role::create(['name' => 'Comercial']);
 
         $user01 = User::find(1);
         $user01->assignRole($master);
@@ -36,5 +38,8 @@ class PermissionsSeeder extends Seeder
 
         $user06 = User::find(6);
         $user06->assignRole($empleado);
+
+        $user07 = User::find(7);
+        $user07->assignRole($comercial);
     }
 }
