@@ -148,6 +148,7 @@ class ContactoController extends Controller
             ->orderBy('personas.nombres')
             ->orderBy('personas.apellidos')
             ->orderByDesc('contactos.estado')
+            ->orderBy('contactos.id')
             ->get();
         $count = count($contactos);
         return response()->json([
