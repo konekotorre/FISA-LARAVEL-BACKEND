@@ -8,6 +8,10 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class ConGenExport implements FromCollection, WithHeadings
 {
+    function __construct($solicitud)
+    {
+        $this->id = $solicitud;
+    }
 
     public function collection()
     {
@@ -48,6 +52,7 @@ class ConGenExport implements FromCollection, WithHeadings
                 'contactos.updated_at',
                 'users.usuario'
             )
+            ->where('contactos.id', '!=', $this->id)
             ->orderByDesc('personas.nombres')
             ->orderByDesc('personas.apellidos')
             ->get();
