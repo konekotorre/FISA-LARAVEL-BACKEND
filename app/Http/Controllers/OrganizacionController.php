@@ -38,7 +38,7 @@ class OrganizacionController extends Controller
                 'categorias.nombre as categoria',
                 'subsectors.nombre as subsector'
             )
-            ->orderByDesc('organizacions.nombre')
+            ->orderBy('organizacions.nombre')
             ->get();
         $count = count($organizacion_busqueda);
         return response()->json([
@@ -90,7 +90,7 @@ class OrganizacionController extends Controller
                 'organizacions.id',
                 'organizacions.nombre'
             )
-            ->orderByDesc('organizacions.nombre')
+            ->orderBy('organizacions.nombre')
             ->get();
 
         return response()->json([
