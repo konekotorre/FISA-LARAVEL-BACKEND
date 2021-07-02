@@ -38,11 +38,15 @@ class ContactoController extends Controller
                 'contactos.observaciones',
                 'organizacions.nombre as organizacion',
             )
-            ->orderByDesc('contactos.updated_at')
+            ->orderBy('contactos.nombres')
+            ->orderBy('contactos.apellidos')
+            ->orderByDesc('contactos.estado')
             ->get();
+        $count = count($contactos);
         return response()->json([
             "success" => true,
-            'contactos' => $contactos
+            'contactos' => $contactos,
+            "count" => $count
         ], 200);
     }
 
@@ -63,11 +67,13 @@ class ContactoController extends Controller
                 'contactos.observaciones'
             )
             ->where('contactos.organizacion_id', '=', $request->organizacion_id)
-            ->orderByDesc('contactos.updated_at')
+            ->orderBy('contactos.nombres')
+            ->orderBy('contactos.apellidos')
+            ->orderByDesc('contactos.estado')
             ->get();
         return response()->json([
             "success" => true,
-            "contactos" => $contactos
+            "contactos" => $contactos,
         ], 200);
     }
 
@@ -138,14 +144,16 @@ class ContactoController extends Controller
             ])
             ->whereIn($parametros[6], $categorias)
             ->whereIn($parametros[7], $subcategorias)
-            ->distinct('contactos.updated_at')
-            ->orderByDesc('contactos.updated_at')
+            ->distinct('contactos.id')
             ->orderBy('personas.nombres')
             ->orderBy('personas.apellidos')
+            ->orderByDesc('contactos.estado')
             ->get();
+        $count = count($contactos);
         return response()->json([
             "success" => true,
-            "contactos" => $contactos
+            "contactos" => $contactos,
+            "count" => $count
         ], 200);
     }
 
