@@ -144,7 +144,7 @@ class ContactoController extends Controller
             ])
             ->whereIn($parametros[6], $categorias)
             ->whereIn($parametros[7], $subcategorias)
-            ->distinct('contacto_id')
+            ->distinct('contactos.id')
             ->orderBy('personas.nombres')
             ->orderBy('personas.apellidos')
             ->orderByDesc('contactos.estado')
