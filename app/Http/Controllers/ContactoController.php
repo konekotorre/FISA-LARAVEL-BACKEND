@@ -38,8 +38,8 @@ class ContactoController extends Controller
                 'contactos.observaciones',
                 'organizacions.nombre as organizacion',
             )
-            ->orderBy('contactos.nombres')
-            ->orderBy('contactos.apellidos')
+            ->orderBy('personas.nombres')
+            ->orderBy('personas.apellidos')
             ->orderByDesc('contactos.estado')
             ->get();
         $count = count($contactos);
@@ -67,8 +67,8 @@ class ContactoController extends Controller
                 'contactos.observaciones'
             )
             ->where('contactos.organizacion_id', '=', $request->organizacion_id)
-            ->orderBy('contactos.nombres')
-            ->orderBy('contactos.apellidos')
+            ->orderBy('personas.nombres')
+            ->orderBy('personas.apellidos')
             ->orderByDesc('contactos.estado')
             ->get();
         return response()->json([
