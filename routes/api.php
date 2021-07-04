@@ -265,7 +265,7 @@ Route::group([
             Route::get('Contacto/{contacto}', 'ContactoController@show');
             Route::post('Contacto/RepFec', 'ContactoController@repFecha');
             Route::post('Contacto/RepBus', 'ContactoController@repBusqueda');
-            Route::get('Contacto/RepGen', 'ContactoController@repGen');
+            Route::post('Contacto/RepGen', 'ContactoController@repGen');
 
             //Informacion Financiera InformacionFinanciera/Org
 

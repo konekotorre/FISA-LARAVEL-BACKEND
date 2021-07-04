@@ -8,12 +8,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class ConGenExport implements FromCollection, WithHeadings
 {
-    function __construct($solicitud)
-    {
-        $this->id = $solicitud;
-    }
-
-    public function collection()
+  public function collection()
     {
         $contacto_busqueda = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
