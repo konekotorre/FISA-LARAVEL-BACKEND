@@ -52,7 +52,6 @@ class ConGenExport implements FromCollection, WithHeadings
                 'contactos.updated_at',
                 'users.usuario'
             )
-            ->where('contactos.id', '=', $this->id)
             ->orderByDesc('personas.nombres')
             ->orderByDesc('personas.apellidos')
             ->get();
