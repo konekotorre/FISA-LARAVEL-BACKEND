@@ -38,12 +38,13 @@ class OrganizacionController extends Controller
                 'categorias.nombre as categoria',
                 'subsectors.nombre as subsector'
             )
-            ->orderByDesc('organizacions.updated_at')
+            ->orderBy('organizacions.nombre')
             ->get();
-
+        $count = count($organizacion_busqueda);
         return response()->json([
             "success" => true,
-            "organizaciones" => $organizacion_busqueda
+            "organizaciones" => $organizacion_busqueda,
+            "count" => $count
         ], 200);
     }
 
@@ -89,7 +90,7 @@ class OrganizacionController extends Controller
                 'organizacions.id',
                 'organizacions.nombre'
             )
-            ->orderByDesc('organizacions.nombre')
+            ->orderBy('organizacions.nombre')
             ->get();
 
         return response()->json([
@@ -128,11 +129,13 @@ class OrganizacionController extends Controller
             ->whereIn('organizacions.tipo_documento_organizacion_id', $documentos)
             ->whereIn('organizacions.categoria_id', $categorias)
             ->orderBy('organizacions.nombre')
-            ->orderByDesc('organizacions.updated_at')
+            ->orderByDesc('organizacions.estado')
             ->get();
+            $count = count($organizacion_busqueda);
         return response()->json([
             "success" => true,
-            "organizaciones" => $organizacion_busqueda
+            "organizaciones" => $organizacion_busqueda,
+            "count" => $count
         ], 200);
     }
 
@@ -208,10 +211,12 @@ class OrganizacionController extends Controller
             ->where('organizacions.id', '=', $organizacion->id)
             ->get();
         $actividades_busqueda = DB::table('detalle_actividad_economicas')
-        ->leftJoin('ciius', 'ciius.id', '=', 'detalle_actividad_economicas.ciiu_id')
-            ->select('ciius.id',
-                     'ciius.nombre',
-                     'ciius.codigo')
+            ->leftJoin('ciius', 'ciius.id', '=', 'detalle_actividad_economicas.ciiu_id')
+            ->select(
+                'ciius.id',
+                'ciius.nombre',
+                'ciius.codigo'
+            )
             ->where('detalle_actividad_economicas.organizacion_id', '=', $organizacion->id)
             ->orderBy('ciius.id')
             ->get();
@@ -235,7 +240,7 @@ class OrganizacionController extends Controller
         DB::table('detalle_actividad_economicas')
             ->where('organizacion_id', '=', $organizacion_id)
             ->delete();
-       $key = $request->actividades;
+        $key = $request->actividades;
         if (!empty($key)) {
             $count = count($key);
             if ($count > 0) {
@@ -243,7 +248,6 @@ class OrganizacionController extends Controller
                     $detalle['organizacion_id'] = $organizacion->id;
                     $detalle['ciiu_id'] = $key[$i];
                     DetalleActividadEconomica::create($detalle);
-                    
                 }
             }
         }

@@ -52,7 +52,6 @@ class InfoFinGenExport implements FromCollection, WithHeadings
                 'informacion_financieras.updated_at',
                 'informacion_financieras.id as id'
             )
-            ->distinct('informacion_financieras.updated_at')
             ->orderByDesc('informacion_financieras.updated_at')
             ->get();
 

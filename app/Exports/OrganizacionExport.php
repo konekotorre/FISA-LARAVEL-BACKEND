@@ -26,11 +26,7 @@ class OrganizacionExport implements FromCollection, WithHeadings
             ->leftJoin('clases', 'clases.id', '=', 'organizacions.clase_id')
             ->leftJoin('informacion_financieras', 'informacion_financieras.organizacion_id', '=', 'organizacions.id')
             ->leftJoin('clasificacions', 'clasificacions.id', '=', 'informacion_financieras.clasificacion_id')
-            ->leftJoin('importaciones', 'importaciones.organizacion_id', '=', 'organizacions.id')
-            ->leftJoin('exportaciones', 'exportaciones.organizacion_id', '=', 'organizacions.id')
             ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_creacion')
-            ->leftJoin('oficinas', 'oficinas.organizacion_id', '=', 'organizacions.id')
-            ->leftJoin('departamento_estados', 'departamento_estados.id', '=', 'oficinas.departamento_estado_id')
             ->select(
                 'categorias.nombre as categoria',
                 'tipo_documento_organizacions.nombre as tipo_doc',
@@ -40,7 +36,7 @@ class OrganizacionExport implements FromCollection, WithHeadings
                 'organizacions.razon_social',
                 'clases.nombre as clase',
                 'pais.nombre as pais',
-                'departamento_estados.nombre as departamento',
+                'organizacions.id as departamento',
                 'clasificacions.nombre as clasificacion',
                 'clasificacions.cuota_anual',
                 'clasificacions.temporada_cuota',
@@ -57,9 +53,9 @@ class OrganizacionExport implements FromCollection, WithHeadings
                 'subsectors.nombre as subsector',
                 'organizacions.id',
                 'informacion_financieras.exporta',
-                'exportaciones.id as expo',
+                'organizacions.id as expo',
                 'informacion_financieras.importa',
-                'importaciones.id as impo',
+                'organizacions.id as impo',
                 'organizacions.pagina_web',
                 'organizacions.observaciones',
                 'organizacions.fecha_afiliacion',
@@ -71,7 +67,6 @@ class OrganizacionExport implements FromCollection, WithHeadings
                 'organizacions.updated_at',
                 'users.usuario as editor'
             )
-            ->distinct('organizacions.updated_at')
             ->where([
                 ['organizacions.updated_at', '>=', $this->fecha_inicio],
                 ['organizacions.updated_at', '<=', $this->fecha_fin]

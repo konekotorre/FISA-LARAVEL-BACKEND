@@ -57,7 +57,6 @@ class InfoFinBusquedaExport implements FromCollection, WithHeadings
                 'informacion_financieras.updated_at',
                 'informacion_financieras.id as id'
             )
-            ->distinct('informacion_financieras.updated_at')
             ->whereIn('informacion_financieras.id', $this->ids)
             ->orderByDesc('informacion_financieras.updated_at')
             ->get();

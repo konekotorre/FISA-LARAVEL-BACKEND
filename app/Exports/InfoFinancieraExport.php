@@ -59,7 +59,6 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
                 'informacion_financieras.updated_at',
                 'informacion_financieras.id as id'
             )
-            ->distinct('informacion_financieras.updated_at')
             ->where([
                 ['informacion_financieras.updated_at', '>=', $this->fecha_inicio],
                 ['informacion_financieras.updated_at', '<=', $this->fecha_fin]

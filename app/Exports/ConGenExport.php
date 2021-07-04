@@ -8,66 +8,71 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 
 class ConGenExport implements FromCollection, WithHeadings
 {
+    function __construct($solicitud)
+    {
+        $this->id = $solicitud;
+    }
 
     public function collection()
     {
         $contacto_busqueda = DB::table('contactos')
-        ->join('personas', 'personas.id', '=', 'contactos.persona_id')
-        ->leftJoin('sexos', 'sexos.id', '=', 'personas.sexo_id')
-        ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
-        ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
-        ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
-        ->leftJoin('departamento_estados', 'departamento_estados.id', '=', 'oficinas.departamento_estado_id')
-        ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
-        ->leftJoin('tipo_documento_personas', 'tipo_documento_personas.id', 'personas.tipo_documento_persona_id')
-        ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_actualizacion')
-        ->select(
-            'categorias.nombre as categoria',
-            'organizacions.nombre as nombre_comercial',
-            'organizacions.razon_social',
-            'personas.nombres',
-            'contactos.cargo',
-            'contactos.representante',
-            'contactos.telefono',
-            'contactos.extension',
-            'personas.celular',
-            'contactos.email',
-            'contactos.email_2',
-            'tipo_documento_personas.nombre as tipo_doc',
-            'personas.numero_documento',
-            'oficinas.direccion as dir',
-            'personas.id as persona_id',
-            'ciudads.nombre as ciudad',
-            'departamento_estados.nombre as departamento',
-            'sexos.nombre',
-            'contactos.control_informacion as control',
-            'contactos.envio_informacion as envio',
-            'contactos.observaciones',
-            'contactos.created_at',
-            'contactos.id',
-            'contactos.updated_at',
-            'users.usuario'
+            ->join('personas', 'personas.id', '=', 'contactos.persona_id')
+            ->leftJoin('sexos', 'sexos.id', '=', 'personas.sexo_id')
+            ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
+            ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
+            ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
+            ->leftJoin('departamento_estados', 'departamento_estados.id', '=', 'oficinas.departamento_estado_id')
+            ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
+            ->leftJoin('tipo_documento_personas', 'tipo_documento_personas.id', 'personas.tipo_documento_persona_id')
+            ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_actualizacion')
+            ->select(
+                'categorias.nombre as categoria',
+                'organizacions.nombre as nombre_comercial',
+                'organizacions.razon_social',
+                'personas.nombres',
+                'contactos.cargo',
+                'contactos.representante',
+                'contactos.telefono',
+                'contactos.extension',
+                'personas.celular',
+                'contactos.email',
+                'contactos.email_2',
+                'tipo_documento_personas.nombre as tipo_doc',
+                'personas.numero_documento',
+                'oficinas.direccion as dir',
+                'personas.id as persona_id',
+                'ciudads.nombre as ciudad',
+                'departamento_estados.nombre as departamento',
+                'sexos.nombre',
+                'contactos.control_informacion as control',
+                'contactos.envio_informacion as envio',
+                'contactos.observaciones',
+                'contactos.created_at',
+                'contactos.id',
+                'contactos.updated_at',
+                'users.usuario'
             )
-            ->distinct('contactos.created_at')
-            ->orderByDesc('contactos.created_at')
+            ->where('contactos.id', '=', $this->id)
+            ->orderByDesc('personas.nombres')
+            ->orderByDesc('personas.apellidos')
             ->get();
 
         $count = count($contacto_busqueda);
 
         for ($i = 0; $i < $count; $i++) {
 
-            $id_bus =  $contacto_busqueda[$i]->persona_id;
-            $id_cont = $contacto_busqueda[$i]->id;
+            $id_persona =  $contacto_busqueda[$i]->persona_id;
+            $id_contacto =  $contacto_busqueda[$i]->id;
 
             $categorias = DB::table('detalle_categoria_personas')
                 ->leftJoin('subcategorias', 'subcategorias.id', '=', 'detalle_categoria_personas.subcategoria_id')
                 ->select('subcategorias.nombre')
-                ->where('detalle_categoria_personas.persona_id', '=', $id_bus)
+                ->where('detalle_categoria_personas.persona_id', '=', $id_persona)
                 ->get();
 
             $apellido = DB::table('personas')
                 ->select('personas.apellidos')
-                ->where('personas.id', '=', $id_bus)
+                ->where('personas.id', '=', $id_persona)
                 ->get();
 
             $categoria = $categorias->pluck('nombre');
@@ -81,7 +86,7 @@ class ConGenExport implements FromCollection, WithHeadings
             $creador_busqueda = DB::table('contactos')
                 ->leftJoin('users', 'users.id', '=', 'contactos.usuario_creacion')
                 ->select('users.usuario')
-                ->where('contactos.id', '=', $id_bus)
+                ->where('contactos.id', '=', $id_persona)
                 ->get();
 
             $creador = $creador_busqueda->pluck('usuario');
@@ -99,27 +104,23 @@ class ConGenExport implements FromCollection, WithHeadings
                     'ciudads.nombre as ciudad',
                     'departamento_estados.nombre as estado'
                 )
-                ->where('contactos.id', '=', $id_cont)
+                ->where('contactos.id', '=', $id_contacto)
                 ->orderBy('tipo_oficinas.nombre')
                 ->get();
 
-            if (!$oficinas->isEmpty() && $i < $count) {
-                $oficina_nom = $oficinas->pluck('nombre')->toArray();
-                $oficina_dir = $oficinas->pluck('direccion')->toArray();
-                $oficina_ciudad = $oficinas->pluck('ciudad')->toArray();
-                $oficina_estado = $oficinas->pluck('estado')->toArray();
-                $cn = count($oficinas);
-                $array = array();
-                for ($j = 0; $j < $cn; $j++) {
-                    $array[$j] = $oficina_nom[$j] . ":" . $oficina_dir[$j] .
-                        " (" . $oficina_ciudad[$j] . "," . $oficina_estado[$j] . ")";
-                }
-                $sal_oficinas = implode(", ", $array);
-            } else {
-                $sal_oficinas = "";
-            }
+            if ($oficinas->isNotEmpty() && $i < $count) {
+                $oficina_nom = $oficinas->pluck('nombre');
+                $oficina_dir = $oficinas->pluck('direccion');
+                $oficina_ciudad = $oficinas->pluck('ciudad');
+                $oficina_estado = $oficinas->pluck('estado');
 
-            $contacto_busqueda[$i]->dir = $sal_oficinas;
+                $sal_oficinas = $oficina_nom . ":" . $oficina_dir .
+                    " (" . $oficina_ciudad . "," . $oficina_estado . ")";
+
+                $contacto_busqueda[$i]->dir = $sal_oficinas;
+            } else {
+                $contacto_busqueda[$i]->dir = "";
+            }
 
             if ($contacto_busqueda[$i]->representante == true) {
                 $contacto_busqueda[$i]->representante = "S";

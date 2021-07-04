@@ -55,29 +55,30 @@ class ContactoExport implements FromCollection, WithHeadings
                 'contactos.updated_at',
                 'users.usuario'
             )
-            ->distinct('contactos.updated_at')
             ->where([
                 ['contactos.updated_at', '>=', $this->fecha_inicio],
                 ['contactos.updated_at', '<=', $this->fecha_fin]
             ])
-            ->orderByDesc('contactos.updated_at')
+            ->orderByDesc('personas.nombres')
+            ->orderByDesc('personas.apellidos')
             ->get();
 
         $count = count($contacto_busqueda);
 
         for ($i = 0; $i < $count; $i++) {
 
-            $id_bus =  $contacto_busqueda[$i]->persona_id;
+            $id_persona =  $contacto_busqueda[$i]->persona_id;
+            $id_contacto =  $contacto_busqueda[$i]->id;
 
             $categorias = DB::table('detalle_categoria_personas')
                 ->leftJoin('subcategorias', 'subcategorias.id', '=', 'detalle_categoria_personas.subcategoria_id')
                 ->select('subcategorias.nombre')
-                ->where('detalle_categoria_personas.persona_id', '=', $id_bus)
+                ->where('detalle_categoria_personas.persona_id', '=', $id_persona)
                 ->get();
 
             $apellido = DB::table('personas')
                 ->select('personas.apellidos')
-                ->where('personas.id', '=', $id_bus)
+                ->where('personas.id', '=', $id_persona)
                 ->get();
 
             $categoria = $categorias->pluck('nombre');
@@ -91,7 +92,7 @@ class ContactoExport implements FromCollection, WithHeadings
             $creador_busqueda = DB::table('contactos')
                 ->leftJoin('users', 'users.id', '=', 'contactos.usuario_creacion')
                 ->select('users.usuario')
-                ->where('contactos.id', '=', $id_bus)
+                ->where('contactos.id', '=', $id_persona)
                 ->get();
 
             $creador = $creador_busqueda->pluck('usuario');
@@ -99,6 +100,7 @@ class ContactoExport implements FromCollection, WithHeadings
             $creador_salida = implode(", ", $crea_sal);
 
             $oficinas = DB::table('oficinas')
+                ->leftJoin('contactos', 'contactos.oficina_id', '=', 'oficinas.id')
                 ->leftJoin('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
                 ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
                 ->join('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
@@ -108,25 +110,23 @@ class ContactoExport implements FromCollection, WithHeadings
                     'ciudads.nombre as ciudad',
                     'departamento_estados.nombre as estado'
                 )
-                ->where('oficinas.organizacion_id', '=', $id_bus)
+                ->where('contactos.id', '=', $id_contacto)
                 ->orderBy('tipo_oficinas.nombre')
                 ->get();
 
-            if (!$oficinas->isEmpty() && $i < $count) {
-                $oficina_nom = $oficinas->pluck('nombre')->toArray();
-                $oficina_dir = $oficinas->pluck('direccion')->toArray();
-                $oficina_ciudad = $oficinas->pluck('ciudad')->toArray();
-                $oficina_estado = $oficinas->pluck('estado')->toArray();
+            if ($oficinas->isNotEmpty() && $i < $count) {
+                $oficina_nom = $oficinas->pluck('nombre');
+                $oficina_dir = $oficinas->pluck('direccion');
+                $oficina_ciudad = $oficinas->pluck('ciudad');
+                $oficina_estado = $oficinas->pluck('estado');
 
                 $sal_oficinas = $oficina_nom . ":" . $oficina_dir .
                     " (" . $oficina_ciudad . "," . $oficina_estado . ")";
 
                 $contacto_busqueda[$i]->dir = $sal_oficinas;
-                // implode(", ", $sal_oficinas);
             } else {
                 $contacto_busqueda[$i]->dir = "";
             }
-
 
             if ($contacto_busqueda[$i]->representante == true) {
                 $contacto_busqueda[$i]->representante = "S";
