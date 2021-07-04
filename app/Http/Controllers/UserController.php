@@ -29,9 +29,11 @@ class UserController extends Controller
             ->where('model_has_roles.role_id', '!=', 1)
             ->orderBy('users.updated_at')
             ->get();
+            $count = count($users);
         return response()->json([
             "success" => true,
-            "usuarios" => $users
+            "usuarios" => $users,
+            "count" => $count
         ], 200);
     }
 

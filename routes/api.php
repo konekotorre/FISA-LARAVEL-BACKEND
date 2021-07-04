@@ -247,7 +247,7 @@ Route::group([
             Route::post('Organizacion/Search', 'OrganizacionController@search');
             Route::post('Organizacion/RepFec', 'OrganizacionController@repFecha');
             Route::post('Organizacion/RepBus', 'OrganizacionController@repBusqueda');
-            Route::get('Organizacion/RepGen', 'OrganizacionController@repGen');
+            Route::post('Organizacion/RepGen', 'OrganizacionController@repGen');
             Route::post('Organizacion/SimpList', 'OrganizacionController@orgSimpleList');
             Route::post('Organizacion/EditOrg', 'OrganizacionController@editOrg');
             Route::get('Organizacion/{organizacion}', 'OrganizacionController@show');
@@ -270,7 +270,7 @@ Route::group([
             //Informacion Financiera InformacionFinanciera/Org
 
             Route::post('InformacionFinanciera/InformacionFinanciera/Org', 'InformacionFinancieraController@show');
-            Route::get('InformacionFinanciera/RepGen', 'InformacionFinancieraController@repGen');
+            Route::post('InformacionFinanciera/RepGen', 'InformacionFinancieraController@repGen');
             Route::post('InformacionFinanciera/RepBus', 'InformacionFinancieraController@repBusqueda');
             Route::post('InformacionFinanciera/RepFec', 'InformacionFinancieraController@repFecha');
 
