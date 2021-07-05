@@ -271,7 +271,7 @@ Route::group([
 
             //Informacion Financiera InformacionFinanciera/Org
 
-            Route::post('InformacionFinanciera/Data', 'InformacionFinancieraController@listForms');
+            Route::get('InformacionFinanciera/Data', 'InformacionFinancieraController@listForms');
             Route::post('InformacionFinanciera/Org', 'InformacionFinancieraController@show');
             Route::post('InformacionFinanciera/RepGen', 'InformacionFinancieraController@repGen');
             Route::post('InformacionFinanciera/RepBus', 'InformacionFinancieraController@repBusqueda');
