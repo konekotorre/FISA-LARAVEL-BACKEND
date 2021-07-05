@@ -27,7 +27,7 @@ class UserController extends Controller
                 'users.usuario',
             )
             ->where('model_has_roles.role_id', '!=', 1)
-            ->orderBy('users.updated_at')
+            ->orderBy('users.usuario')
             ->get();
             $count = count($users);
         return response()->json([

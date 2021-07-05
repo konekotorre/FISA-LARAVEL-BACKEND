@@ -61,11 +61,21 @@ class VisitaController extends Controller
 
     public function listForm()
     {
+        $users = DB::table('users')
+            ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
+            ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+            ->select(
+                'users.id',
+                'users.usuario',
+            )
+            ->where('model_has_roles.role_id', '!=', 1)
+            ->orderBy('users.usuario')
+            ->get();
         return response()->json([
             "success" => true,
             "estadoVisitas" => EstadoVisita::orderBy('nombre')->get(),
             "estadoTareas" => EstadoTarea::orderBy('nombre')->get(),
-            "usuarios" => User::orderBy('usuario')->get(['usuario', 'id']),
+            "usuarios" => $users,
         ], 200);
     }
 
