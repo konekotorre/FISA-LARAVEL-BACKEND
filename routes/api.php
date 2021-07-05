@@ -190,14 +190,11 @@ Route::group([
 
             // Archivo
 
-            Route::post('Archivo/Org', 'ArchivoController@index');
-            Route::get('Archivo/{archivo}', 'ArchivoController@download');
             Route::post('Archivo/Upload', 'ArchivoController@upload');
             Route::delete('Archivo/{archivo}', 'ArchivoController@destroy');
 
             // Contacto
 
-            Route::get('Contacto/Data', 'ContactoController@listForms');
             Route::post('Contacto/', 'ContactoController@store');
             Route::put('Contacto/{contacto}', 'ContactoController@update');
             Route::delete('Contacto/{contacto}', 'ContactoController@destroy');
@@ -205,7 +202,6 @@ Route::group([
 
             // Informacion Financiera
 
-            Route::get('InformacionFinanciera/Data', 'InformacionFinancieraController@listForms');
             Route::post('InformacionFinanciera/', 'InformacionFinancieraController@store');
             Route::put('InformacionFinanciera/{informacionFinanciera}', 'InformacionFinancieraController@update');
             Route::post('InformacionFinanciera/DelOpe', 'InformacionFinancieraController@destroyOperaciones');
@@ -213,14 +209,12 @@ Route::group([
 
             // Oficina
 
-            Route::get('Oficina/Data', 'OficinaController@listForms');
             Route::post('Oficina/', 'OficinaController@store');
             Route::put('Oficina/{oficina}', 'OficinaController@update');
             Route::delete('Oficina/{oficina}', 'OficinaController@destroy');
 
             // Organizacion
 
-            Route::get('Organizacion/Data', 'OrganizacionController@listForms');
             Route::post('Organizacion/', 'OrganizacionController@store');
             Route::put('Organizacion/{organizacion}', 'OrganizacionController@update');
             Route::delete('Organizacion/{organizacion}', 'OrganizacionController@destroy');
@@ -237,6 +231,11 @@ Route::group([
 
         Route::group(['middleware' => ['role:Administrador|Soporte|MasterUser|Comercial']], function () {
 
+            //Archivo 
+
+            Route::post('Archivo/Org', 'ArchivoController@index');
+            Route::get('Archivo/{archivo}', 'ArchivoController@download');
+
             // User
 
             Route::post('User/Pass', 'UserController@changePass');
@@ -251,14 +250,17 @@ Route::group([
             Route::post('Organizacion/SimpList', 'OrganizacionController@orgSimpleList');
             Route::post('Organizacion/EditOrg', 'OrganizacionController@editOrg');
             Route::get('Organizacion/{organizacion}', 'OrganizacionController@show');
+            Route::get('Organizacion/Data', 'OrganizacionController@listForms');
 
             // Oficina 
 
             Route::post('Oficina/Org', 'OficinaController@index');
             Route::get('Oficina/{oficina}', 'OficinaController@show');
+            Route::get('Oficina/Data', 'OficinaController@listForms');
 
             //Contacto 
 
+            Route::get('Contacto/Data', 'ContactoController@listForms');
             Route::get('Contacto', 'ContactoController@index');
             Route::post('Contacto/Org', 'ContactoController@indexByOrganizacion');
             Route::post('Contacto/Search', 'ContactoController@search');
@@ -269,6 +271,7 @@ Route::group([
 
             //Informacion Financiera InformacionFinanciera/Org
 
+            Route::get('InformacionFinanciera/Data', 'InformacionFinancieraController@listForms');
             Route::post('InformacionFinanciera/InformacionFinanciera/Org', 'InformacionFinancieraController@show');
             Route::post('InformacionFinanciera/RepGen', 'InformacionFinancieraController@repGen');
             Route::post('InformacionFinanciera/RepBus', 'InformacionFinancieraController@repBusqueda');
