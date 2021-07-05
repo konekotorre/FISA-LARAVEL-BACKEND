@@ -41,7 +41,7 @@ Route::group([
             // User
 
             Route::get('User', 'UserController@index');
-            Route::get('User/Data', 'UserController@listForms');
+            Route::post('User/Data', 'UserController@listForms');
             Route::get('User/{user}', 'UserController@show');
             Route::post('User/', 'UserController@store');
             Route::put('User/{user}', 'UserController@update');
@@ -250,17 +250,17 @@ Route::group([
             Route::post('Organizacion/SimpList', 'OrganizacionController@orgSimpleList');
             Route::post('Organizacion/EditOrg', 'OrganizacionController@editOrg');
             Route::get('Organizacion/{organizacion}', 'OrganizacionController@show');
-            Route::get('Organizacion/Data', 'OrganizacionController@listForms');
+            Route::post('Organizacion/Data', 'OrganizacionController@listForms');
 
             // Oficina 
 
             Route::post('Oficina/Org', 'OficinaController@index');
             Route::get('Oficina/{oficina}', 'OficinaController@show');
-            Route::get('Oficina/Data', 'OficinaController@listForms');
+            Route::post('Oficina/Data', 'OficinaController@listForms');
 
             //Contacto 
 
-            Route::get('Contacto/Data', 'ContactoController@listForms');
+            Route::post('Contacto/Data', 'ContactoController@listForms');
             Route::get('Contacto', 'ContactoController@index');
             Route::post('Contacto/Org', 'ContactoController@indexByOrganizacion');
             Route::post('Contacto/Search', 'ContactoController@search');
@@ -271,7 +271,7 @@ Route::group([
 
             //Informacion Financiera InformacionFinanciera/Org
 
-            Route::get('InformacionFinanciera/Data', 'InformacionFinancieraController@listForms');
+            Route::post('InformacionFinanciera/Data', 'InformacionFinancieraController@listForms');
             Route::post('InformacionFinanciera/InformacionFinanciera/Org', 'InformacionFinancieraController@show');
             Route::post('InformacionFinanciera/RepGen', 'InformacionFinancieraController@repGen');
             Route::post('InformacionFinanciera/RepBus', 'InformacionFinancieraController@repBusqueda');
@@ -283,7 +283,7 @@ Route::group([
             Route::get('Visita/Org', 'VisitaController@indexByOrganizacion');
             Route::post('Visita/OrgData', 'VisitaController@orgData');
             Route::get('Visita/Today', 'VisitaController@today');
-            Route::get('Visita/Data', 'VisitaController@listForm');
+            Route::post('Visita/Data', 'VisitaController@listForm');
             Route::post('Visita/Search', 'VisitaController@search');
             Route::get('Visita/{visita}', 'VisitaController@show');
             Route::post('Visita/', 'VisitaController@store');
