@@ -253,7 +253,7 @@ class OrganizacionController extends Controller
         }
         return response()->json([
             "success" => true,
-            "num" => $i
+            "organizacion_id" => $organizacion_id
         ], 200);
     }
 
