@@ -99,6 +99,11 @@ class ContactoExport implements FromCollection, WithHeadings
             $crea_sal = $creador->toArray();
             $creador_salida = implode(", ", $crea_sal);
 
+            $created_at = date('d-m-Y', strtotime($contacto_busqueda[$i]->created_at));
+            $updated_at = date('d-m-Y', strtotime($contacto_busqueda[$i]->updated_at));
+            $contacto_busqueda[$i]->created_at =  $created_at;
+            $contacto_busqueda[$i]->updated_at =  $updated_at;
+            
             $oficinas = DB::table('oficinas')
                 ->leftJoin('contactos', 'contactos.oficina_id', '=', 'oficinas.id')
                 ->leftJoin('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
@@ -124,6 +129,7 @@ class ContactoExport implements FromCollection, WithHeadings
                     " (" . $oficina_ciudad . "," . $oficina_estado . ")";
 
                 $contacto_busqueda[$i]->dir = $sal_oficinas;
+
             } else {
                 $contacto_busqueda[$i]->dir = "";
             }

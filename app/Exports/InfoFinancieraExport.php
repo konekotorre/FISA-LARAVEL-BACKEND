@@ -83,6 +83,11 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
             $sal_editor = implode(", ", $sal_edit);
 
             $info_busqueda[$i]->id = $sal_editor;
+
+            $created_at = date('d-m-Y', strtotime($info_busqueda[$i]->created_at));
+            $updated_at = date('d-m-Y', strtotime($info_busqueda[$i]->updated_at));
+            $info_busqueda[$i]->created_at =  $created_at;
+            $info_busqueda[$i]->updated_at =  $updated_at;
             
         }
         return $info_busqueda;
