@@ -159,8 +159,8 @@ class OrgGenExport implements FromCollection, WithHeadings
             $organizacion_busqueda[$i]->departamento = $sal_departamento;
             $organizacion_busqueda[$i]->editor = $sal_editor;
 
-            $created_at = strtotime($organizacion_busqueda[$i]->created_at, 'Y-m-d');
-            $updated_at = strtotime($organizacion_busqueda[$i]->updated_at, 'Y-m-d');
+            $created_at = date($organizacion_busqueda[$i]->created_at);
+            $updated_at = date($organizacion_busqueda[$i]->updated_at);
             $organizacion_busqueda[$i]->created_at =  $created_at;
             $organizacion_busqueda[$i]->updated_at =  $updated_at;
 
