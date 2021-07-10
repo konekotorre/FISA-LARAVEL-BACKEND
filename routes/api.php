@@ -229,13 +229,8 @@ Route::group([
             Route::post('Exportaciones/', 'ExportacionesController@store');
         });
 
-        Route::group(['middleware' => ['role:Administrador|Soporte|MasterUser|Comercial']], function () {
-
-            //Archivo 
-
-            Route::post('Archivo/Org', 'ArchivoController@index');
-            Route::get('Archivo/{archivo}', 'ArchivoController@download');
-
+        Route::group(['middleware' => ['role:Administrador|Soporte|MasterUser|Comercial|Consulta']], function () {
+           
             // User
 
             Route::post('User/Pass', 'UserController@changePass');
@@ -244,13 +239,11 @@ Route::group([
 
             Route::get('Organizacion', 'OrganizacionController@index');
             Route::post('Organizacion/Search', 'OrganizacionController@search');
-            Route::post('Organizacion/RepFec', 'OrganizacionController@repFecha');
-            Route::post('Organizacion/RepBus', 'OrganizacionController@repBusqueda');
-            Route::post('Organizacion/RepGen', 'OrganizacionController@repGen');
             Route::post('Organizacion/SimpList', 'OrganizacionController@orgSimpleList');
             Route::post('Organizacion/EditOrg', 'OrganizacionController@editOrg');
             Route::get('Organizacion/{organizacion}', 'OrganizacionController@show');
             Route::post('Organizacion/Data', 'OrganizacionController@listForms');
+
 
             // Oficina 
 
@@ -258,24 +251,18 @@ Route::group([
             Route::get('Oficina/{oficina}', 'OficinaController@show');
             Route::post('Oficina/Data', 'OficinaController@listForms');
 
-            //Contacto 
+            // Contacto
 
             Route::post('Contacto/Data', 'ContactoController@listForms');
             Route::get('Contacto', 'ContactoController@index');
             Route::post('Contacto/Org', 'ContactoController@indexByOrganizacion');
             Route::post('Contacto/Search', 'ContactoController@search');
             Route::get('Contacto/{contacto}', 'ContactoController@show');
-            Route::post('Contacto/RepFec', 'ContactoController@repFecha');
-            Route::post('Contacto/RepBus', 'ContactoController@repBusqueda');
-            Route::post('Contacto/RepGen', 'ContactoController@repGen');
 
-            //Informacion Financiera InformacionFinanciera/Org
+            // Informacion Financiera
 
             Route::post('InformacionFinanciera/Data', 'InformacionFinancieraController@listForms');
             Route::post('InformacionFinanciera/Org', 'InformacionFinancieraController@show');
-            Route::post('InformacionFinanciera/RepGen', 'InformacionFinancieraController@repGen');
-            Route::post('InformacionFinanciera/RepBus', 'InformacionFinancieraController@repBusqueda');
-            Route::post('InformacionFinanciera/RepFec', 'InformacionFinancieraController@repFecha');
 
             // Visita
 
@@ -286,14 +273,47 @@ Route::group([
             Route::post('Visita/Data', 'VisitaController@listForm');
             Route::post('Visita/Search', 'VisitaController@search');
             Route::get('Visita/{visita}', 'VisitaController@show');
+
+            // Tarea
+
+            Route::post('Tarea/Visita', 'TareaController@index');
+            Route::get('Tarea/{tarea}', 'TareaController@show');
+        });
+
+        Route::group(['middleware' => ['role:Administrador|Soporte|MasterUser|Comercial']], function () {
+
+            //Archivo 
+
+            Route::post('Archivo/Org', 'ArchivoController@index');
+            Route::get('Archivo/{archivo}', 'ArchivoController@download');
+
+
+            // Organizacion
+
+            Route::post('Organizacion/RepFec', 'OrganizacionController@repFecha');
+            Route::post('Organizacion/RepBus', 'OrganizacionController@repBusqueda');
+            Route::post('Organizacion/RepGen', 'OrganizacionController@repGen');
+
+            //Contacto 
+
+            Route::post('Contacto/RepFec', 'ContactoController@repFecha');
+            Route::post('Contacto/RepBus', 'ContactoController@repBusqueda');
+            Route::post('Contacto/RepGen', 'ContactoController@repGen');
+
+            //Informacion Financiera InformacionFinanciera/Org
+
+            Route::post('InformacionFinanciera/RepGen', 'InformacionFinancieraController@repGen');
+            Route::post('InformacionFinanciera/RepBus', 'InformacionFinancieraController@repBusqueda');
+            Route::post('InformacionFinanciera/RepFec', 'InformacionFinancieraController@repFecha');
+
+            // Visita
+
             Route::post('Visita/', 'VisitaController@store');
             Route::put('Visita/{visita}', 'VisitaController@update');
             Route::delete('Visita/{visita}', 'VisitaController@destroy');
 
             // Tarea
 
-            Route::post('Tarea/Visita', 'TareaController@index');
-            Route::get('Tarea/{tarea}', 'TareaController@show');
             Route::post('Tarea/', 'TareaController@store');
             Route::put('Tarea/{tarea}', 'TareaController@update');
             Route::delete('Tarea/{tarea}', 'TareaController@destroy');
