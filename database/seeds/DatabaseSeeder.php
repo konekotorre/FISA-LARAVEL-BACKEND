@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
 
-            TipoDocumentoPersonaSeeder::class,
+/*             TipoDocumentoPersonaSeeder::class,
             UserSeeder::class,
             PermissionsSeeder::class,
             PaisSeeder::class,
@@ -31,7 +31,8 @@ class DatabaseSeeder extends Seeder
             TipoOficinaSeeder::class,
             ClasificacionSeeder::class,
             EstadoVisitaSeeder::class,
-            EstadoTareaSeeder::class,
+            EstadoTareaSeeder::class, */
+            NewSeeder::class
         ]);
     }
 }
