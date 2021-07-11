@@ -60,7 +60,7 @@ class PermissionsSeeder extends Seeder
         $user13 = User::find(13);
         $user13->assignRole($comercial);
  */
-        DB::table('users')->insert([
+/*         DB::table('users')->insert([
             'nombres' => 'Consultor',
             'apellidos' => 'Sistema',
             'tipo_documento_persona_id' => '1',
@@ -74,7 +74,7 @@ class PermissionsSeeder extends Seeder
         ]);
 
         $consulta = Role::create(['name' => 'Consulta']);
-
+ */
         $user14 = User::find(14);
         $user14->assignRole($consulta);
     }
