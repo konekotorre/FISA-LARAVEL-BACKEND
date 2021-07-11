@@ -72,9 +72,9 @@ class PermissionsSeeder extends Seeder
             'usuario_creacion' => '1',
             'usuario_actualizacion' => '1',
         ]);
-
+*/
         $consulta = Role::create(['name' => 'Consulta']);
- */
+ 
         $user14 = User::find(14);
         $user14->assignRole($consulta);
     }
