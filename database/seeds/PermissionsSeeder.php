@@ -76,6 +76,6 @@ class PermissionsSeeder extends Seeder
         $consulta = Role::create(['name' => 'Consulta']);
 
         $user14 = User::find(14);
-        $user04->assignRole($consulta);
+        $user14->assignRole($consulta);
     }
 }
