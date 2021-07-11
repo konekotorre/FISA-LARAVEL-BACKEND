@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\User;
+
 
 class NewSeeder_11_07_21 extends Seeder
 {
@@ -15,7 +17,7 @@ class NewSeeder_11_07_21 extends Seeder
             'nombres' => 'Consultor',
             'apellidos' => 'Sistema',
             'tipo_documento_persona_id' => '1',
-            'numero_documento' => '99999999',
+            'numero_documento' => '79867986',
             'usuario' => 'Consulta',
             'password' => bcrypt('Fisa@1234'),
             'email' => 'consulta@amcham.com',
@@ -26,7 +28,7 @@ class NewSeeder_11_07_21 extends Seeder
 
         $consulta = Role::create(['name' => 'Consulta']);
 
-        $user13 = User::find(14);
-        $user01->assignRole($consulta);
+        $user14 = User::find(14);
+        $user04->assignRole($consulta);
     }
 }
