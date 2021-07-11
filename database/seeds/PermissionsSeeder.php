@@ -13,13 +13,15 @@ class PermissionsSeeder extends Seeder
      */
     public function run()
     {
-/*         $master = Role::create(['name' => 'MasterUser']);
+        $master = Role::create(['name' => 'MasterUser']);
 
         $admin = Role::create(['name' => 'Administrador']);
 
         $soporte = Role::create(['name' => 'Soporte']);
 
         $comercial = Role::create(['name' => 'Comercial']);
+
+        $consulta = Role::create(['name' => 'Consulta']);
 
         $user01 = User::find(1);
         $user01->assignRole($master);
@@ -59,21 +61,6 @@ class PermissionsSeeder extends Seeder
 
         $user13 = User::find(13);
         $user13->assignRole($comercial);
- */
-/*         DB::table('users')->insert([
-            'nombres' => 'Consultor',
-            'apellidos' => 'Sistema',
-            'tipo_documento_persona_id' => '1',
-            'numero_documento' => '79867986',
-            'usuario' => 'Consulta',
-            'password' => bcrypt('Fisa@1234'),
-            'email' => 'consulta@amcham.com',
-            'estado' => true,
-            'usuario_creacion' => '1',
-            'usuario_actualizacion' => '1',
-        ]);
-*/
-        $consulta = Role::create(['name' => 'Consulta']);
  
         $user14 = User::find(14);
         $user14->assignRole($consulta);

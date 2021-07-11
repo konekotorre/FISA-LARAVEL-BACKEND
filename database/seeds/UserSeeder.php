@@ -181,5 +181,19 @@ class UserSeeder extends Seeder
             'usuario_creacion' => '1',
             'usuario_actualizacion' => '1',
         ]);
+
+        DB::table('users')->insert([
+            'nombres' => 'Consultor',
+            'apellidos' => 'Sistema',
+            'tipo_documento_persona_id' => '1',
+            'numero_documento' => '79867986',
+            'usuario' => 'Consulta',
+            'password' => bcrypt('Fisa@1234'),
+            'email' => 'consulta@amcham.com',
+            'estado' => true,
+            'usuario_creacion' => '1',
+            'usuario_actualizacion' => '1',
+        ]);
+
     }
 }
