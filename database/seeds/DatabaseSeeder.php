@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
             ClasificacionSeeder::class,
             EstadoVisitaSeeder::class,
             EstadoTareaSeeder::class, */
-            NewSeeder::class
+            NewSeeder_11_07_21::class
         ]);
     }
 }

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class NewSeeder-10-07-2021 extends Seeder
+class NewSeeder_11_07_21 extends Seeder
 {
     /**
      * Run the database seeds.
