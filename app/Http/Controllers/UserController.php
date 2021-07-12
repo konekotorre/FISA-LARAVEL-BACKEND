@@ -15,25 +15,46 @@ class UserController extends Controller
 
     public function index()
     {
-        $users = DB::table('users')
-            ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
-            ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+        $user_auth = Auth::user();
+        $role = DB::table('model_has_roles')
             ->select(
-                'users.id',
-                'users.nombres',
-                'users.apellidos',
-                'tipo_documento_personas.nombre as documento',
-                'users.numero_documento',
-                'users.usuario',
+                'role_id',
             )
-            ->where('model_has_roles.role_id', '!=', 1)
-            ->orderBy('users.usuario')
-            ->get();
-            $count = count($users);
+            ->where('model_has_roles.model_id', '=', $user_auth[0])
+            ->first();
+        if ($role == 1) {
+            $users = DB::table('users')
+                ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
+                ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+                ->select(
+                    'users.id',
+                    'users.nombres',
+                    'users.apellidos',
+                    'tipo_documento_personas.nombre as documento',
+                    'users.numero_documento',
+                    'users.usuario',
+                )
+                ->orderBy('users.usuario')
+                ->get();
+        } else {
+            $users = DB::table('users')
+                ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
+                ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+                ->select(
+                    'users.id',
+                    'users.nombres',
+                    'users.apellidos',
+                    'tipo_documento_personas.nombre as documento',
+                    'users.numero_documento',
+                    'users.usuario',
+                )
+                ->where('model_has_roles.role_id', '!=', 1)
+                ->orderBy('users.usuario')
+                ->get();
+        }
         return response()->json([
             "success" => true,
             "usuarios" => $users,
-            "count" => $count
         ], 200);
     }
 
