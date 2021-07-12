@@ -20,10 +20,9 @@ class UserController extends Controller
             ->select(
                 'role_id',
             )
-            ->where('model_has_roles.model_id', '=', $user_auth[0])
+            ->where('model_has_roles.model_id', '=', $user_auth['id'])
             ->get();
-        $role = $role[0];
-        if ($role->role_id == 1) {
+        if ($role[0]->role_id == 1) {
             $users = DB::table('users')
                 ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
                 ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
