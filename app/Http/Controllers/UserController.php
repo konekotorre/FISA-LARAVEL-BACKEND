@@ -21,8 +21,9 @@ class UserController extends Controller
                 'role_id',
             )
             ->where('model_has_roles.model_id', '=', $user_auth[0])
-            ->first();
-        if ($role == 1) {
+            ->get();
+        $role = $role[0];
+        if ($role->role_id == 1) {
             $users = DB::table('users')
                 ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
                 ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
