@@ -144,22 +144,25 @@ class UserController extends Controller
             $solicitud['password'] = bcrypt($solicitud['password']);
         }
         $user->update($solicitud);
-       // ModelHasRole::where('model_id', $user->id)->delete();
-         DB::table('model_has_roles')
-        ->where('model_id', '=', $user->id)
-        ->delete(); 
-/*         $role = Role::find($request->rol);
+        // ModelHasRole::where('model_id', $user->id)->delete();
+        DB::table('model_has_roles')
+            ->where('model_id', '=', $user->id)
+            ->delete();
+        /*         $role = Role::find($request->rol);
         $user->removeRole($role); */
-/* 
+
         if ($request->rol == 2) {
-            $role = Role::find(2); */
+            $role = Role::find(2);
             $user->assignRole($request->rol);
-/*         } elseif ($request->rol == 3) {
+        } elseif ($request->rol == 3) {
             $role = Role::find(3);
+            $user->assignRole($role);
+        } elseif ($request->rol == 4) {
+            $role = Role::find(4);
             $user->assignRole($role);
         } else {
             return response()->json(["success" => false], 200);
-        } */
+        }
         return response()->json([
             "success" => true,
             "usuario" => $user->id,
