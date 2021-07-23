@@ -252,7 +252,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
         return [
             1 => [
                 'font' => ['bold' => true],
-                'font' => ['text-align' => 'center']
+                'text-align' => PHPExcel_Style_Alignment::HORIZONTAL_CENTER
             ]
         ];
     }
