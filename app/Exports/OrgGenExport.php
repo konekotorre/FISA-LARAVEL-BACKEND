@@ -6,7 +6,6 @@ use DateTime;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class OrgGenExport implements FromCollection, WithHeadings
 {
@@ -165,7 +164,7 @@ class OrgGenExport implements FromCollection, WithHeadings
             $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
             
             $organizacion_busqueda[$i]->created_at =  $created_at->format('d/m/Y');
-            $organizacion_busqueda[$i]->updated_at =  Date::dateTimeToExcel($updated_at->format('d/m/Y'));
+            $organizacion_busqueda[$i]->updated_at =  $updated_at->format('d/m/Y');
 
             if ($organizacion_busqueda[$i]->estado == true) {
                 $organizacion_busqueda[$i]->estado = "Activo";
@@ -185,7 +184,7 @@ class OrgGenExport implements FromCollection, WithHeadings
                 $organizacion_busqueda[$i]->exporta = "N";
             }
         }
-        return $organizacion_busqueda;
+        return $organizacion_busqueda->formatDates(true, 'd/m/Y');
     }
 
     public function headings(): array
