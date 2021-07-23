@@ -144,10 +144,10 @@ class UserController extends Controller
             $solicitud['password'] = bcrypt($solicitud['password']);
         }
         $user->update($solicitud);
-        ModelHasRole::where('model_id', $user->id)->delete();
-/*         DB::table('model_has_roles')
+       // ModelHasRole::where('model_id', $user->id)->delete();
+         DB::table('model_has_roles')
         ->where('model_id', '=', $$user->id)
-        ->delete(); */
+        ->delete(); 
 /*         $role = Role::find($request->rol);
         $user->removeRole($role); */
 /* 
