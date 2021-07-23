@@ -167,7 +167,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
 
             $created_at = new DateTime($organizacion_busqueda[$i]->created_at);
             $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
-            
+
             $organizacion_busqueda[$i]->created_at =  $created_at->format('d/m/Y');
             $organizacion_busqueda[$i]->updated_at =  $updated_at->format('d/m/Y');
 
@@ -236,16 +236,22 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
         ];
     }
 
-    public function columnFormats(): array {
+    public function columnFormats(): array
+    {
         return [
-            'AE' => NumberFormat::FORMAT_DATE_DMYSLASH,
-            'AG' => NumberFormat::FORMAT_DATE_DMYSLASH,
-            'AI' => NumberFormat::FORMAT_DATE_DMYSLASH,
-            'AK' => NumberFormat::FORMAT_DATE_DMYSLASH,
+            'K' => NumberFormat::FORMAT_CURRENCY_USD,
+            'AE' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AG' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AI' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AK' => NumberFormat::FORMAT_DATE_DDMMYYYY,
         ];
     }
 
-    public function styles(Worksheet $sheet) {
-        return [ 1 => ['font' => ['bold' => true ]]];
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            1 => ['font' => ['bold' => true]],
+            1 => ['text-align' => ['center' => true]]
+        ];
     }
 }
