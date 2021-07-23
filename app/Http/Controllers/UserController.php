@@ -143,6 +143,7 @@ class UserController extends Controller
             $solicitud['password'] = bcrypt($solicitud['password']);
         }
         $user->update($solicitud);
+        $user->revokeRole($request->rol);
         if ($request->rol == 2) {
             $role = Role::find(2);
             $user->assignRole($role);
