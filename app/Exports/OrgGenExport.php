@@ -160,11 +160,11 @@ class OrgGenExport implements FromCollection, WithHeadings
             $organizacion_busqueda[$i]->departamento = $sal_departamento;
             $organizacion_busqueda[$i]->editor = $sal_editor;
 
-            $creacion= new DateTime($organizacion_busqueda[$i]->created_at);
-            $actualizacion = new DateTime($organizacion_busqueda[$i]->updated_at);
+            $created_at = new DateTime($organizacion_busqueda[$i]->created_at);
+            $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
             
-            $organizacion_busqueda[$i]->created_at =  $creacion->format('d/m/Y');
-            $organizacion_busqueda[$i]->updated_at =  $actualizacion->format('d/m/Y');
+            $organizacion_busqueda[$i]->created_at =  $created_at->format('d/m/Y');
+            $organizacion_busqueda[$i]->updated_at =  $updated_at->format('d/m/Y');
 
             if ($organizacion_busqueda[$i]->estado == true) {
                 $organizacion_busqueda[$i]->estado = "Activo";
