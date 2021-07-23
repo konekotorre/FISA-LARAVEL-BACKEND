@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -159,10 +160,13 @@ class OrgGenExport implements FromCollection, WithHeadings
             $organizacion_busqueda[$i]->departamento = $sal_departamento;
             $organizacion_busqueda[$i]->editor = $sal_editor;
 
-            $created_at = date('d-m-Y', strtotime($organizacion_busqueda[$i]->created_at));
-            $updated_at = date('d-m-Y', strtotime($organizacion_busqueda[$i]->updated_at));
-            $organizacion_busqueda[$i]->created_at =  $created_at;
-            $organizacion_busqueda[$i]->updated_at =  $updated_at;
+            $created_at = new DateTime($organizacion_busqueda[$i]->created_at);
+            $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
+/*             $created_at = date('d-m-Y', strtotime($organizacion_busqueda[$i]->created_at));
+            $updated_at = date('d-m-Y', strtotime($organizacion_busqueda[$i]->updated_at)); */
+            
+            $organizacion_busqueda[$i]->created_at =  $created_at->format('d/m/Y');
+            $organizacion_busqueda[$i]->updated_at =  $updated_at->format('d/m/Y');
 
             if ($organizacion_busqueda[$i]->estado == true) {
                 $organizacion_busqueda[$i]->estado = "Activo";
