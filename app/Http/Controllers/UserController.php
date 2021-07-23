@@ -146,7 +146,7 @@ class UserController extends Controller
         $user->update($solicitud);
        // ModelHasRole::where('model_id', $user->id)->delete();
          DB::table('model_has_roles')
-        ->where('model_id', '=', $$user->id)
+        ->where('model_id', '=', $user->id)
         ->delete(); 
 /*         $role = Role::find($request->rol);
         $user->removeRole($role); */
