@@ -231,6 +231,7 @@ class OrgGenExport implements FromCollection, WithHeadings
             'Usuario Última Modificación'
         ];
     }
+    
     public function styles(Worksheet $sheet) {
         return [ 1 => ['font' => ['bold' => true ]]];
     }
