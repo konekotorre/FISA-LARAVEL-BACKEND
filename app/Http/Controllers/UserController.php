@@ -6,6 +6,7 @@ use App\TipoDocumentoPersona;
 use App\User;
 
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\ModelHasRoles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -143,7 +144,7 @@ class UserController extends Controller
             $solicitud['password'] = bcrypt($solicitud['password']);
         }
         $user->update($solicitud);
-        $user->revokeRole($request->rol);
+        ModelHasRoles::findOrFail($request->id)->delete();
         if ($request->rol == 2) {
             $role = Role::find(2);
             $user->assignRole($role);
