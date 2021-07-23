@@ -250,7 +250,10 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
     public function styles(Worksheet $sheet)
     {
         return [
-            1 => ['font' => ['bold' => true], 'text' => ['center' => true]]
+            1 => [
+                'font' => ['bold' => true],
+                'font' => ['text-align' => 'center']
+            ]
         ];
     }
 }
