@@ -6,9 +6,13 @@ use DateTime;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class OrgGenExport implements FromCollection, WithHeadings
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+
+class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColumnFormatting
 {
     public function collection()
     {
@@ -231,7 +235,16 @@ class OrgGenExport implements FromCollection, WithHeadings
             'Usuario Última Modificación'
         ];
     }
-    
+
+    public function columnFormats(): array {
+        return [
+            'AE' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AG' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AI' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AK' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+        ];
+    }
+
     public function styles(Worksheet $sheet) {
         return [ 1 => ['font' => ['bold' => true ]]];
     }
