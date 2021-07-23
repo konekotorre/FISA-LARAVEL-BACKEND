@@ -147,19 +147,8 @@ class UserController extends Controller
         DB::table('model_has_roles')
             ->where('model_id', '=', $user->id)
             ->delete();
-
-       // if ($request->rol == 2) {
-            $role = Role::find($request->rol);
-            $user->assignRole($role);
-       /*  } elseif ($request->rol == 3) {
-            $role = Role::find(3);
-            $user->assignRole($role);
-        } elseif ($request->rol == 4) {
-            $role = Role::find(4);
-            $user->assignRole($role);
-        } else {
-            return response()->json(["success" => false], 200);
-        } */
+        $role = Role::find($request->rol);
+        $user->assignRole($role);
         return response()->json([
             "success" => true,
             "usuario" => $user->id,
