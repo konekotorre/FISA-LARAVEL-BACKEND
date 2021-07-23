@@ -238,10 +238,10 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
 
     public function columnFormats(): array {
         return [
-            'AE' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            'AG' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            'AI' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            'AK' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AE' => NumberFormat::FORMAT_DATE_DMYSLASH,
+            'AG' => NumberFormat::FORMAT_DATE_DMYSLASH,
+            'AI' => NumberFormat::FORMAT_DATE_DMYSLASH,
+            'AK' => NumberFormat::FORMAT_DATE_DMYSLASH,
         ];
     }
 
