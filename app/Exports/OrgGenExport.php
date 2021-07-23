@@ -6,6 +6,7 @@ use DateTime;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class OrgGenExport implements FromCollection, WithHeadings
 {
@@ -184,7 +185,7 @@ class OrgGenExport implements FromCollection, WithHeadings
                 $organizacion_busqueda[$i]->exporta = "N";
             }
         }
-        return $organizacion_busqueda->formatDates(true, 'd/m/Y');
+        return $organizacion_busqueda;
     }
 
     public function headings(): array
@@ -229,5 +230,8 @@ class OrgGenExport implements FromCollection, WithHeadings
             'Fecha Modificación',
             'Usuario Última Modificación'
         ];
+    }
+    public function styles(Worksheet $sheet) {
+        return [ 1 => ['font' => ['bold' => true ]]];
     }
 }
