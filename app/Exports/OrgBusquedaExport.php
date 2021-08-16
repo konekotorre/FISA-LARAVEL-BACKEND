@@ -75,12 +75,9 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             ->whereIn('organizacions.id', $this->ids)
             ->orderByDesc('organizacions.created_at')
             ->get();
-
         $count = count($organizacion_busqueda);
-
         for ($i = 0; $i < $count; $i++) {
             $id_bus =  $organizacion_busqueda[$i]->id;
-
             $oficinas = DB::table('oficinas')
                 ->leftJoin('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
                 ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
@@ -94,7 +91,6 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 ->where('oficinas.organizacion_id', '=', $id_bus)
                 ->orderBy('tipo_oficinas.nombre')
                 ->get();
-
             if (!$oficinas->isEmpty() && $i < $count) {
                 $oficina_nom = $oficinas->pluck('nombre')->toArray();
                 $oficina_dir = $oficinas->pluck('direccion')->toArray();
@@ -110,38 +106,30 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             } else {
                 $sal_oficinas = "";
             }
-
             $ciius = DB::table('detalle_actividad_economicas')
                 ->leftJoin('ciius', 'ciius.id', '=', 'detalle_actividad_economicas.ciiu_id')
                 ->select('ciius.nombre')
                 ->where('detalle_actividad_economicas.organizacion_id', '=', $id_bus)
                 ->get();
-
             $ciiu = $ciius->pluck('nombre');
             $sal_ciuu = $ciiu->toArray();
             $sal_actividad = implode(", ", $sal_ciuu);
-
             $importaciones = DB::table('importaciones')
                 ->leftJoin('pais', 'pais.id', '=', 'importaciones.pais_id')
                 ->select('pais.nombre as pais_impo')
                 ->where('importaciones.organizacion_id', '=', $id_bus)
                 ->get();
-
             $importa = $importaciones->pluck('pais_impo');
             $sal_importa = $importa->toArray();
             $sal_imp_pais = implode(", ", $sal_importa);
-
             $exportaciones = DB::table('exportaciones')
                 ->leftJoin('pais', 'pais.id', '=', 'exportaciones.pais_id')
                 ->select('pais.nombre as pais_expo')
                 ->where('exportaciones.organizacion_id', '=', $id_bus)
                 ->get();
-
             $exportacion = $exportaciones->pluck('pais_expo');
             $sal_exporta = $exportacion->toArray();
             $sal_exp_pais = implode(", ", $sal_exporta);
-
-
             $departamento =  DB::table('departamento_estados')
                 ->leftJoin('oficinas', 'oficinas.departamento_estado_id', '=', 'departamento_estados.id')
                 ->join('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
@@ -149,11 +137,9 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 ->where('oficinas.organizacion_id', '=', $id_bus)
                 ->where('tipo_oficinas.nombre', 'ilike', 'Principal')
                 ->get();
-
             $dep = $departamento->pluck('departamento');
             $sal_dep = $dep->toArray();
             $sal_departamento = implode(", ", $sal_dep);
-
             $editor =  DB::table('users')
                 ->join('organizacions', 'organizacions.usuario_actualizacion', '=', 'users.id')
                 ->select('users.usuario as editor')
@@ -163,31 +149,26 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             $edit = $editor->pluck('editor');
             $sal_edit = $edit->toArray();
             $sal_editor = implode(", ", $sal_edit);
-
             $organizacion_busqueda[$i]->id = $sal_actividad;
             $organizacion_busqueda[$i]->expo = $sal_exp_pais;
             $organizacion_busqueda[$i]->impo = $sal_imp_pais;
             $organizacion_busqueda[$i]->empleados_indirectos = $sal_oficinas;
             $organizacion_busqueda[$i]->departamento = $sal_departamento;
             $organizacion_busqueda[$i]->editor = $sal_editor;
-
-            $organizacion_busqueda[$i]->created_at->format('d/m/Y');
-            $organizacion_busqueda[$i]->updated_at->format('d/m/Y');
-            $organizacion_busqueda[$i]->created_at = new DateTime($organizacion_busqueda[$i]->created_at);
-            $organizacion_busqueda[$i]->updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
-
+            $created_at = new DateTime($organizacion_busqueda[$i]->created_at);
+            $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
+            $organizacion_busqueda[$i]->created_at = $created_at->format('d/m/Y');
+            $organizacion_busqueda[$i]->updated_at = $updated_at->format('d/m/Y');
             if ($organizacion_busqueda[$i]->estado == true) {
                 $organizacion_busqueda[$i]->estado = "Activo";
             } else {
                 $organizacion_busqueda[$i]->estado = "Inactivo";
             }
-
             if ($organizacion_busqueda[$i]->importa === true) {
                 $organizacion_busqueda[$i]->importa = "S";
             } else if ($organizacion_busqueda[$i]->importa === false) {
                 $organizacion_busqueda[$i]->importa = "N";
             }
-
             if ($organizacion_busqueda[$i]->exporta === true) {
                 $organizacion_busqueda[$i]->exporta = "S";
             } else  if ($organizacion_busqueda[$i]->exporta === false) {
