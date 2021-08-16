@@ -218,6 +218,10 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
     {
         return [
             'K' => NumberFormat::FORMAT_CURRENCY_USD,
+            'M' => NumberFormat::FORMAT_CURRENCY_USD,
+            'N' => NumberFormat::FORMAT_CURRENCY_USD,
+            'O' => NumberFormat::FORMAT_CURRENCY_USD,
+            'R' => NumberFormat::FORMAT_CURRENCY_USD,
             'AE' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AG' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AI' => NumberFormat::FORMAT_DATE_DDMMYYYY,
@@ -230,6 +234,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
         return [
             1 => [
                 'font' => ['bold' => true],
+                'alignment' => ['center' => true]
             ]
         ];
     }

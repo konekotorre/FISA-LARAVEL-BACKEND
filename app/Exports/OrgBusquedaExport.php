@@ -222,10 +222,15 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             'Usuario Última Modificación'
         ];
     }
+    
     public function columnFormats(): array
     {
         return [
             'K' => NumberFormat::FORMAT_CURRENCY_USD,
+            'M' => NumberFormat::FORMAT_CURRENCY_USD,
+            'N' => NumberFormat::FORMAT_CURRENCY_USD,
+            'O' => NumberFormat::FORMAT_CURRENCY_USD,
+            'R' => NumberFormat::FORMAT_CURRENCY_USD,
             'AE' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AG' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AI' => NumberFormat::FORMAT_DATE_DDMMYYYY,
