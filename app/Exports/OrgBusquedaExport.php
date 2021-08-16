@@ -6,7 +6,12 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class OrgBusquedaExport implements FromCollection, WithHeadings
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+
+class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, WithColumnFormatting
 {
 
     function __construct($solicitud)
@@ -166,11 +171,11 @@ class OrgBusquedaExport implements FromCollection, WithHeadings
             $organizacion_busqueda[$i]->departamento = $sal_departamento;
             $organizacion_busqueda[$i]->editor = $sal_editor;
 
-            $created_at = date('d-m-Y', strtotime($organizacion_busqueda[$i]->created_at));
-            $updated_at = date('d-m-Y', strtotime($organizacion_busqueda[$i]->updated_at));
-            $organizacion_busqueda[$i]->created_at =  $created_at;
-            $organizacion_busqueda[$i]->updated_at =  $updated_at;
-            
+            $organizacion_busqueda[$i]->created_at->format('d/m/Y');
+            $organizacion_busqueda[$i]->updated_at->format('d/m/Y');
+            $organizacion_busqueda[$i]->created_at = new DateTime($organizacion_busqueda[$i]->created_at);
+            $organizacion_busqueda[$i]->updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
+
             if ($organizacion_busqueda[$i]->estado == true) {
                 $organizacion_busqueda[$i]->estado = "Activo";
             } else {
@@ -234,6 +239,25 @@ class OrgBusquedaExport implements FromCollection, WithHeadings
             'Usuario Creación',
             'Fecha Modificación',
             'Usuario Última Modificación'
+        ];
+    }
+    public function columnFormats(): array
+    {
+        return [
+            'K' => NumberFormat::FORMAT_CURRENCY_USD,
+            'AE' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AG' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AI' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AK' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+        ];
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            1 => [
+                'font' => ['bold' => true],
+            ]
         ];
     }
 }
