@@ -117,11 +117,13 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 $contacto_busqueda[$i]->dir = "";
             }
             $contacto_busqueda[$i]->representante === true ? $contacto_busqueda[$i]->representante = "S" : $contacto_busqueda[$i]->representante = "N";
-            if ($contacto_busqueda[$i]->control === true) {
+            $contacto_busqueda[$i]->control === true ? $contacto_busqueda[$i]->control = "S" : '';
+            $contacto_busqueda[$i]->control === false ? $contacto_busqueda[$i]->control = "N" : '';
+/*             if ($contacto_busqueda[$i]->control === true) {
                 $contacto_busqueda[$i]->control = "S";
             } else if ($contacto_busqueda[$i]->control === false) {
                 $contacto_busqueda[$i]->control = "N";
-            }
+            } */
             if ($contacto_busqueda[$i]->envio === true) {
                 $contacto_busqueda[$i]->envio = "S";
             } else if ($contacto_busqueda[$i]->envio === false) {
