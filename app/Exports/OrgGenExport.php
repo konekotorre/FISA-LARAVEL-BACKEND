@@ -10,7 +10,6 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColumnFormatting
 {
@@ -148,11 +147,8 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             $organizacion_busqueda[$i]->empleados_indirectos = $sal_oficinas;
             $organizacion_busqueda[$i]->departamento = $sal_departamento;
             $organizacion_busqueda[$i]->editor = $sal_editor;
-
-/*             $created_at = new DateTime($organizacion_busqueda[$i]->created_at);
-            $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at); */
-            $created_at = Date::excelToDateTimeObject($organizacion_busqueda[$i]->created_at);
-            $updated_at = Date::excelToDateTimeObject($organizacion_busqueda[$i]->created_at);
+            $created_at = new DateTime($organizacion_busqueda[$i]->created_at);
+            $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
             $organizacion_busqueda[$i]->created_at = $created_at->format('d/m/Y');
             $organizacion_busqueda[$i]->updated_at = $updated_at->format('d/m/Y');
             if ($organizacion_busqueda[$i]->estado == true) {
