@@ -163,21 +163,11 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             $organizacion_busqueda[$i]->fecha_desafiliacion = $desafiliacion ? $desafiliacion->format('d/m/Y') :'';
             $organizacion_busqueda[$i]->created_at = $created_at->format('d/m/Y');
             $organizacion_busqueda[$i]->updated_at = $updated_at->format('d/m/Y');
-            if ($organizacion_busqueda[$i]->estado == true) {
-                $organizacion_busqueda[$i]->estado = "Activo";
-            } else {
-                $organizacion_busqueda[$i]->estado = "Inactivo";
-            }
-            if ($organizacion_busqueda[$i]->importa === true) {
-                $organizacion_busqueda[$i]->importa = "S";
-            } else if ($organizacion_busqueda[$i]->importa === false) {
-                $organizacion_busqueda[$i]->importa = "N";
-            }
-            if ($organizacion_busqueda[$i]->exporta === true) {
-                $organizacion_busqueda[$i]->exporta = "S";
-            } else  if ($organizacion_busqueda[$i]->exporta === false) {
-                $organizacion_busqueda[$i]->exporta = "N";
-            }
+            $organizacion_busqueda[$i]->estado === true ? $organizacion_busqueda[$i]->estado = "Activo" : $organizacion_busqueda[$i]->estado = "Inactivo";
+            $organizacion_busqueda[$i]->importa === true ? $organizacion_busqueda[$i]->importa = "S" : null;
+            $organizacion_busqueda[$i]->importa === false ? $organizacion_busqueda[$i]->importa = "N" : null;
+            $organizacion_busqueda[$i]->exporta === true ? $organizacion_busqueda[$i]->exporta = "S" : null;
+            $organizacion_busqueda[$i]->exporta === false ? $organizacion_busqueda[$i]->exporta = "N" : null;
         }
         return $organizacion_busqueda;
     }

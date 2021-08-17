@@ -10,9 +10,10 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+
 class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColumnFormatting
 {
-  public function collection()
+    public function collection()
     {
         $contacto_busqueda = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
@@ -110,21 +111,11 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             } else {
                 $contacto_busqueda[$i]->dir = "";
             }
-            if ($contacto_busqueda[$i]->representante == true) {
-                $contacto_busqueda[$i]->representante = "S";
-            } else {
-                $contacto_busqueda[$i]->representante = "N";
-            }
-            if ($contacto_busqueda[$i]->control === true) {
-                $contacto_busqueda[$i]->control = "S";
-            } else if ($contacto_busqueda[$i]->control === false) {
-                $contacto_busqueda[$i]->control = "N";
-            }
-            if ($contacto_busqueda[$i]->envio === true) {
-                $contacto_busqueda[$i]->envio = "S";
-            } else if ($contacto_busqueda[$i]->envio === false) {
-                $contacto_busqueda[$i]->envio = "N";
-            }
+            $contacto_busqueda[$i]->representante === true ? $contacto_busqueda[$i]->representante = "S" : $contacto_busqueda[$i]->representante = "N";
+            $contacto_busqueda[$i]->control === true ? $contacto_busqueda[$i]->control = "S" : null;
+            $contacto_busqueda[$i]->control === false ? $contacto_busqueda[$i]->control = "N" : null;
+            $contacto_busqueda[$i]->envio === true ? $contacto_busqueda[$i]->envio = "S" : null;
+            $contacto_busqueda[$i]->envio === false ? $contacto_busqueda[$i]->envio = "N" : null;
             $contacto_busqueda[$i]->persona_id = $sal_categorias;
             $contacto_busqueda[$i]->nombres = $contacto;
             $contacto_busqueda[$i]->id = $creador_salida;
