@@ -23,7 +23,7 @@ class UserController extends Controller
             )
             ->where('model_has_roles.model_id', '=', $user_auth['id'])
             ->get();
-        $perfil = $role[0]->role_id === 1 ? "'>='" : "'>'";
+        $variable = $role[0]->role_id === 1 ? ">=" : ">";
 /*         if ($role[0]->role_id == 1) {
             $users = DB::table('users')
                 ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
@@ -50,7 +50,7 @@ class UserController extends Controller
                     'users.numero_documento',
                     'users.usuario',
                 )
-                ->where('model_has_roles.role_id', $perfil, 1)
+                ->where('model_has_roles.role_id', $variable, 1)
                 ->orderBy('users.usuario')
                 ->get();
         //}
