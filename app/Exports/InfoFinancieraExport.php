@@ -5,8 +5,13 @@ namespace App\Exports;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use DateTime;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Maatwebsite\Excel\Concerns\WithStyles;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
-class InfoFinancieraExport implements FromCollection, WithHeadings
+class InfoFinancieraExport implements FromCollection, WithHeadings, WithStyles, WithColumnFormatting
 {
 
     function __construct($request)
@@ -65,30 +70,24 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
             ])
             ->orderByDesc('informacion_financieras.updated_at')
             ->get();
-
         $count = count($info_busqueda);
-
         for ($i = 0; $i < $count; $i++) {
-
             $id_bus = $info_busqueda[$i]->id;
-
             $editor =  DB::table('users')
                 ->join('informacion_financieras', 'informacion_financieras.usuario_actualizacion', '=', 'users.id')
                 ->select('users.usuario as editor')
                 ->where('informacion_financieras.id', '=', $id_bus)
                 ->get();
-
             $edit = $editor->pluck('editor');
             $sal_edit = $edit->toArray();
             $sal_editor = implode(", ", $sal_edit);
-
             $info_busqueda[$i]->id = $sal_editor;
-
-            $created_at = date('d-m-Y', strtotime($info_busqueda[$i]->created_at));
-            $updated_at = date('d-m-Y', strtotime($info_busqueda[$i]->updated_at));
-            $info_busqueda[$i]->created_at =  $created_at;
-            $info_busqueda[$i]->updated_at =  $updated_at;
-            
+            $edicion = $info_busqueda[$i]->fecha_edicion_pauta ? new DateTime($info_busqueda[$i]->fecha_edicion_pauta):'';
+            $created_at = new DateTime($info_busqueda[$i]->created_at);
+            $updated_at = new DateTime($info_busqueda[$i]->updated_at);
+            $info_busqueda[$i]->fecha_edicion_pauta = $info_busqueda[$i]->fecha_edicion_pauta ? $edicion->format('d/m/Y'): '';
+            $info_busqueda[$i]->created_at = $created_at->format('d/m/Y');
+            $info_busqueda[$i]->updated_at = $updated_at->format('d/m/Y');
         }
         return $info_busqueda;
     }
@@ -111,7 +110,7 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
             'Ventas Anuales',
             'Total Activos',
             'Total Pasivos',
-            'Fecha Activos',
+            'Año Activos',
             'Patrimonio Total',
             'Emp. Directos',
             'Emp. Indirectos',
@@ -128,6 +127,40 @@ class InfoFinancieraExport implements FromCollection, WithHeadings
             'Usuario Creación',
             'Fecha Modificación',
             'Usuario Última Modificación'
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'G' => NumberFormat::FORMAT_CURRENCY_USD,
+            'H' => NumberFormat::FORMAT_CURRENCY_USD,
+            'I' => NumberFormat::FORMAT_CURRENCY_USD,
+            'J' => NumberFormat::FORMAT_CURRENCY_USD,
+            'K' => NumberFormat::FORMAT_CURRENCY_USD,
+            'L' => NumberFormat::FORMAT_CURRENCY_USD,
+            'M' => NumberFormat::FORMAT_CURRENCY_USD,
+            'N' => NumberFormat::FORMAT_CURRENCY_USD,
+            'O' => NumberFormat::FORMAT_CURRENCY_USD,
+            'Q' => NumberFormat::FORMAT_CURRENCY_USD,
+            'W' => NumberFormat::FORMAT_CURRENCY_USD,
+            'X' => NumberFormat::FORMAT_CURRENCY_USD,
+            'Y' => NumberFormat::FORMAT_CURRENCY_USD,
+            'Z' => NumberFormat::FORMAT_CURRENCY_USD,
+            'AA' => NumberFormat::FORMAT_CURRENCY_USD,
+            'AB' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AC' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AE' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+        ];
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            1 => [
+                'font' => ['bold' => true],
+                'alignment' => ['center' => true]
+            ]
         ];
     }
 }
