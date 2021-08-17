@@ -71,10 +71,10 @@ class InfoFinGenExport implements FromCollection, WithHeadings, WithStyles, With
             $sal_edit = $edit->toArray();
             $sal_editor = implode(", ", $sal_edit);
             $info_busqueda[$i]->id = $sal_editor;
-            $edicion = new DateTime($info_busqueda[$i]->fecha_edicion_pauta);
+            $edicion = $info_busqueda[$i]->fecha_edicion_pauta ? new DateTime($info_busqueda[$i]->fecha_edicion_pauta):'';
             $created_at = new DateTime($info_busqueda[$i]->created_at);
             $updated_at = new DateTime($info_busqueda[$i]->updated_at);
-            $info_busqueda[$i]->fecha_edicion_pauta = $edicion->format('d/m/Y');
+            $info_busqueda[$i]->fecha_edicion_pauta = $info_busqueda[$i]->fecha_edicion_pauta ? $edicion->format('d/m/Y'): '';
             $info_busqueda[$i]->created_at = $created_at->format('d/m/Y');
             $info_busqueda[$i]->updated_at = $updated_at->format('d/m/Y');
         }
