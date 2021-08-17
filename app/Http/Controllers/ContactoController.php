@@ -90,7 +90,6 @@ class ContactoController extends Controller
 
     public function repGen()
     {
-       
         return Excel::download(new ConGenExport, 'Reporte de Contactos.xlsx');
     }
 

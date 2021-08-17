@@ -10,7 +10,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-class ContactoExport implements FromCollection, WithHeadings, WithStyles, WithColumnFormatting
+class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, WithColumnFormatting
 {
     function __construct($solicitud)
     {
