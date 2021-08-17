@@ -24,36 +24,20 @@ class UserController extends Controller
             ->where('model_has_roles.model_id', '=', $user_auth['id'])
             ->get();
         $variable = $role[0]->role_id === 1 ? ">=" : ">";
-/*         if ($role[0]->role_id == 1) {
-            $users = DB::table('users')
-                ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
-                ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
-                ->select(
-                    'users.id',
-                    'users.nombres',
-                    'users.apellidos',
-                    'tipo_documento_personas.nombre as documento',
-                    'users.numero_documento',
-                    'users.usuario',
-                )
-                ->orderBy('users.usuario')
-                ->get();
-        } else { */
-            $users = DB::table('users')
-                ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
-                ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
-                ->select(
-                    'users.id',
-                    'users.nombres',
-                    'users.apellidos',
-                    'tipo_documento_personas.nombre as documento',
-                    'users.numero_documento',
-                    'users.usuario',
-                )
-                ->where('model_has_roles.role_id', $variable, 1)
-                ->orderBy('users.usuario')
-                ->get();
-        //}
+        $users = DB::table('users')
+            ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
+            ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+            ->select(
+                'users.id',
+                'users.nombres',
+                'users.apellidos',
+                'tipo_documento_personas.nombre as documento',
+                'users.numero_documento',
+                'users.usuario',
+            )
+            ->where('model_has_roles.role_id', $variable, 1)
+            ->orderBy('users.usuario')
+            ->get();
         return response()->json([
             "success" => true,
             "usuarios" => $users,
@@ -79,15 +63,8 @@ class UserController extends Controller
         $solicitud['usuario_creacion'] = $creador_auth['id'];
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $user = User::create($solicitud);
-        if ($request->rol == 2) {
-            $role = Role::find(2);
-            $user->assignRole($role);
-        } elseif ($request->rol == 3) {
-            $role = Role::find(3);
-            $user->assignRole($role);
-        } else {
-            return response()->json(["success" => false], 200);
-        }
+        $role = Role::find($request->rol);
+        $user->assignRole($role);
         return response()->json([
             "success" => true,
             "usuario" => $user->id,
