@@ -23,7 +23,8 @@ class UserController extends Controller
             )
             ->where('model_has_roles.model_id', '=', $user_auth['id'])
             ->get();
-        if ($role[0]->role_id == 1) {
+        $perfil = $role[0]->role_id == 1 ? "'>', 0" : " '!=', 1";
+/*         if ($role[0]->role_id == 1) {
             $users = DB::table('users')
                 ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
                 ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
@@ -37,7 +38,7 @@ class UserController extends Controller
                 )
                 ->orderBy('users.usuario')
                 ->get();
-        } else {
+        } else { */
             $users = DB::table('users')
                 ->join('tipo_documento_personas', 'tipo_documento_personas.id', '=', 'users.tipo_documento_persona_id')
                 ->leftJoin('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
@@ -49,10 +50,10 @@ class UserController extends Controller
                     'users.numero_documento',
                     'users.usuario',
                 )
-                ->where('model_has_roles.role_id', '!=', 1)
+                ->where('model_has_roles.role_id', $perfil)
                 ->orderBy('users.usuario')
                 ->get();
-        }
+        //}
         return response()->json([
             "success" => true,
             "usuarios" => $users,
