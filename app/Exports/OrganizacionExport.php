@@ -67,7 +67,7 @@ class OrganizacionExport implements FromCollection, WithHeadings, WithStyles, Wi
                 'organizacions.motivo_afiliacion',
                 'organizacions.fecha_desafiliacion',
                 'organizacions.motivo_desafiliacion',
-                'informacion_financieras.fecha_edicion_pauta',
+                'informacion_financieras.fecha_edicion_pauta as pauta',
                 'organizacions.created_at',
                 'users.usuario',
                 'organizacions.updated_at',
@@ -158,14 +158,17 @@ class OrganizacionExport implements FromCollection, WithHeadings, WithStyles, Wi
             $organizacion_busqueda[$i]->empleados_indirectos = $sal_oficinas;
             $organizacion_busqueda[$i]->departamento = $sal_departamento;
             $organizacion_busqueda[$i]->editor = $sal_editor;
-            $afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_afiliacion): '';
-            $desafiliacion = $organizacion_busqueda[$i]->fecha_desafiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_desafiliacion): '';
+            $fecha_pauta = new DateTime($organizacion_busqueda[$i]->fecha_edicion_pauta);
+            $afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_afiliacion) : '';
+            $desafiliacion = $organizacion_busqueda[$i]->fecha_desafiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_desafiliacion) : '';
             $created_at = new DateTime($organizacion_busqueda[$i]->created_at);
             $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
-            $organizacion_busqueda[$i]->fecha_afiliacion = $afiliacion ? $afiliacion->format('d/m/Y') :'';
-            $organizacion_busqueda[$i]->fecha_desafiliacion = $desafiliacion ? $desafiliacion->format('d/m/Y') :'';
+            $organizacion_busqueda[$i]->fecha_edicion_pauta = $fecha_pauta ? $fecha_pauta->format('d/m/Y') : '';
+            $organizacion_busqueda[$i]->fecha_afiliacion = $afiliacion ? $afiliacion->format('d/m/Y') : '';
+            $organizacion_busqueda[$i]->fecha_desafiliacion = $desafiliacion ? $desafiliacion->format('d/m/Y') : '';
             $organizacion_busqueda[$i]->created_at = $created_at->format('d/m/Y');
             $organizacion_busqueda[$i]->updated_at = $updated_at->format('d/m/Y');
+            $organizacion_busqueda[$i]->fecha_edicion_pauta = $fecha_pauta->format('d/m/Y');
             $organizacion_busqueda[$i]->estado === true ? $organizacion_busqueda[$i]->estado = "Activo" : $organizacion_busqueda[$i]->estado = "Inactivo";
             $organizacion_busqueda[$i]->importa === true ? $organizacion_busqueda[$i]->importa = "S" : null;
             $organizacion_busqueda[$i]->importa === false ? $organizacion_busqueda[$i]->importa = "N" : null;
@@ -231,7 +234,8 @@ class OrganizacionExport implements FromCollection, WithHeadings, WithStyles, Wi
             'AE' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AG' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AI' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            'AK' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AJ' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'Al' => NumberFormat::FORMAT_DATE_DDMMYYYY,
         ];
     }
     public function styles(Worksheet $sheet)

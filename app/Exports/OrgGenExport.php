@@ -61,7 +61,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
                 'organizacions.motivo_afiliacion',
                 'organizacions.fecha_desafiliacion',
                 'organizacions.motivo_desafiliacion',
-                'informacion_financieras.fecha_edicion_pauta',
+                'informacion_financieras.fecha_edicion_pauta as pauta',
                 'organizacions.created_at',
                 'users.usuario',
                 'organizacions.updated_at',
