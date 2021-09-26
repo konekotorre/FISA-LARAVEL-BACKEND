@@ -267,7 +267,7 @@ class VisitaController extends Controller
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $visita->update($solicitud);
         DB::table('detalle_asignado_visitas')
-            ->where('visitas_id', '=', $visita->id)
+            ->where('visita_id', '=', $visita->id)
             ->delete();
         $asignados = $request->asignados;
         if (!empty($asignados)) {
