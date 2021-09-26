@@ -151,8 +151,6 @@ Route::group([
 
             // Subsector
 
-            Route::post('Subsector/Sector', 'SubsectorController@indexBySector');
-            Route::get('Subsector/{subsector}', 'SubsectorController@show');
             Route::post('Subsector/', 'SubsectorController@store');
             Route::put('Subsector/{subsector}', 'SubsectorController@update');
             Route::delete('Subsector/{subsector}', 'SubsectorController@destroy');
@@ -227,6 +225,10 @@ Route::group([
             //Exportaciones
 
             Route::post('Exportaciones/', 'ExportacionesController@store');
+
+            //Subsector
+
+            
         });
 
         Route::group(['middleware' => ['role:Administrador|Soporte|MasterUser|Comercial|Consulta']], function () {
@@ -278,15 +280,22 @@ Route::group([
 
             Route::post('Tarea/Visita', 'TareaController@index');
             Route::get('Tarea/{tarea}', 'TareaController@show');
+
+             // Archivo
+             
+            Route::post('Archivo/Org', 'ArchivoController@index');
+
+            // Subsector
+
+            Route::get('Subsector/{subsector}', 'SubsectorController@show');    
+            Route::post('Subsector/Sector', 'SubsectorController@indexBySector');
         });
 
         Route::group(['middleware' => ['role:Administrador|Soporte|MasterUser|Comercial']], function () {
 
             //Archivo 
 
-            Route::post('Archivo/Org', 'ArchivoController@index');
             Route::get('Archivo/{archivo}', 'ArchivoController@download');
-
 
             // Organizacion
 
