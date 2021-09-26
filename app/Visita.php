@@ -16,7 +16,6 @@ class Visita extends Model
         'razon',
         'observaciones',
         'resultado',
-        'usuario_asignado',
         'estado_id',
         'usuario_creacion',
         'usuario_actualizacion'
@@ -31,7 +30,7 @@ class Visita extends Model
     }
 
     public function asignado() {
-        return $this->belongsTo('App\User', 'usuario_asignado', 'id');
+        return $this->hasMany('App\User');
     }
 
     public function organizacion() {

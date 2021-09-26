@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DetalleAsignadoVisita;
 use App\Visita;
 use App\EstadoVisita;
 use App\EstadoTarea;
@@ -19,13 +20,11 @@ class VisitaController extends Controller
         $visitas = DB::table('visitas')
             ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
             ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
-            ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
             ->select(
                 'visitas.id',
                 'organizacions.nombre as organizacion',
                 'visitas.fecha_programada',
                 'visitas.titulo',
-                'users.usuario',
                 'estado_visitas.nombre'
             )
             ->orderBy('visitas.fecha_programada')
@@ -42,12 +41,10 @@ class VisitaController extends Controller
         $visitas = DB::table('visitas')
             ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
             ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
-            ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
             ->select(
                 'visitas.id',
                 'visitas.fecha_programada',
                 'visitas.titulo',
-                'users.usuario',
                 'estado_visitas.nombre'
             )
             ->where('organizacion.id', '=', $request->organizacion_id)
@@ -126,13 +123,11 @@ class VisitaController extends Controller
         $visitas = DB::table('visitas')
             ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
             ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
-            ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
             ->select(
                 'visitas.id',
                 'organizacions.nombre as organizacion',
                 'visitas.fecha_programada',
                 'visitas.titulo',
-                'users.usuario',
                 'estado_visitas.nombre'
             )
             ->where('visitas.fecha_programada', '>=', $now)
@@ -214,6 +209,17 @@ class VisitaController extends Controller
         $solicitud['usuario_creacion'] = $creador_auth['id'];
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $visita = Visita::create($solicitud);
+        $asignados = $request->asignados;
+        if (!empty($asignados)) {
+            $count = count($asignados);
+            if ($count > 0) {
+                for ($i = 0; $i < $count; $i++) {
+                    $usuarios['visita_id'] = $visita->id;
+                    $usuarios['asignado_id'] = $asignados[$i];
+                    DetalleAsignadoVisita::create($usuarios);
+                }
+            }
+        }
         return response()->json([
             "success" => true,
             "visita" => $visita->id
@@ -229,22 +235,24 @@ class VisitaController extends Controller
             )
             ->where('visitas.id', '=', $visita->id)
             ->get();
-
         $creador_busqueda = DB::table('visitas')
             ->join('users', 'users.id', '=', 'visitas.usuario_creacion')
             ->select('users.usuario as usuario_creacion')
             ->where('visitas.id', '=', $visita->id)
             ->get();
-
         $editor_busqueda = DB::table('visitas')
             ->join('users', 'users.id', '=', 'visitas.usuario_actualizacion')
             ->select('users.usuario as usuario_actualizacion')
             ->where('visitas.id', '=', $visita->id)
             ->get();
-
+        $asignados = DB::table('detalle_asignado_visitas')
+            ->leftJoin('users', 'users.id', '=', 'detalle_asignado_visitas.asignado_id')
+            ->select('users.id', 'users.usuario')
+            ->get();
         return response()->json([
             "success" => true,
             "visita" => $visita_busqueda[0],
+            'asignados' => $asignados,
             "usuario_creacion" => $creador_busqueda[0],
             "usuario_actualizacion" => $editor_busqueda[0]
         ], 200);
@@ -257,6 +265,20 @@ class VisitaController extends Controller
         $creador_auth = Auth::user();
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $visita->update($solicitud);
+        DB::table('detalle_asignado_visitas')
+            ->where('visitas_id', '=', $visita->id)
+            ->delete();
+        $asignados = $request->asignados;
+        if (!empty($asignados)) {
+            $count = count($asignados);
+            if ($count > 0) {
+                for ($i = 0; $i < $count; $i++) {
+                    $usuarios['visita_id'] = $visita->id;
+                    $usuarios['asignado_id'] = $asignados[$i];
+                    DetalleAsignadoVisita::create($usuarios);
+                }
+            }
+        }
         return response()->json([
             "success" => true,
             "visita" => $visita->id

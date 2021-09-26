@@ -54,6 +54,6 @@ class Contacto extends Model
 
     public function visitas()
     {
-        return $this->hasMany('App\Visita');
+        return $this->hasMany('App\DetalleContactoVisita');
     }
 }
