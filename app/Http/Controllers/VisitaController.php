@@ -248,6 +248,7 @@ class VisitaController extends Controller
         $asignados = DB::table('detalle_asignado_visitas')
             ->leftJoin('users', 'users.id', '=', 'detalle_asignado_visitas.asignado_id')
             ->select('users.id', 'users.usuario')
+            ->where('detalle_asignado_visitas.visita_id', $visita->id)
             ->get();
         return response()->json([
             "success" => true,
