@@ -249,6 +249,7 @@ class VisitaController extends Controller
             ->leftJoin('users', 'users.id', '=', 'detalle_asignado_visitas.asignado_id')
             ->select('users.id', 'users.usuario')
             ->where('detalle_asignado_visitas.visita_id', $visita->id)
+            ->orderBy('users.usuario')
             ->get();
         return response()->json([
             "success" => true,
