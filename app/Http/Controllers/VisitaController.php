@@ -150,7 +150,6 @@ class VisitaController extends Controller
             $visitas = DB::table('visitas')
                 ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
                 ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
-                ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
                 ->select(
                     'visitas.id',
                     'organizacions.nombre as organizacion',
@@ -167,7 +166,6 @@ class VisitaController extends Controller
             $visitas = DB::table('visitas')
                 ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
                 ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
-                ->join('users', 'users.id', '=', 'visitas.usuario_asignado')
                 ->select(
                     'visitas.id',
                     'organizacions.nombre as organizacion',

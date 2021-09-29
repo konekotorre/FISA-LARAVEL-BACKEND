@@ -32,7 +32,8 @@ class InformacionFinanciera extends Model
         'importa',
         'exporta',
         'usuario_creacion',
-        'usuario_actualizacion'
+        'usuario_actualizacion',
+        'fecha_constitucion'
     ];
 
     public function organizacion()
