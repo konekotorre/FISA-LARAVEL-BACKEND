@@ -155,7 +155,6 @@ class VisitaController extends Controller
                     'organizacions.nombre as organizacion',
                     'visitas.fecha_programada',
                     'visitas.titulo',
-                    'users.usuario',
                     'estado_visitas.nombre'
                 )
                 ->where('visitas.titulo', 'ilike', $palabra_final)
@@ -171,7 +170,6 @@ class VisitaController extends Controller
                     'organizacions.nombre as organizacion',
                     'visitas.fecha_programada',
                     'visitas.titulo',
-                    'users.usuario',
                     'estado_visitas.nombre'
                 )->where('organizacions.nombre', 'ilike', $palabra_final)
                 ->orderBy('visitas.fecha_programada')
