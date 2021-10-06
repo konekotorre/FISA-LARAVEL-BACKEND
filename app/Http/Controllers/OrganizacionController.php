@@ -102,7 +102,7 @@ class OrganizacionController extends Controller
 
     public function search(Request $request)
     {
-        $numero_documento = $request->numero_documento;
+        $numero_documento =  $request->numero_documento;
         $nombre = $request->nombre;
         $razon_social = $request->razon_social;
         $documentos = $request->documentos;
@@ -121,13 +121,20 @@ class OrganizacionController extends Controller
                 'categorias.nombre as categoria',
                 'subsectors.nombre as subsector'
             )
+            ->when()
             ->where([
                 [$parametros[0], 'ilike', $numero_documento],
                 [$parametros[1], 'ilike', $nombre],
                 [$parametros[2], 'ilike', $razon_social]
             ])
-            ->whereIn('organizacions.tipo_documento_organizacion_id', $documentos)
-            ->whereIn('organizacions.categoria_id', $categorias)
+            //->whereIn('organizacions.tipo_documento_organizacion_id', $documentos)
+            //->whereIn('organizacions.categoria_id', $categorias)
+            ->when($categorias, function ($query, $categorias) {
+                return $query->whereIn('organizacions.categoria_id', $categorias);
+            })
+            ->when($documentos, function ($query, $documentos) {
+                return $query->whereIn('organizacions.tipo_documento_organizacion_id', $documentos);
+            })
             ->orderBy('organizacions.nombre')
             ->orderByDesc('organizacions.estado')
             ->get();
