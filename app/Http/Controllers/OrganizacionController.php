@@ -173,6 +173,7 @@ class OrganizacionController extends Controller
         $creador_auth = Auth::user();
         $solicitud['usuario_creacion'] = $creador_auth['id'];
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
+        $solicitud['numero_documento'] = $solicitud['numero_documento'] ? $solicitud['numero_documento'] : "-";
         $organizacion = Organizacion::create($solicitud);
         $key = $request->actividades;
         if (!empty($key)) {
@@ -235,6 +236,7 @@ class OrganizacionController extends Controller
         $solicitud = $request->all();
         $creador_auth = Auth::user();
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
+        $solicitud['numero_documento'] = $solicitud['numero_documento'] ? $solicitud['numero_documento'] : "-";
         $organizacion->update($solicitud);
         $organizacion_id = $organizacion->id;
         DB::table('detalle_actividad_economicas')
