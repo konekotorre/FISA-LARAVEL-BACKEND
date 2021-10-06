@@ -121,7 +121,6 @@ class OrganizacionController extends Controller
                 'categorias.nombre as categoria',
                 'subsectors.nombre as subsector'
             )
-            ->when()
             ->where([
                 [$parametros[0], 'ilike', $numero_documento],
                 [$parametros[1], 'ilike', $nombre],
