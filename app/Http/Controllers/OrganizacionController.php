@@ -129,10 +129,10 @@ class OrganizacionController extends Controller
             ])
             //->whereIn('organizacions.tipo_documento_organizacion_id', $documentos)
             //->whereIn('organizacions.categoria_id', $categorias)
-            ->when($categorias, function ($query, $categorias) {
+            ->when($categorias, function ($query) use ($categorias) {
                 return $query->whereIn('organizacions.categoria_id', $categorias);
             })
-            ->when($documentos, function ($query, $documentos) {
+            ->when($documentos, function ($query) use ($documentos) {
                 return $query->whereIn('organizacions.tipo_documento_organizacion_id', $documentos);
             })
             ->orderBy('organizacions.nombre')
