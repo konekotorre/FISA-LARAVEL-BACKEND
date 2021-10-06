@@ -126,8 +126,6 @@ class OrganizacionController extends Controller
                 [$parametros[1], 'ilike', $nombre],
                 [$parametros[2], 'ilike', $razon_social]
             ])
-            //->whereIn('organizacions.tipo_documento_organizacion_id', $documentos)
-            //->whereIn('organizacions.categoria_id', $categorias)
             ->when($categorias, function ($query, $categorias) {
                 $query->whereIn('organizacions.categoria_id', $categorias);
             })
