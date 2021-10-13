@@ -49,9 +49,10 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 'informacion_financieras.cuota_unica_ingreso',
                 'informacion_financieras.pendiente_facturacion',
                 'informacion_financieras.cuota_pautas',
-                'informacion_financieras.fecha_edicion_pauta',
+                'informacion_financieras.fecha_edicion_pauta as fecha_pauta',
                 'informacion_financieras.total_activos',
                 'informacion_financieras.temporada_declaracion',
+                'informacion_financieras.fecha_constitucion',
                 'organizacions.empleados_indirectos',
                 'organizacions.estado',
                 'sectors.nombre as sector',
@@ -67,8 +68,6 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 'organizacions.motivo_afiliacion',
                 'organizacions.fecha_desafiliacion',
                 'organizacions.motivo_desafiliacion',
-                'informacion_financieras.fecha_edicion_pauta as fecha_pauta',
-                'informacion_financieras.fecha_constitucion',
                 'organizacions.created_at',
                 'users.usuario',
                 'organizacions.updated_at',
@@ -159,11 +158,9 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             $organizacion_busqueda[$i]->editor = $sal_editor;
             $fecha_pauta = $organizacion_busqueda[$i]->fecha_pauta ? new DateTime($organizacion_busqueda[$i]->fecha_pauta) : '';
             $afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_afiliacion) : '';
-            $desafiliacion = $organizacion_busqueda[$i]->fecha_desafiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_desafiliacion) : '';
-                        
+            $desafiliacion = $organizacion_busqueda[$i]->fecha_desafiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_desafiliacion) : '';  
             $constitucion = $organizacion_busqueda[$i]->fecha_constitucion ? new DateTime($organizacion_busqueda[$i]->fecha_constitucion) : '';
             $organizacion_busqueda[$i]->fecha_constitucion = $constitucion ? $constitucion->format('d/m/Y') : '';
-
             $created_at = new DateTime($organizacion_busqueda[$i]->created_at);
             $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
             $organizacion_busqueda[$i]->fecha_pauta = $fecha_pauta ? $fecha_pauta->format('d/m/Y') : '';
@@ -202,6 +199,7 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             'Fecha Edición Pauta',
             'Total Activos',
             'Fecha Activos',
+            'Fecha Constitución',
             'Oficinas',
             'Estado',
             'Sector Económico',
@@ -217,7 +215,6 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             'Motivo Afiliación',
             'Fecha Desafiliación',
             'Motivo Desafiliación',
-            'Fecha Edición Pauta',
             'Fecha Creación',
             'Usuario Creación',
             'Fecha Modificación',
@@ -231,13 +228,14 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             'K' => NumberFormat::FORMAT_CURRENCY_USD,
             'M' => NumberFormat::FORMAT_CURRENCY_USD,
             'N' => NumberFormat::FORMAT_CURRENCY_USD,
+            'Q' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'O' => NumberFormat::FORMAT_CURRENCY_USD,
             'R' => NumberFormat::FORMAT_CURRENCY_USD,
-            'AE' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            'AG' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            'AI' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'T' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AF' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AH' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AJ' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            'Al' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AL' => NumberFormat::FORMAT_DATE_DDMMYYYY,
         ];
     }
 

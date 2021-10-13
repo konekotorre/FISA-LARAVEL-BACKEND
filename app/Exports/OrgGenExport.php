@@ -225,9 +225,9 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             'Q' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'O' => NumberFormat::FORMAT_CURRENCY_USD,
             'R' => NumberFormat::FORMAT_CURRENCY_USD,
-            'AE' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            'AG' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            'AI' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'T' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AF' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AH' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AJ' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AL' => NumberFormat::FORMAT_DATE_DDMMYYYY,
         ];
