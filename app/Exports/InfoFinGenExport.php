@@ -52,6 +52,7 @@ class InfoFinGenExport implements FromCollection, WithHeadings, WithStyles, With
                 'informacion_financieras.pendiente_facturacion',
                 'informacion_financieras.cuota_pautas',
                 'informacion_financieras.fecha_edicion_pauta',
+                'informacion_financieras.fecha_constitucion',
                 'informacion_financieras.created_at',
                 'users.usuario',
                 'informacion_financieras.updated_at',
@@ -77,6 +78,8 @@ class InfoFinGenExport implements FromCollection, WithHeadings, WithStyles, With
             $info_busqueda[$i]->fecha_edicion_pauta = $info_busqueda[$i]->fecha_edicion_pauta ? $edicion->format('d/m/Y'): '';
             $info_busqueda[$i]->created_at = $created_at->format('d/m/Y');
             $info_busqueda[$i]->updated_at = $updated_at->format('d/m/Y');
+            $constitucion = $info_busqueda[$i]->fecha_constitucion ? new DateTime($info_busqueda[$i]->fecha_constitucion) : '';
+            $info_busqueda[$i]->fecha_constitucion = $constitucion ? $constitucion->format('d/m/Y') : '';
         }
         return $info_busqueda;
     }
@@ -112,6 +115,7 @@ class InfoFinGenExport implements FromCollection, WithHeadings, WithStyles, With
             'Pendiente Facturación',
             'Cuota Pautas',
             'Fecha Edición Pauta',
+            'Fecha Constitución',
             'Fecha Creación',
             'Usuario Creación',
             'Fecha Modificación',
@@ -139,7 +143,8 @@ class InfoFinGenExport implements FromCollection, WithHeadings, WithStyles, With
             'AA' => NumberFormat::FORMAT_CURRENCY_USD,
             'AB' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AC' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            'AE' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AD' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AF' => NumberFormat::FORMAT_DATE_DDMMYYYY,
         ];
     }
 
