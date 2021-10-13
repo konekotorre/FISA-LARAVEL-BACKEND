@@ -153,7 +153,8 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             $afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_afiliacion) : '';
             $desafiliacion = $organizacion_busqueda[$i]->fecha_desafiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_desafiliacion) : '';
             
-            $organizacion_busqueda[$i]->fecha_constitucion ? $organizacion_busqueda[$i]->fecha_constitucion->format('d/m/Y') : '';
+            $constitucion = $organizacion_busqueda[$i]->fecha_constitucion ? new DateTime($organizacion_busqueda[$i]->fecha_constitucion) : '';
+            $organizacion_busqueda[$i]->fecha_constitucion = $constitucion ? $constitucion->format('d/m/Y') : '';
 
             $created_at = new DateTime($organizacion_busqueda[$i]->created_at);
             $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
