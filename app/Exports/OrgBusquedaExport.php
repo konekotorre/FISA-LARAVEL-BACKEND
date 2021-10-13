@@ -68,6 +68,7 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 'organizacions.fecha_desafiliacion',
                 'organizacions.motivo_desafiliacion',
                 'informacion_financieras.fecha_edicion_pauta as fecha_pauta',
+                'informacion_financieras.fecha_constitucion',
                 'organizacions.created_at',
                 'users.usuario',
                 'organizacions.updated_at',
@@ -159,6 +160,10 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             $fecha_pauta = $organizacion_busqueda[$i]->fecha_pauta ? new DateTime($organizacion_busqueda[$i]->fecha_pauta) : '';
             $afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_afiliacion) : '';
             $desafiliacion = $organizacion_busqueda[$i]->fecha_desafiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_desafiliacion) : '';
+                        
+            $constitucion = $organizacion_busqueda[$i]->fecha_constitucion ? new DateTime($organizacion_busqueda[$i]->fecha_constitucion) : '';
+            $organizacion_busqueda[$i]->fecha_constitucion = $constitucion ? $constitucion->format('d/m/Y') : '';
+
             $created_at = new DateTime($organizacion_busqueda[$i]->created_at);
             $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
             $organizacion_busqueda[$i]->fecha_pauta = $fecha_pauta ? $fecha_pauta->format('d/m/Y') : '';
