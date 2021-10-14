@@ -10,8 +10,6 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
-use Carbon\Carbon;
-
 
 class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColumnFormatting
 {
@@ -168,9 +166,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             $organizacion_busqueda[$i]->fecha_constitucion = $organizacion_busqueda[$i]->fecha_constitucion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_constitucion)): '';
             $organizacion_busqueda[$i]->fecha_pauta = $organizacion_busqueda[$i]->fecha_pauta ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_pauta)): '';
             $organizacion_busqueda[$i]->updated_at = $organizacion_busqueda[$i]->updated_at ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->updated_at)): '';
-            //$organizacion_busqueda[$i]->created_at = $organizacion_busqueda[$i]->created_at ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->created_at)): '';
-            $created_at = Carbon::create($organizacion_busqueda[$i]->created_at);
-            $organizacion_busqueda[$i]->created_at = $organizacion_busqueda[$i]->created_at ? $created_at->toDateString(): '';
+            $organizacion_busqueda[$i]->created_at = $organizacion_busqueda[$i]->created_at ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->created_at)): '';
 
             $organizacion_busqueda[$i]->estado === true ? $organizacion_busqueda[$i]->estado = "Activo" : $organizacion_busqueda[$i]->estado = "Inactivo";
             $organizacion_busqueda[$i]->importa === true ? $organizacion_busqueda[$i]->importa = "S" : null;
