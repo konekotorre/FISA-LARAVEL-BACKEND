@@ -149,22 +149,25 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             $organizacion_busqueda[$i]->departamento = $sal_departamento;
             $organizacion_busqueda[$i]->editor = $sal_editor;
 
-            $fecha_pauta = $organizacion_busqueda[$i]->fecha_pauta ? new DateTime($organizacion_busqueda[$i]->fecha_pauta) : '';
+/*          $fecha_pauta = $organizacion_busqueda[$i]->fecha_pauta ? new DateTime($organizacion_busqueda[$i]->fecha_pauta) : '';
             $afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_afiliacion) : '';
             $desafiliacion = $organizacion_busqueda[$i]->fecha_desafiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_desafiliacion) : '';  
             $constitucion = $organizacion_busqueda[$i]->fecha_constitucion ? new DateTime($organizacion_busqueda[$i]->fecha_constitucion) : '';
             $organizacion_busqueda[$i]->fecha_constitucion = $constitucion ? $constitucion->format('d/m/Y') : '';
             $created_at = new DateTime($organizacion_busqueda[$i]->created_at);
             $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
-
-            $organizacion_busqueda[$i]->fecha_pauta = $organizacion_busqueda[$i]->fecha_pauta ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_pauta)): '';
-            $organizacion_busqueda[$i]->created_at = $organizacion_busqueda[$i]->created_at ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->created_at)): '';
-
-
+            $organizacion_busqueda[$i]->fecha_pauta = $fecha_pauta ? $fecha_pauta->format('d/m/Y') : '';
             $organizacion_busqueda[$i]->fecha_afiliacion = $afiliacion ? $afiliacion->format('d/m/Y') : '';
             $organizacion_busqueda[$i]->fecha_desafiliacion = $desafiliacion ? $desafiliacion->format('d/m/Y') : '';
             $organizacion_busqueda[$i]->created_at = $created_at->format('d/m/Y');
-            $organizacion_busqueda[$i]->updated_at = $updated_at->format('d/m/Y');
+            $organizacion_busqueda[$i]->updated_at = $updated_at->format('d/m/Y'); */
+            $organizacion_busqueda[$i]->fecha_afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_afiliacion)): '';
+            $organizacion_busqueda[$i]->fecha_desafiliacion = $organizacion_busqueda[$i]->fecha_desafiliacion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_desafiliacion)): '';
+            $organizacion_busqueda[$i]->fecha_constitucion = $organizacion_busqueda[$i]->fecha_constitucion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_constitucion)): '';
+            $organizacion_busqueda[$i]->fecha_pauta = $organizacion_busqueda[$i]->fecha_pauta ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_pauta)): '';
+            $organizacion_busqueda[$i]->updated_at = $organizacion_busqueda[$i]->updated_at ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->updated_at)): '';
+            $organizacion_busqueda[$i]->created_at = $organizacion_busqueda[$i]->created_at ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->created_at)): '';
+
             $organizacion_busqueda[$i]->estado === true ? $organizacion_busqueda[$i]->estado = "Activo" : $organizacion_busqueda[$i]->estado = "Inactivo";
             $organizacion_busqueda[$i]->importa === true ? $organizacion_busqueda[$i]->importa = "S" : null;
             $organizacion_busqueda[$i]->importa === false ? $organizacion_busqueda[$i]->importa = "N" : null;
