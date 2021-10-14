@@ -5,8 +5,7 @@ namespace App\Exports;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use DateTime;
-use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Shared\Date;use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
@@ -161,7 +160,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             $organizacion_busqueda[$i]->fecha_desafiliacion = $desafiliacion ? $desafiliacion->format('d/m/Y') : '';
             $organizacion_busqueda[$i]->created_at = $created_at->format('d/m/Y');
             $organizacion_busqueda[$i]->updated_at = $updated_at->format('d/m/Y'); */
-            $organizacion_busqueda[$i]->fecha_afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_afiliacion)): '';
+            Date::dateTimeToExcel($organizacion_busqueda[$i]->fecha_afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_afiliacion)): '');
             $organizacion_busqueda[$i]->fecha_desafiliacion = $organizacion_busqueda[$i]->fecha_desafiliacion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_desafiliacion)): '';
             $organizacion_busqueda[$i]->fecha_constitucion = $organizacion_busqueda[$i]->fecha_constitucion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_constitucion)): '';
             $organizacion_busqueda[$i]->fecha_pauta = $organizacion_busqueda[$i]->fecha_pauta ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_pauta)): '';
