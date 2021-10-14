@@ -222,9 +222,9 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
         ];
     }
 
-/*     public function columnFormats(): array
+    public function columnFormats(): array
     {
-        return [
+/*         return [
             'K' => NumberFormat::FORMAT_CURRENCY_USD,
             'M' => NumberFormat::FORMAT_CURRENCY_USD,
             'N' => NumberFormat::FORMAT_CURRENCY_USD,
@@ -236,8 +236,8 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             'AH' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AJ' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AL' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-        ];
-    } */
+        ]; */
+    }
 
     public function styles(Worksheet $sheet)
     {
