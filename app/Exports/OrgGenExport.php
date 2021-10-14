@@ -169,7 +169,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             $organizacion_busqueda[$i]->fecha_pauta = $organizacion_busqueda[$i]->fecha_pauta ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_pauta)): '';
             $organizacion_busqueda[$i]->updated_at = $organizacion_busqueda[$i]->updated_at ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->updated_at)): '';
             //$organizacion_busqueda[$i]->created_at = $organizacion_busqueda[$i]->created_at ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->created_at)): '';
-            $created_at = Carbon::create($organizacion_busqueda[$i]->created_at,'d/m/Y');
+            $created_at = Carbon::create($organizacion_busqueda[$i]->created_at);
             $organizacion_busqueda[$i]->created_at = $organizacion_busqueda[$i]->created_at ? $created_at->toDateString(): '';
 
             $organizacion_busqueda[$i]->estado === true ? $organizacion_busqueda[$i]->estado = "Activo" : $organizacion_busqueda[$i]->estado = "Inactivo";
