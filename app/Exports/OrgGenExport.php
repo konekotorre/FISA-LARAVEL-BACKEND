@@ -160,7 +160,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             $organizacion_busqueda[$i]->fecha_desafiliacion = $desafiliacion ? $desafiliacion->format('d/m/Y') : '';
             $organizacion_busqueda[$i]->created_at = $created_at->format('d/m/Y');
             $organizacion_busqueda[$i]->updated_at = $updated_at->format('d/m/Y'); */
-            Date::dateTimeToExcel($organizacion_busqueda[$i]->fecha_afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_afiliacion)): '');
+            $organizacion_busqueda[$i]->fecha_afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? Date::dateTimeToExcel(date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_afiliacion))): '';
             $organizacion_busqueda[$i]->fecha_desafiliacion = $organizacion_busqueda[$i]->fecha_desafiliacion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_desafiliacion)): '';
             $organizacion_busqueda[$i]->fecha_constitucion = $organizacion_busqueda[$i]->fecha_constitucion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_constitucion)): '';
             $organizacion_busqueda[$i]->fecha_pauta = $organizacion_busqueda[$i]->fecha_pauta ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_pauta)): '';
@@ -221,20 +221,29 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
         ];
     }
 
+    public function map($project): array
+    {
+        return [
+            $project->name,
+            Date::dateTimeToExcel($project->created_at),
+            Date::dateTimeToExcel($project->start_date),
+            Date::dateTimeToExcel($project->expiry_date),
+        ];
+    }
     public function columnFormats(): array
     {
         return [
             'K' => NumberFormat::FORMAT_CURRENCY_USD,
             'M' => NumberFormat::FORMAT_CURRENCY_USD,
             'N' => NumberFormat::FORMAT_CURRENCY_USD,
-            'Q' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'Q' => NumberFormat::FORMAT_DATE_DATETIME,
             'O' => NumberFormat::FORMAT_CURRENCY_USD,
             'R' => NumberFormat::FORMAT_CURRENCY_USD,
-            //'T' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            //'AF' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            //'AH' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            //'AJ' => NumberFormat::FORMAT_DATE_DDMMYYYY,
-            //'AL' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'T' => NumberFormat::FORMAT_DATE_DATETIME,
+            'AF' => NumberFormat::FORMAT_DATE_DATETIME,
+            'AH' => NumberFormat::FORMAT_DATE_DATETIME,
+            'AJ' => NumberFormat::FORMAT_DATE_DATETIME,
+            'AL' => NumberFormat::FORMAT_DATE_DATETIME,
         ];
     }
 
