@@ -148,6 +148,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             $organizacion_busqueda[$i]->empleados_indirectos = $sal_oficinas;
             $organizacion_busqueda[$i]->departamento = $sal_departamento;
             $organizacion_busqueda[$i]->editor = $sal_editor;
+
             $fecha_pauta = $organizacion_busqueda[$i]->fecha_pauta ? new DateTime($organizacion_busqueda[$i]->fecha_pauta) : '';
             $afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_afiliacion) : '';
             $desafiliacion = $organizacion_busqueda[$i]->fecha_desafiliacion ? new DateTime($organizacion_busqueda[$i]->fecha_desafiliacion) : '';  
@@ -155,7 +156,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             $organizacion_busqueda[$i]->fecha_constitucion = $constitucion ? $constitucion->format('d/m/Y') : '';
             $created_at = new DateTime($organizacion_busqueda[$i]->created_at);
             $updated_at = new DateTime($organizacion_busqueda[$i]->updated_at);
-            $organizacion_busqueda[$i]->fecha_pauta = $fecha_pauta ? $fecha_pauta->format('d/m/Y') : '';
+            $organizacion_busqueda[$i]->fecha_pauta = $fecha_pauta ? $fecha_pauta: '';
             $organizacion_busqueda[$i]->fecha_afiliacion = $afiliacion ? $afiliacion->format('d/m/Y') : '';
             $organizacion_busqueda[$i]->fecha_desafiliacion = $desafiliacion ? $desafiliacion->format('d/m/Y') : '';
             $organizacion_busqueda[$i]->created_at = $created_at->format('d/m/Y');
