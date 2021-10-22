@@ -15,6 +15,7 @@ use App\Sector;
 use App\Ciiu;
 use App\TipoOrganizacion;
 use Carbon\Carbon;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -178,7 +179,7 @@ class OrganizacionController extends Controller
         $solicitud['usuario_creacion'] = $creador_auth['id'];
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $solicitud['numero_documento'] = $solicitud['numero_documento'] ? $solicitud['numero_documento'] : "-";
-        $fecha_desafiliacion = $solicitud['fecha_desafiliacion'] ? Carbon::create($solicitud['fecha_desafiliacion']):null;
+        $fecha_desafiliacion = $solicitud['fecha_desafiliacion'] ? new DateTime($solicitud['fecha_desafiliacion']):null;
         $solicitud['fecha_desafiliacion'] = $fecha_desafiliacion ? $fecha_desafiliacion->addMinutes(1):null;
         $organizacion = Organizacion::create($solicitud);
         $key = $request->actividades;
