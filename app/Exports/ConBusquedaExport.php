@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use DateTime;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -88,10 +89,6 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             $creador = $creador_busqueda->pluck('usuario');
             $crea_sal = $creador->toArray();
             $creador_salida = implode(", ", $crea_sal);
-            $created_at = new DateTime($contacto_busqueda[$i]->created_at);
-            $updated_at = new DateTime($contacto_busqueda[$i]->updated_at);
-            $contacto_busqueda[$i]->created_at = $created_at->format('d/m/Y');
-            $contacto_busqueda[$i]->updated_at = $updated_at->format('d/m/Y');
             $oficinas = DB::table('oficinas')
                 ->leftJoin('contactos', 'contactos.oficina_id', '=', 'oficinas.id')
                 ->leftJoin('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
@@ -125,6 +122,8 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             $contacto_busqueda[$i]->persona_id = $sal_categorias;
             $contacto_busqueda[$i]->nombres = $contacto;
             $contacto_busqueda[$i]->id = $creador_salida;
+            $contacto_busqueda[$i]->updated_at = $contacto_busqueda[$i]->updated_at ? Date::dateTimeToExcel(new DateTime($contacto_busqueda[$i]->updated_at)): '';
+            $contacto_busqueda[$i]->created_at = $contacto_busqueda[$i]->created_at ? Date::dateTimeToExcel(new DateTime($contacto_busqueda[$i]->created_at)): '';
         }
         return $contacto_busqueda;
     }
