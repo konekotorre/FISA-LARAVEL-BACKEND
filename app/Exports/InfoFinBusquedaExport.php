@@ -87,7 +87,7 @@ class InfoFinBusquedaExport implements FromCollection, WithHeadings, WithStyles,
             // $info_busqueda[$i]->updated_at = $updated_at->format('d/m/Y');
             // $constitucion = $info_busqueda[$i]->fecha_constitucion ? new DateTime($info_busqueda[$i]->fecha_constitucion) : '';
             // $info_busqueda[$i]->fecha_constitucion = $constitucion ? $constitucion->format('d/m/Y') : '';
-            $info_busqueda[$i]->fecha_pauta = $info_busqueda[$i]->fecha_pauta ? Date::dateTimeToExcel(new DateTime($info_busqueda[$i]->fecha_pauta)): '';
+            $info_busqueda[$i]->fecha_edicion_pauta = $info_busqueda[$i]->fecha_edicion_pauta ? Date::dateTimeToExcel(new DateTime($info_busqueda[$i]->fecha_edicion_pauta)): '';
             $info_busqueda[$i]->fecha_constitucion = $info_busqueda[$i]->fecha_constitucion ? Date::dateTimeToExcel(new DateTime($info_busqueda[$i]->fecha_constitucion)): '';
             $info_busqueda[$i]->updated_at = $info_busqueda[$i]->updated_at ? Date::dateTimeToExcel(new DateTime($info_busqueda[$i]->updated_at)): '';
             $info_busqueda[$i]->created_at = $info_busqueda[$i]->created_at ? Date::dateTimeToExcel(new DateTime($info_busqueda[$i]->created_at)): '';
