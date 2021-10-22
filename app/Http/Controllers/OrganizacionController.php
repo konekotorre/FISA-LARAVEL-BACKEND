@@ -178,8 +178,8 @@ class OrganizacionController extends Controller
         $solicitud['usuario_creacion'] = $creador_auth['id'];
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $solicitud['numero_documento'] = $solicitud['numero_documento'] ? $solicitud['numero_documento'] : "-";
-        $fecha_afiliacion = $solicitud['fecha_afiliacion'] ? Carbon::create($solicitud['fecha_afiliacion']):null;
-        $solicitud['fecha_afiliacion'] = $fecha_afiliacion ? $fecha_afiliacion->addMinutes(1):null;
+        $fecha_desafiliacion = $solicitud['fecha_desafiliacion'] ? Carbon::create($solicitud['fecha_desafiliacion']):null;
+        $solicitud['fecha_desafiliacion'] = $fecha_desafiliacion ? $fecha_desafiliacion->addMinutes(1):null;
         $organizacion = Organizacion::create($solicitud);
         $key = $request->actividades;
         if (!empty($key)) {
@@ -194,7 +194,8 @@ class OrganizacionController extends Controller
         }
         return response()->json([
             "success" => true,
-            'organizacion' => $organizacion->id
+            'organizacion' => $organizacion->id,
+            'fecha_desafiliacion' => $solicitud['fecha_desafiliacion']
         ], 200);
     }
 
