@@ -178,7 +178,8 @@ class OrganizacionController extends Controller
         $solicitud['usuario_creacion'] = $creador_auth['id'];
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $solicitud['numero_documento'] = $solicitud['numero_documento'] ? $solicitud['numero_documento'] : "-";
-        $solicitud['fecha_afiliacion'] = $solicitud['fecha_afiliacion'] ? Carbon::create($solicitud['fecha_afiliacion'])->addSeconds(1):null;
+        $fecha_afiliacion = $solicitud['fecha_afiliacion'] ? Carbon::create($solicitud['fecha_afiliacion']):null;
+        $solicitud['fecha_afiliacion'] = $fecha_afiliacion ? $fecha_afiliacion->addMinutes(1):null;
         $organizacion = Organizacion::create($solicitud);
         $key = $request->actividades;
         if (!empty($key)) {
