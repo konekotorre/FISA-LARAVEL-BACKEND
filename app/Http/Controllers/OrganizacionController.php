@@ -107,7 +107,7 @@ class OrganizacionController extends Controller
         $razon_social = $request->razon_social;
         $documentos = $request->documentos;
         $categorias = $request->categorias;
-        $parametros = $request->parametros;
+        $parametros = $request->parametros; 
         $organizacion_busqueda = DB::table('organizacions')
             ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', '=', 'organizacions.tipo_documento_organizacion_id')
             ->leftJoin('subsectors', 'subsectors.id', '=', 'organizacions.subsector_id')
@@ -178,6 +178,7 @@ class OrganizacionController extends Controller
         $solicitud['usuario_creacion'] = $creador_auth['id'];
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $solicitud['numero_documento'] = $solicitud['numero_documento'] ? $solicitud['numero_documento'] : "-";
+        $solicitud['fecha_afiliacion'] = $solicitud['fecha_afiliacion'] ? Carbon::create($solicitud['fecha_afiliacion']):null;
         $organizacion = Organizacion::create($solicitud);
         $key = $request->actividades;
         if (!empty($key)) {
