@@ -229,14 +229,14 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             'K' => NumberFormat::FORMAT_CURRENCY_USD,
             'M' => NumberFormat::FORMAT_CURRENCY_USD,
             'N' => NumberFormat::FORMAT_CURRENCY_USD,
-            'Q' => NumberFormat::FORMAT_DATE_DATETIME,
+            'Q' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'O' => NumberFormat::FORMAT_CURRENCY_USD,
             'R' => NumberFormat::FORMAT_CURRENCY_USD,
-            'T' => NumberFormat::FORMAT_DATE_DATETIME,
-            'AF' => NumberFormat::FORMAT_DATE_DATETIME,
-            'AH' => NumberFormat::FORMAT_DATE_DATETIME,
-            'AJ' => NumberFormat::FORMAT_DATE_DATETIME,
-            'AL' => NumberFormat::FORMAT_DATE_DATETIME,
+            'T' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AF' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AH' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AJ' => NumberFormat::FORMAT_DATE_DDMMYYYY,
+            'AL' => NumberFormat::FORMAT_DATE_DDMMYYYY,
         ];
     }
 
