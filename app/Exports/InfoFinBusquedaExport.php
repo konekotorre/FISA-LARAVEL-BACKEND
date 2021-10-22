@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use DateTime;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -78,14 +79,19 @@ class InfoFinBusquedaExport implements FromCollection, WithHeadings, WithStyles,
             $sal_edit = $edit->toArray();
             $sal_editor = implode(", ", $sal_edit);
             $info_busqueda[$i]->id = $sal_editor;
-            $edicion = $info_busqueda[$i]->fecha_edicion_pauta ? new DateTime($info_busqueda[$i]->fecha_edicion_pauta):'';
-            $created_at = new DateTime($info_busqueda[$i]->created_at);
-            $updated_at = new DateTime($info_busqueda[$i]->updated_at);
-            $info_busqueda[$i]->fecha_edicion_pauta = $info_busqueda[$i]->fecha_edicion_pauta ? $edicion->format('d/m/Y'): '';
-            $info_busqueda[$i]->created_at = $created_at->format('d/m/Y');
-            $info_busqueda[$i]->updated_at = $updated_at->format('d/m/Y');
-            $constitucion = $info_busqueda[$i]->fecha_constitucion ? new DateTime($info_busqueda[$i]->fecha_constitucion) : '';
-            $info_busqueda[$i]->fecha_constitucion = $constitucion ? $constitucion->format('d/m/Y') : '';
+            // $edicion = $info_busqueda[$i]->fecha_edicion_pauta ? new DateTime($info_busqueda[$i]->fecha_edicion_pauta):'';
+            // $created_at = new DateTime($info_busqueda[$i]->created_at);
+            // $updated_at = new DateTime($info_busqueda[$i]->updated_at);
+            // $info_busqueda[$i]->fecha_edicion_pauta = $info_busqueda[$i]->fecha_edicion_pauta ? $edicion->format('d/m/Y'): '';
+            // $info_busqueda[$i]->created_at = $created_at->format('d/m/Y');
+            // $info_busqueda[$i]->updated_at = $updated_at->format('d/m/Y');
+            // $constitucion = $info_busqueda[$i]->fecha_constitucion ? new DateTime($info_busqueda[$i]->fecha_constitucion) : '';
+            // $info_busqueda[$i]->fecha_constitucion = $constitucion ? $constitucion->format('d/m/Y') : '';
+            $info_busqueda[$i]->fecha_pauta = $info_busqueda[$i]->fecha_pauta ? Date::dateTimeToExcel(new DateTime($info_busqueda[$i]->fecha_pauta)): '';
+            $info_busqueda[$i]->fecha_constitucion = $info_busqueda[$i]->fecha_constitucion ? Date::dateTimeToExcel(new DateTime($info_busqueda[$i]->fecha_constitucion)): '';
+            $info_busqueda[$i]->updated_at = $info_busqueda[$i]->updated_at ? Date::dateTimeToExcel(new DateTime($info_busqueda[$i]->updated_at)): '';
+            $info_busqueda[$i]->created_at = $info_busqueda[$i]->created_at ? Date::dateTimeToExcel(new DateTime($info_busqueda[$i]->created_at)): '';
+
         }
         return $info_busqueda;
     }
