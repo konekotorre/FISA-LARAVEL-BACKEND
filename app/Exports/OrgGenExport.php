@@ -161,7 +161,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             $organizacion_busqueda[$i]->fecha_desafiliacion = $desafiliacion ? $desafiliacion->format('d/m/Y') : '';
             $organizacion_busqueda[$i]->created_at = $created_at->format('d/m/Y');
             $organizacion_busqueda[$i]->updated_at = $updated_at->format('d/m/Y'); */
-            $organizacion_busqueda[$i]->fecha_afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? Date::dateTimeToExcel(date('d/m/Y',$organizacion_busqueda[$i]->fecha_afiliacion)): '';
+            $organizacion_busqueda[$i]->fecha_afiliacion = $organizacion_busqueda[$i]->fecha_afiliacion ? Date::dateTimeToExcel(new DateTime($organizacion_busqueda[$i]->fecha_afiliacion)): '';
             
             $organizacion_busqueda[$i]->fecha_desafiliacion = $organizacion_busqueda[$i]->fecha_desafiliacion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_desafiliacion)): '';
             $organizacion_busqueda[$i]->fecha_constitucion = $organizacion_busqueda[$i]->fecha_constitucion ? date('d/m/Y', strtotime($organizacion_busqueda[$i]->fecha_constitucion)): '';
@@ -233,7 +233,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             'O' => NumberFormat::FORMAT_CURRENCY_USD,
             'R' => NumberFormat::FORMAT_CURRENCY_USD,
             'T' => NumberFormat::FORMAT_DATE_DATETIME,
-            'AF' => NumberFormat::FORMAT_DATE_DATETIME,
+            'AF' => NumberFormat::FORMAT_DATE_DDMMYYYY,
             'AH' => NumberFormat::FORMAT_DATE_DATETIME,
             'AJ' => NumberFormat::FORMAT_DATE_DATETIME,
             'AL' => NumberFormat::FORMAT_DATE_DATETIME,
