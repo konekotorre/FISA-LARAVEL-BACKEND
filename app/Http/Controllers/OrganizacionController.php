@@ -180,7 +180,7 @@ class OrganizacionController extends Controller
         $solicitud['usuario_actualizacion'] = $creador_auth['id'];
         $solicitud['numero_documento'] = $solicitud['numero_documento'] ? $solicitud['numero_documento'] : "-";
         $fecha_desafiliacion = $solicitud['fecha_desafiliacion'] ? new DateTime($solicitud['fecha_desafiliacion']) : null;
-        $solicitud['fecha_desafiliacion'] = $fecha_desafiliacion ? Carbon::create($fecha_desafiliacion)->add1Seconds(60) : null;
+        //$solicitud['fecha_desafiliacion'] = $fecha_desafiliacion == ? Carbon::create($fecha_desafiliacion)->add1Seconds(60) : null;
         $organizacion = Organizacion::create($solicitud);
         $key = $request->actividades;
         if (!empty($key)) {
