@@ -209,6 +209,8 @@ class OrganizacionController extends Controller
             ->get();
 
         $organizacion_busqueda[0]->fecha_afiliacion = $organizacion_busqueda[0]->fecha_afiliacion ? new DateTime($organizacion_busqueda[0]->fecha_afiliacion):null;
+        $organizacion_busqueda[0]->fecha_afiliacion = $organizacion_busqueda[0]->fecha_afiliacion ? $organizacion_busqueda[0]->fecha_afiliacion->format('d/m/Y'):null;
+
         $creador_busqueda = DB::table('organizacions')
             ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_creacion')
             ->select('users.usuario as usuario_creacion')
