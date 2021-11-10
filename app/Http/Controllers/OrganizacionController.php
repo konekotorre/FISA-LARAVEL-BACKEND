@@ -207,6 +207,8 @@ class OrganizacionController extends Controller
             )
             ->where('organizacions.id', '=', $organizacion->id)
             ->get();
+
+        $organizacion[0]->fecha_constitucion = $organizacion[0]->fecha_constitucion->formar('d/m/Y');
         $creador_busqueda = DB::table('organizacions')
             ->leftJoin('users', 'users.id', '=', 'organizacions.usuario_creacion')
             ->select('users.usuario as usuario_creacion')
