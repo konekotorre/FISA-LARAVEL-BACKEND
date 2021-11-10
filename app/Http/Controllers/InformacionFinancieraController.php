@@ -29,8 +29,10 @@ class InformacionFinancieraController extends Controller
             )
             ->where('informacion_financieras.organizacion_id', '=', $request->organizacion_id)
             ->get();
-            $infoFinanciera_busqueda[0]->fecha_pauta = $infoFinanciera_busqueda[0]->fecha_pauta ? new DateTime($infoFinanciera_busqueda[0]->fecha_pauta):null;
-            $infoFinanciera_busqueda[0]->fecha_pauta = $infoFinanciera_busqueda[0]->fecha_pauta ? $infoFinanciera_busqueda[0]->fecha_pauta->format('Y/m/d'):null;
+            $infoFinanciera_busqueda[0]->fecha_edicion_pauta = $infoFinanciera_busqueda[0]->fecha_edicion_pauta ? new DateTime($infoFinanciera_busqueda[0]->fecha_edicion_pauta):null;
+            $infoFinanciera_busqueda[0]->fecha_edicion_pauta = $infoFinanciera_busqueda[0]->fecha_edicion_pauta ? $infoFinanciera_busqueda[0]->fecha_edicion_pauta->format('Y/m/d'):null;
+            $infoFinanciera_busqueda[0]->fecha_constitucion = $infoFinanciera_busqueda[0]->fecha_constitucion ? new DateTime($infoFinanciera_busqueda[0]->fecha_constitucion):null;
+            $infoFinanciera_busqueda[0]->fecha_constitucion = $infoFinanciera_busqueda[0]->fecha_constitucion ? $infoFinanciera_busqueda[0]->fecha_constitucion->format('Y/m/d'):null;
         if (empty($infoFinanciera_busqueda[0])) {
             return response()->json(["success" => false], 200);
         } else {
