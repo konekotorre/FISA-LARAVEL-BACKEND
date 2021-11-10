@@ -28,6 +28,8 @@ class InformacionFinancieraController extends Controller
             )
             ->where('informacion_financieras.organizacion_id', '=', $request->organizacion_id)
             ->get();
+            $infoFinanciera_busqueda[0]->fecha_pauta = $infoFinanciera_busqueda[0]->fecha_pauta ? new DateTime($infoFinanciera_busqueda[0]->fecha_pauta):null;
+            $infoFinanciera_busqueda[0]->fecha_pauta = $infoFinanciera_busqueda[0]->fecha_pauta ? $infoFinanciera_busqueda[0]->fecha_pauta->format('Y/m/d'):null;
         if (empty($infoFinanciera_busqueda[0])) {
             return response()->json(["success" => false], 200);
         } else {
@@ -41,7 +43,6 @@ class InformacionFinancieraController extends Controller
                 ->select('users.usuario as editor')
                 ->where('informacion_financieras.organizacion_id', '=', $request->organizacion_id)
                 ->get();
-            $usuario_actualizacion = $editor_busqueda[0];
             $importaciones_busqueda = DB::table('importaciones')
                 ->select('pais_id')
                 ->where('organizacion_id', '=', $request->organizacion_id)
