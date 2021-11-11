@@ -142,10 +142,6 @@ class ContactoController extends Controller
             'contactos.observaciones',
             'organizacions.nombre as organizacion',
         )
-            ->where([
-                [$parametros[0], 'ilike', $nombres],
-                [$parametros[1], 'ilike', $apellidos],
-            ])
             ->when($nombres, function ($query, $nombres) {
                 $query->where('personas.nombres', 'like', $nombres[0])
                 ->orWhere('personas.apellidos', 'ilike', $nombres[0])
