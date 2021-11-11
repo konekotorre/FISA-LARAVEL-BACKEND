@@ -107,10 +107,10 @@ class ContactoController extends Controller
     public function search(Request $request)
     {
         $nombres = $request->nombres;
-        $primer_nombre = $nombres[0] ? $nombres[0]:'%';
-        $segundo_nombre = $nombres[1] ? $nombres[1]: '%';
-        $tercer_nombre = $nombres[2] ? $nombres[2]: '%';
-        $cuarto_nombre = $nombres[3] ? $nombres[3]: '%';
+        $primer_nombre = $nombres[0];
+        $segundo_nombre = $nombres[1];
+        $tercer_nombre = $nombres[2];
+        $cuarto_nombre = $nombres[3];
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
         $email = $request->email;
@@ -208,7 +208,7 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 $query->where('oficinas.ciudad_id', $ciudad);
             })
-            ->distinct('contactos.id')
+           // ->distinct('contactos.id')
             ->orderBy('contactos.id')
             ->orderBy('personas.nombres')
             ->orderBy('personas.apellidos')
