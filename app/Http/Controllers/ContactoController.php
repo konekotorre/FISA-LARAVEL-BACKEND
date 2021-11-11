@@ -111,7 +111,7 @@ class ContactoController extends Controller
         // $tercer_nombre = $request->tercer_nombre;
         // $cuarto_nombre = $request->cuarto_nombre;
         $names = explode(" ", $request->nombres);
-        for ($i = 0; $i<=count($names);$i++){
+        for ($i = 1; $i<=count($names);$i++){
             $names[$i] = '%'.$names[$i].'%';
         }
         $organizacion = $request->organizacion;
