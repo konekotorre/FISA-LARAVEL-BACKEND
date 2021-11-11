@@ -200,7 +200,7 @@ class ContactoController extends Controller
                 $query->where('oficinas.ciudad_id', $ciudad);
             })
             ->distinct('personas.id')
-            ->orderBy('contactos.id')
+            ->orderBy('personas.id')
             ->orderBy('personas.nombres')
             ->orderBy('personas.apellidos')
             ->get();
