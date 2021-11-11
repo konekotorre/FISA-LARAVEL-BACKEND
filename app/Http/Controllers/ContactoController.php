@@ -106,11 +106,10 @@ class ContactoController extends Controller
 
     public function search(Request $request)
     {
-        $nombres = $request->nombres;
-        $primer_nombre = $nombres[0];
-        $segundo_nombre = $nombres[1];
-        $tercer_nombre = $nombres[2];
-        $cuarto_nombre = $nombres[3];
+        $primer_nombre = $request->primer_nombre;
+        $segundo_nombre = $request->segundo_nombre;
+        $tercer_nombre = $request->tercer_nombre;
+        $cuarto_nombre = $request->cuarto_nombre;
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
         $email = $request->email;
@@ -144,39 +143,21 @@ class ContactoController extends Controller
             'contactos.observaciones',
             'organizacions.nombre as organizacion',
         )
-            // ->when($nombres[0], function ($query, $nombres) {
-            //     $query->where('personas.nombres', 'like', $nombres[0])
-            //     ->orWhere('personas.apellidos', 'ilike', $nombres[0])
-            //     ->where('personas.nombres', 'like', $nombres[1])
-            //     ->orWhere('personas.apellidos', 'ilike', $nombres[1])
-            //     ->where('personas.nombres', 'like', $nombres[2])
-            //     ->orWhere('personas.apellidos', 'ilike', $nombres[2])
-            //     ->where('personas.nombres', 'like', $nombres[3])
-            //     ->orWhere('personas.apellidos', 'ilike', $nombres[3]);;
-            // })
             ->when($primer_nombre, function ($query, $primer_nombre) {
-                $query->where('personas.nombres', 'like', $primer_nombre);
-            })
-            ->when($primer_nombre, function ($query, $primer_nombre) {
-                $query->where('personas.apellidos', 'like', $primer_nombre);
+                $query->where('personas.nombres', 'like', $primer_nombre)
+                ->orWhere('personas.apellidos', 'like', $primer_nombre);
             })
             ->when($segundo_nombre, function ($query, $segundo_nombre) {
-                $query->where('personas.nombres', 'like', $segundo_nombre);
-            })
-            ->when($segundo_nombre, function ($query, $segundo_nombre) {
-                $query->where('personas.apellidos', 'like', $segundo_nombre);
+                $query->where('personas.nombres', 'like', $segundo_nombre)
+                ->orWhere('personas.apellidos', 'like', $segundo_nombre);
             })
             ->when($tercer_nombre, function ($query, $tercer_nombre) {
-                $query->where('personas.nombres', 'like', $tercer_nombre);
-            })
-            ->when($tercer_nombre, function ($query, $tercer_nombre) {
-                $query->where('personas.apellidos', 'like', $tercer_nombre);
+                $query->where('personas.nombres', 'like', $tercer_nombre)
+                ->orWhere('personas.apellidos', 'like', $tercer_nombre);
             })
             ->when($cuarto_nombre, function ($query, $cuarto_nombre) {
-                $query->where('personas.nombres', 'like', $cuarto_nombre);
-            })
-            ->when($cuarto_nombre, function ($query, $cuarto_nombre) {
-                $query->where('personas.apellidos', 'like', $cuarto_nombre);
+                $query->where('personas.nombres', 'like', $cuarto_nombre)
+                ->orWhere('personas.apellidos', 'like', $cuarto_nombre);
             })
             ->when($subcategorias, function ($query, $subcategorias) {
                 $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
@@ -208,7 +189,7 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 $query->where('oficinas.ciudad_id', $ciudad);
             })
-           // ->distinct('contactos.id')
+            ->distinct('contactos.id')
             ->orderBy('contactos.id')
             ->orderBy('personas.nombres')
             ->orderBy('personas.apellidos')
