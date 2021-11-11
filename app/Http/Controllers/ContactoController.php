@@ -161,9 +161,10 @@ class ContactoController extends Controller
             //         ->orWhere('personas.apellidos', 'ilike', $cuarto_nombre);
             // })
             ->when($nombres, function ($query, $nombres) {
-            $query->whereIn('nombres', $nombres);
-            $query->orWhere(function($query) use ($nombres) {
-                $query->whereIn('apellidos', $nombres);
+                $query->whereIn('nombres', $nombres);
+                $query->orWhere(function ($query) use ($nombres) {
+                    $query->whereIn('apellidos', $nombres);
+                });
             })
             ->when($subcategorias, function ($query, $subcategorias) {
                 $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
@@ -215,6 +216,7 @@ class ContactoController extends Controller
             "count" => $count
         ], 200);
     }
+    
 
 
     public function store(Request $request)
