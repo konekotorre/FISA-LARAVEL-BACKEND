@@ -110,7 +110,7 @@ class ContactoController extends Controller
         // $segundo_nombre = $request->segundo_nombre;
         // $tercer_nombre = $request->tercer_nombre;
         // $cuarto_nombre = $request->cuarto_nombre;
-        $nombres = explode(" ", $request->nombres);
+        $names = explode(" ", $request->nombres);
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
         $email = $request->email;
@@ -160,10 +160,10 @@ class ContactoController extends Controller
             //     $query->where('personas.nombres', 'ilike', $cuarto_nombre)
             //         ->orWhere('personas.apellidos', 'ilike', $cuarto_nombre);
             // })
-            ->when($nombres, function ($query, $nombres) {
-                $query->whereIn('nombres', $nombres);
-                $query->orWhere(function ($query) use ($nombres) {
-                    $query->whereIn('apellidos', $nombres);
+            ->when($request->nombres, function ($query, $names) {
+                $query->whereIn('nombres', $names);
+                $query->orWhere(function ($query) use ($names) {
+                    $query->whereIn('apellidos', $names);
                 });
             })
             ->when($subcategorias, function ($query, $subcategorias) {
