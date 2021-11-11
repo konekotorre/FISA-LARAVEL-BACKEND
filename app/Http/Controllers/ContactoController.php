@@ -110,6 +110,7 @@ class ContactoController extends Controller
         $segundo_nombre = $request->segundo_nombre;
         $tercer_nombre = $request->tercer_nombre;
         $cuarto_nombre = $request->cuarto_nombre;
+        $nombres = $request->nombres;
         // $names = explode(" ", $request->nombres);
         // for ($i = 0; $i<=count($names);$i++){
         //     $names[$i] = '%'.$names[$i].'%';
@@ -147,22 +148,25 @@ class ContactoController extends Controller
             'contactos.observaciones',
             'organizacions.nombre as organizacion',
         )
-            ->when($primer_nombre, function ($query, $primer_nombre) {
-                $query->where('personas.nombres', 'ilike', $primer_nombre)
-                    ->orWhere('personas.apellidos', 'ilike', $primer_nombre);
+        ->when($nombres, function ($query, $nombres) {
+                $query->where(DB::raw("CONCAT('personas.nombres', ' ', 'personas.apellidos')"), 'ilke', $nombres);
             })
-            ->when($segundo_nombre, function ($query, $segundo_nombre) {
-                $query->where('personas.nombres', 'ilike', $segundo_nombre)
-                    ->orWhere('personas.apellidos', 'ilike', $segundo_nombre);
-            })
-            ->when($tercer_nombre, function ($query, $tercer_nombre) {
-                $query->where('personas.nombres', 'ilike', $tercer_nombre)
-                    ->orWhere('personas.apellidos', 'ilike', $tercer_nombre);
-            })
-            ->when($cuarto_nombre, function ($query, $cuarto_nombre) {
-                $query->where('personas.nombres', 'ilike', $cuarto_nombre)
-                    ->orWhere('personas.apellidos', 'ilike', $cuarto_nombre);
-            })
+            // ->when($primer_nombre, function ($query, $primer_nombre) {
+            //     $query->where('personas.nombres', 'ilike', $primer_nombre)
+            //         ->orWhere('personas.apellidos', 'ilike', $primer_nombre);
+            // })
+            // ->when($segundo_nombre, function ($query, $segundo_nombre) {
+            //     $query->where('personas.nombres', 'ilike', $segundo_nombre)
+            //         ->orWhere('personas.apellidos', 'ilike', $segundo_nombre);
+            // })
+            // ->when($tercer_nombre, function ($query, $tercer_nombre) {
+            //     $query->where('personas.nombres', 'ilike', $tercer_nombre)
+            //         ->orWhere('personas.apellidos', 'ilike', $tercer_nombre);
+            // })
+            // ->when($cuarto_nombre, function ($query, $cuarto_nombre) {
+            //     $query->where('personas.nombres', 'ilike', $cuarto_nombre)
+            //         ->orWhere('personas.apellidos', 'ilike', $cuarto_nombre);
+            // })
             // ->when($request->nombres, function ($query, $names) {
             //     $query->whereIn('nombres', $names);
             //     $query->orWhere(function ($query) use ($names) {
