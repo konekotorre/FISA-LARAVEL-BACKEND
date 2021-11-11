@@ -149,7 +149,7 @@ class ContactoController extends Controller
             'organizacions.nombre as organizacion',
         )
         ->when($nombres, function ($query, $nombres) {
-                $query->where(DB::raw("CONCAT('personas.nombres', ' ', 'personas.apellidos')"), 'ilke', $nombres);
+                $query->where(DB::raw("CONCAT('personas.nombres', ' ', 'personas.apellidos')"), 'ilike', $nombres);
             })
             // ->when($primer_nombre, function ($query, $primer_nombre) {
             //     $query->where('personas.nombres', 'ilike', $primer_nombre)
