@@ -106,10 +106,11 @@ class ContactoController extends Controller
 
     public function search(Request $request)
     {
-        $primer_nombre = $request->primer_nombre;
-        $segundo_nombre = $request->segundo_nombre;
-        $tercer_nombre = $request->tercer_nombre;
-        $cuarto_nombre = $request->cuarto_nombre;
+        // $primer_nombre = $request->primer_nombre;
+        // $segundo_nombre = $request->segundo_nombre;
+        // $tercer_nombre = $request->tercer_nombre;
+        // $cuarto_nombre = $request->cuarto_nombre;
+        $nombres = $request->nombres;
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
         $email = $request->email;
@@ -143,22 +144,22 @@ class ContactoController extends Controller
             'contactos.observaciones',
             'organizacions.nombre as organizacion',
         )
-            ->when($primer_nombre, function ($query, $primer_nombre) {
-                $query->where('personas.nombres', 'ilike', $primer_nombre)
-                    ->orWhere('personas.apellidos', 'ilike', $primer_nombre);
-            })
-            ->when($segundo_nombre, function ($query, $segundo_nombre) {
-                $query->where('personas.nombres', 'ilike', $segundo_nombre)
-                    ->orWhere('personas.apellidos', 'ilike', $segundo_nombre);
-            })
-            ->when($tercer_nombre, function ($query, $tercer_nombre) {
-                $query->where('personas.nombres', 'ilike', $tercer_nombre)
-                    ->orWhere('personas.apellidos', 'ilike', $tercer_nombre);
-            })
-            ->when($cuarto_nombre, function ($query, $cuarto_nombre) {
-                $query->where('personas.nombres', 'ilike', $cuarto_nombre)
-                    ->orWhere('personas.apellidos', 'ilike', $cuarto_nombre);
-            })
+            // ->when($primer_nombre, function ($query, $primer_nombre) {
+            //     $query->where('personas.nombres', 'ilike', $primer_nombre)
+            //         ->orWhere('personas.apellidos', 'ilike', $primer_nombre);
+            // })
+            // ->when($segundo_nombre, function ($query, $segundo_nombre) {
+            //     $query->where('personas.nombres', 'ilike', $segundo_nombre)
+            //         ->orWhere('personas.apellidos', 'ilike', $segundo_nombre);
+            // })
+            // ->when($tercer_nombre, function ($query, $tercer_nombre) {
+            //     $query->where('personas.nombres', 'ilike', $tercer_nombre)
+            //         ->orWhere('personas.apellidos', 'ilike', $tercer_nombre);
+            // })
+            // ->when($cuarto_nombre, function ($query, $cuarto_nombre) {
+            //     $query->where('personas.nombres', 'ilike', $cuarto_nombre)
+            //         ->orWhere('personas.apellidos', 'ilike', $cuarto_nombre);
+            // })
             ->when($subcategorias, function ($query, $subcategorias) {
                 $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
             })
@@ -195,9 +196,16 @@ class ContactoController extends Controller
             ->orderBy('personas.apellidos')
             ->get();
         $count = count($contactos);
+
+        for ($i = 0; $i<=$count; $i++){
+            $contactos[$i]->nombres = $contactos[$i]->pluck('nombres'). ' ' .$contactos[$i]->pluck('apellidos');
+            if (strpos($contactos[$i]->nombres, $nombres) !== false){
+                $contactos_salida[] = $contactos[$i];
+            }
+        }
         return response()->json([
             "success" => true,
-            "contactos" => $contactos,
+            "contactos" => $contactos_salida,
             "count" => $count
         ], 200);
     }
