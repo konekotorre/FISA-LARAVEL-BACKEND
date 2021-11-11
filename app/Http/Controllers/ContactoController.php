@@ -106,11 +106,11 @@ class ContactoController extends Controller
 
     public function search(Request $request)
     {
-        $primer_nombre = $request->nombres[0] ? $request->nombres[0]:'%';
-        $segundo_nombre = $request->nombres[1] ? $request->nombres[1]: '%';
-        $tercer_nombre = $request->nombres[2] ? $request->nombres[2]: '%';
-        $cuarto_nombre = $request->nombres[3] ? $request->nombres[3]: '%';
-        $apellidos = $request->apellidos;
+        $nombres = $request->nombres;
+        $primer_nombre = $nombres[0] ? $nombres[0]:'%';
+        $segundo_nombre = $nombres[1] ? $nombres[1]: '%';
+        $tercer_nombre = $nombres[2] ? $nombres[2]: '%';
+        $cuarto_nombre = $nombres[3] ? $nombres[3]: '%';
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
         $email = $request->email;
@@ -119,7 +119,6 @@ class ContactoController extends Controller
         $ciudad = $request->ciudad;
         $categorias = $request->categorias;
         $subcategorias = $request->subcategorias;
-        $parametros = $request->parametros;
         $sector = $request->sector;
         $subsector = $request->subsector;
         $contactos = DB::table('contactos')
