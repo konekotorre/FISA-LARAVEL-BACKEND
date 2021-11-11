@@ -112,38 +112,81 @@ class ContactoController extends Controller
         $cargo = $request->cargo;
         $email = $request->email;
         $pais = $request->pais;
+        $departamento = $request->departamento;
+        $ciudad = $request->ciudad;
         $categorias = $request->categorias;
         $subcategorias = $request->subcategorias;
         $parametros = $request->parametros;
+        $sector = $request->sector;
+        $subsector = $request->subsector;
         $contactos = DB::table('contactos')
-            ->join('personas', 'personas.id', '=', 'contactos.persona_id')
-            ->leftJoin('oficinas', 'oficinas.id', '=', 'contactos.oficina_id')
-            ->leftJoin('pais', 'pais.id', 'oficinas.pais_id')
-            ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
-            ->leftJoin('detalle_categoria_personas', 'detalle_categoria_personas.persona_id', '=', 'personas.id')
-            ->select(
-                'contactos.id as contacto_id',
-                'personas.id as persona_id',
-                'personas.nombres',
-                'personas.apellidos',
-                'contactos.email',
-                'personas.celular',
-                'contactos.telefono',
-                'contactos.extension',
-                'contactos.cargo',
-                'contactos.observaciones',
-                'organizacions.nombre as organizacion',
-            )
+        ->join('personas', 'personas.id', 'contactos.persona_id')
+        ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
+        ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
+        ->leftJoin('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
+        ->leftJoin('pais', 'pais.id', 'oficinas.pais_id')
+        ->leftJoin('organizacions', 'organizacions.id', 'contactos.organizacion_id')
+        ->leftJoin('sectors', 'sectors.id', 'organizacions.sector_id')
+        ->leftJoin('subsectors', 'subsectors.id', 'organizacions.subsector_id')
+        ->leftJoin('detalle_categoria_personas', 'detalle_categoria_personas.persona_id', 'personas.id')
+        ->select(
+            'contactos.id as contacto_id',
+            'personas.id as persona_id',
+            'personas.nombres',
+            'personas.apellidos',
+            'contactos.email',
+            'personas.celular',
+            'contactos.telefono',
+            'contactos.extension',
+            'contactos.cargo',
+            'contactos.observaciones',
+            'organizacions.nombre as organizacion',
+        )
             ->where([
                 [$parametros[0], 'ilike', $nombres],
                 [$parametros[1], 'ilike', $apellidos],
-                [$parametros[2], 'ilike', $organizacion],
-                [$parametros[3], 'ilike', $cargo],
-                [$parametros[4], 'ilike', $email],
-                [$parametros[5], $parametros[8], $pais]
             ])
-            ->whereIn($parametros[6], $categorias)
-            ->whereIn($parametros[7], $subcategorias)
+            ->when($nombres, function ($query, $nombres) {
+                $query->where('personas.nombres', 'like', $nombres[0])
+                ->orWhere('personas.apellidos', 'ilike', $nombres[0])
+                ->where('personas.nombres', 'like', $nombres[1])
+                ->orWhere('personas.apellidos', 'ilike', $nombres[1])
+                ->where('personas.nombres', 'like', $nombres[2])
+                ->orWhere('personas.apellidos', 'ilike', $nombres[2])
+                ->where('personas.nombres', 'like', $nombres[3])
+                ->orWhere('personas.apellidos', 'ilike', $nombres[3]);;
+            })
+            ->when($subcategorias, function ($query, $subcategorias) {
+                $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
+            })
+
+            ->when($categorias, function ($query, $categorias) {
+                $query->whereIn('organizacions.categoria_id', $categorias);
+            })
+            ->when($organizacion, function ($query, $organizacion) {
+                $query->where('organizacions.nombre', 'ilike', $organizacion);
+            })
+            ->when($email, function ($query, $email) {
+                $query->where('contactos.email', 'ilike', $email);
+            })
+            ->when($cargo, function ($query, $cargo) {
+                $query->where('contactos.cargo', 'ilike', $cargo);
+            })
+            ->when($sector, function ($query, $sector) {
+                $query->where('organizacions.sector_id', $sector);
+            })
+            ->when($subsector, function ($query, $subsector) {
+                $query->where('organizacions.subsector_id', $subsector);
+            })
+            ->when($pais, function ($query, $pais) {
+                $query->where('oficinas.pais_id', $pais);
+            })
+            ->when($departamento, function ($query, $departamento) {
+                $query->where('oficinas.departamento_estado_id', $departamento);
+            })
+            ->when($ciudad, function ($query, $ciudad) {
+                $query->where('oficinas.ciudad_id', $ciudad);
+            })
             ->distinct('contactos.id')
             ->orderBy('contactos.id')
             ->orderBy('personas.nombres')
