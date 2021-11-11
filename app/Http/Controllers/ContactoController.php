@@ -110,7 +110,7 @@ class ContactoController extends Controller
         // $segundo_nombre = $request->segundo_nombre;
         // $tercer_nombre = $request->tercer_nombre;
         // $cuarto_nombre = $request->cuarto_nombre;
-        $nombres = $request->nombres;
+        $nombres = explode(" ", $request->nombres);
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
         $email = $request->email;
@@ -160,6 +160,11 @@ class ContactoController extends Controller
             //     $query->where('personas.nombres', 'ilike', $cuarto_nombre)
             //         ->orWhere('personas.apellidos', 'ilike', $cuarto_nombre);
             // })
+            ->when($nombres, function ($query, $nombres) {
+            $query->whereIn('nombres', $nombres);
+            $query->orWhere(function($query) use ($nombres) {
+                $query->whereIn('apellidos', $nombres);
+            })
             ->when($subcategorias, function ($query, $subcategorias) {
                 $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
             })
@@ -197,13 +202,13 @@ class ContactoController extends Controller
             ->get();
         $count = count($contactos);
 
-        for ($i = 0; $i<=$count; $i++){
-            $contacto = $contactos[$i];
-            $contactos[$i]->nombres = $contacto->pluck('nombres'). ' ' .$contacto->pluck('apellidos');
-            if (strpos($contactos[$i]->nombres, $nombres) !== false){
-                $contactos_salida[] = $contactos[$i];
-            }
-        }
+        // for ($i = 0; $i<=$count; $i++){
+        //     $contacto = $contactos[$i];
+        //     $contactos[$i]->nombres = $contacto->pluck('nombres'). ' ' .$contacto->pluck('apellidos');
+        //     if (strpos($contactos[$i]->nombres, $nombres) !== false){
+        //         $contactos_salida[] = $contactos[$i];
+        //     }
+        // }
         return response()->json([
             "success" => true,
             "contactos" => $contactos_salida,
