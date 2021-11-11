@@ -144,20 +144,20 @@ class ContactoController extends Controller
             'organizacions.nombre as organizacion',
         )
             ->when($primer_nombre, function ($query, $primer_nombre) {
-                $query->where('personas.nombres', 'like', $primer_nombre)
-                ->orWhere('personas.apellidos', 'like', $primer_nombre);
+                $query->where('personas.nombres', 'ilike', $primer_nombre)
+                    ->orWhere('personas.apellidos', 'ilike', $primer_nombre);
             })
             ->when($segundo_nombre, function ($query, $segundo_nombre) {
-                $query->where('personas.nombres', 'like', $segundo_nombre)
-                ->orWhere('personas.apellidos', 'like', $segundo_nombre);
+                $query->where('personas.nombres', 'ilike', $segundo_nombre)
+                    ->orWhere('personas.apellidos', 'ilike', $segundo_nombre);
             })
             ->when($tercer_nombre, function ($query, $tercer_nombre) {
-                $query->where('personas.nombres', 'like', $tercer_nombre)
-                ->orWhere('personas.apellidos', 'like', $tercer_nombre);
+                $query->where('personas.nombres', 'ilike', $tercer_nombre)
+                    ->orWhere('personas.apellidos', 'ilike', $tercer_nombre);
             })
             ->when($cuarto_nombre, function ($query, $cuarto_nombre) {
-                $query->where('personas.nombres', 'like', $cuarto_nombre)
-                ->orWhere('personas.apellidos', 'like', $cuarto_nombre);
+                $query->where('personas.nombres', 'ilike', $cuarto_nombre)
+                    ->orWhere('personas.apellidos', 'ilike', $cuarto_nombre);
             })
             ->when($subcategorias, function ($query, $subcategorias) {
                 $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
