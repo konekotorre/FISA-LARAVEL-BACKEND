@@ -106,10 +106,10 @@ class ContactoController extends Controller
 
     public function search(Request $request)
     {
-        $primer_nombre = $request->nombres[0];
-        $segundo_nombre = $request->nombres[1];
-        $tercer_nombre = $request->nombres[2];
-        $cuarto_nombre = $request->nombres[3];
+        $primer_nombre = $request->nombres[0] ? $request->nombres[0]:null;
+        $segundo_nombre = $request->nombres[1] ? $request->nombres[1]: null;
+        $tercer_nombre = $request->nombres[2] ? $request->nombres[2]: null;
+        $cuarto_nombre = $request->nombres[3] ? $request->nombres[3]: null;
         $apellidos = $request->apellidos;
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
