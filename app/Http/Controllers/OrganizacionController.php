@@ -108,35 +108,63 @@ class OrganizacionController extends Controller
         $razon_social = $request->razon_social;
         $documentos = $request->documentos;
         $categorias = $request->categorias;
-        $parametros = $request->parametros; 
+        $sector = $request->sector;
+        $subsector = $request->subsector;
+        $pais = $request->pais;
+        $departamento = $request->departamento;
+        $ciudad = $request->ciudad;
         $organizacion_busqueda = DB::table('organizacions')
-            ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', '=', 'organizacions.tipo_documento_organizacion_id')
-            ->leftJoin('subsectors', 'subsectors.id', '=', 'organizacions.subsector_id')
-            ->leftJoin('categorias', 'categorias.id', '=', 'organizacions.categoria_id')
-            ->select(
-                'organizacions.id',
-                'organizacions.nombre',
-                'tipo_documento_organizacions.nombre as tipo_documento_organizacion',
-                'organizacions.numero_documento',
-                'organizacions.razon_social',
-                'categorias.nombre as categoria',
-                'subsectors.nombre as subsector'
-            )
-            ->where([
-                [$parametros[0], 'ilike', $numero_documento],
-                [$parametros[1], 'ilike', $nombre],
-                [$parametros[2], 'ilike', $razon_social]
-            ])
+        ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', 'organizacions.tipo_documento_organizacion_id')
+        ->leftJoin('sectors', 'sectors.id', 'organizacions.sector_id')
+        ->leftJoin('subsectors', 'subsectors.id', 'organizacions.subsector_id')
+        ->leftJoin('categorias', 'categorias.id', 'organizacions.categoria_id')
+        ->leftJoin('oficinas', 'oficinas.organizacion_id', 'organizacions.id')
+        ->leftJoin('pais', 'pais.id', 'oficinas.pais_id')
+        ->leftJoin('ciudads', 'ciudads.id', 'oficinas.ciudad_id')
+        ->leftJoin('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
+        ->select(
+            'organizacions.id',
+            'organizacions.nombre',
+            'tipo_documento_organizacions.nombre as tipo_documento_organizacion',
+            'organizacions.numero_documento',
+            'organizacions.razon_social',
+            'categorias.nombre as categoria',
+            'subsectors.nombre as subsector'
+        )
+            ->when($numero_documento, function ($query, $numero_documento) {
+                $query->where('organizacions.numero_documento', $numero_documento);
+            })
+            ->when($nombre, function ($query, $nombre) {
+                $query->where('organizacions.nombre', 'ilike', $nombre);
+            })
+            ->when($razon_social, function ($query, $razon_social) {
+                $query->where('organizacions.razon_social', 'ilike', $razon_social);
+            })
             ->when($categorias, function ($query, $categorias) {
                 $query->whereIn('organizacions.categoria_id', $categorias);
             })
             ->when($documentos, function ($query, $documentos) {
                 $query->whereIn('organizacions.tipo_documento_organizacion_id', $documentos);
             })
+            ->when($sector, function ($query, $sector) {
+                $query->where('organizacions.sector_id', $sector);
+            })
+            ->when($subsector, function ($query, $subsector) {
+                $query->where('organizacions.subsector_id', $subsector);
+            })
+            ->when($pais, function ($query, $pais) {
+                $query->where('oficinas.pais_id', $pais);
+            })
+            ->when($departamento, function ($query, $departamento) {
+                $query->where('oficinas.departamento_estado_id', $departamento);
+            })
+            ->when($ciudad, function ($query, $ciudad) {
+                $query->where('oficinas.ciudad_id', $ciudad);
+            })
             ->orderBy('organizacions.nombre')
             ->orderByDesc('organizacions.estado')
             ->get();
-            $count = count($organizacion_busqueda);
+        $count = count($organizacion_busqueda);
         return response()->json([
             "success" => true,
             "organizaciones" => $organizacion_busqueda,
