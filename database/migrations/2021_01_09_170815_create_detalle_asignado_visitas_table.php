@@ -24,6 +24,10 @@ class CreateDetalleAsignadoVisitasTable extends Migration
             $table->foreign('visita_id')->references('id')->on('visitas');
             
         });
+
+        Schema::table('detalle_asignado_visitas', function (Blueprint $table) {
+            $table->foreign('visita_id')->references('id')->on('visitas')->onDelete('cascade');
+        });
     }
 
     /**
