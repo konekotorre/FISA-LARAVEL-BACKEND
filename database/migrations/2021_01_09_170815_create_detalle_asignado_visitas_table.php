@@ -13,20 +13,16 @@ class CreateDetalleAsignadoVisitasTable extends Migration
      */
     public function up()
     {
-        // Schema::create('detalle_asignado_visitas', function (Blueprint $table) {
+        Schema::create('detalle_asignado_visitas', function (Blueprint $table) {
 
-        //     $table->bigIncrements('id')->unsigned();
-        //     $table->bigInteger('asignado_id')->unsigned();
-        //     $table->integer('visita_id')->unsigned();
-        //     $table->timestamps();
+            $table->bigIncrements('id')->unsigned();
+            $table->bigInteger('asignado_id')->unsigned();
+            $table->integer('visita_id')->unsigned();
+            $table->timestamps();
 
-        //     $table->foreign('asignado_id')->references('id')->on('users')->onDelete('cascade');
-        //     $table->foreign('visita_id')->references('id')->on('visitas');
-            
-        // });
-
-        Schema::table('detalle_asignado_visitas', function (Blueprint $table) {
+            $table->foreign('asignado_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('visita_id')->references('id')->on('visitas')->onDelete('cascade');
+            
         });
     }
 
