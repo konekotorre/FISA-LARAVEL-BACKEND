@@ -64,7 +64,7 @@ class InfoFinBusquedaExport implements FromCollection, WithHeadings, WithStyles,
                 'informacion_financieras.updated_at',
                 'informacion_financieras.id as id'
             )
-            ->whereIn('informacion_financieras.id', $this->ids)
+            ->whereIn('informacion_financieras.organizacion_id', $this->ids)
             ->orderByDesc('informacion_financieras.updated_at')
             ->get();
         $count = count($info_busqueda);
