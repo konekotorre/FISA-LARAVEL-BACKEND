@@ -197,10 +197,8 @@ class ContactoController extends Controller
             ->when($s_name, function ($query, $s_name) {
                 return $query->where('personas.apellidos', 'ilike', '%'.$s_name.'%');
             })
-            ->distinct('personas.nombres')
-            ->distinct('personas.apellidos')
-            ->orderBy('personas.nombres')
-            ->orderBy('personas.apellidos')
+            ->distinct('personas.id')
+            ->orderBy('personas.id')
             ->get();
 
         $count = count($contactos);
