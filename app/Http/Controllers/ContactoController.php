@@ -185,18 +185,18 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
               return  $query->where('oficinas.ciudad_id', $ciudad);
             })
-            ->when($p_name, function ($query, $p_name) {
-                return $query->where('personas.nombres', 'ilike','%'.$p_name.'%');
-            })
-            ->when($p_name, function ($query, $p_name) {
-                return $query->Where('personas.apellidos', 'ilike', '%'.$p_name.'%');
-            })
-            ->when($s_name, function ($query, $s_name) {
-                return $query->where('personas.nombres', 'ilike', '%'.$s_name.'%');
-            })
-            ->when($s_name, function ($query, $s_name) {
-                return $query->where('personas.apellidos', 'ilike', '%'.$s_name.'%');
-            })
+            // ->when($p_name, function ($query, $p_name) {
+            //     return $query->where('personas.nombres', 'ilike','%'.$p_name.'%');
+            // })
+            // ->when($p_name, function ($query, $p_name) {
+            //     return $query->where('personas.apellidos', 'ilike', '%'.$p_name.'%');
+            // })
+            // ->when($s_name, function ($query, $s_name) {
+            //     return $query->where('personas.nombres', 'ilike', '%'.$s_name.'%');
+            // })
+            // ->when($s_name, function ($query, $s_name) {
+            //     return $query->where('personas.apellidos', 'ilike', '%'.$s_name.'%');
+            // })
             ->distinct('personas.id')
             ->orderBy('personas.id')
             ->get();
@@ -205,12 +205,30 @@ class ContactoController extends Controller
         $contactos_salida = [];
         for ($i = 0; $i < count($contactos); $i++) {
             $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
-            if ($nombres) {
+            if ($p_name) {
                 if (strpos(strtolower($name), strtolower($p_name)) !== false) {
+                    if ($s_name) {
+                        if (strpos(strtolower($name), strtolower($s_name)) !== false) {
+                            if ($t_name) {
+                                if (strpos(strtolower($name), strtolower($t_name)) !== false) {
+                                    if ($c_name) {
+                                        if (strpos(strtolower($name), strtolower($c_name)) !== false) {
+                                        } else {
+                                            array_push($contactos_salida, $contactos[$i]);
+                                        }
+                                    }
+                                } else {
+                                    array_push($contactos_salida, $contactos[$i]);
+                                }
+                            }
+                        } else {
+                            array_push($contactos_salida, $contactos[$i]);
+                        }
+                    }
+                } else {
                     array_push($contactos_salida, $contactos[$i]);
                 }
             }
-        }
         return response()->json([
             "nombres" => $names,
             "success" => true,
