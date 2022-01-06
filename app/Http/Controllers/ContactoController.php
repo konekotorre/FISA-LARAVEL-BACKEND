@@ -202,11 +202,11 @@ class ContactoController extends Controller
             ->orderBy('personas.apellidos')
             ->get();
 
-            $count = count($contactos);
-        for ($i = 0; $i<count($contactos); $i++){
-            $name = $contactos[$i]->nombres. ' ' .$contactos[$i]->apellidos;
-            if (strpos($name, $nombres) !== false){
-                $contactos_salida[] = $contactos[$i];
+        $count = count($contactos);
+        for ($i = 0; $i < count($contactos); $i++) {
+            $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
+            if (strpos($name, $nombres) !== false) {
+                array($contactos_salida) = $contactos[$i];
             }
         }
         return response()->json([
