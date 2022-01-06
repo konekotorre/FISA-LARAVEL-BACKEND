@@ -151,10 +151,10 @@ class ContactoController extends Controller
                 $query->where('personas.nombres', 'ilike', $p_name)
                     ->orWhere('personas.apellidos', 'ilike', $p_name);
             })
-            // ->when($segundo_nombre, function ($query, $segundo_nombre) {
-            //     $query->where('personas.nombres', 'ilike', $segundo_nombre)
-            //         ->orWhere('personas.apellidos', 'ilike', $segundo_nombre);
-            // })
+            ->when($s_name, function ($query, $s_name) {
+                $query->where('personas.nombres', 'ilike', $s_name)
+                    ->orWhere('personas.apellidos', 'ilike', $s_name);
+            })
             // ->when($tercer_nombre, function ($query, $tercer_nombre) {
             //     $query->where('personas.nombres', 'ilike', $tercer_nombre)
             //         ->orWhere('personas.apellidos', 'ilike', $tercer_nombre);
