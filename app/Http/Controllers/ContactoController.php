@@ -228,10 +228,10 @@ class ContactoController extends Controller
                 } else {
                     array_push($contactos_salida, $contactos[$i]);
                 }
-            }
-            else{
+            } else {
                 array_push($contactos_salida, $contactos[$i]);
             }
+        }
         return response()->json([
             "nombres" => $names,
             "success" => true,
@@ -240,7 +240,6 @@ class ContactoController extends Controller
             "cons_salida" => $contactos_salida
         ], 200);
     }
-    
 
 
     public function store(Request $request)
