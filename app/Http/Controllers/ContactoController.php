@@ -162,7 +162,7 @@ class ContactoController extends Controller
                return $query->whereIn('organizacions.categoria_id', $categorias);
             })
             ->when($organizacion, function ($query, $organizacion) {
-                 return $query->where('organizacions.nombre', 'ilike', .'%'.$organizacion..'%');
+                 return $query->where('organizacions.nombre', 'ilike', '%'.$organizacion.'%');
             })
             ->when($email, function ($query, $email) {
                return $query->where('contactos.email', 'ilike', '%'.$email.'%');
@@ -186,16 +186,16 @@ class ContactoController extends Controller
               return  $query->where('oficinas.ciudad_id', $ciudad);
             })
             ->when($p_name, function ($query, $p_name) {
-                return $query->where('personas.nombres', 'ilike','%'. $p_name . '%');
+                return $query->where('personas.nombres', 'ilike','%'.$p_name.'%');
             })
             ->when($p_name, function ($query, $p_name) {
-                return $query->Where('personas.apellidos', 'ilike', '%'. $p_name . '%');
+                return $query->Where('personas.apellidos', 'ilike', '%'.$p_name.'%');
             })
             ->when($s_name, function ($query, $s_name) {
-                return $query->where('personas.nombres', 'ilike', '%'. $s_name . '%');
+                return $query->where('personas.nombres', 'ilike', '%'.$s_name.'%');
             })
             ->when($s_name, function ($query, $s_name) {
-                return $query->where('personas.apellidos', 'ilike', '%'. $s_name . '%');
+                return $query->where('personas.apellidos', 'ilike', '%'.$s_name.'%');
             })
             ->distinct('personas.nombres')
             ->distinct('personas.apellidos')
