@@ -108,6 +108,12 @@ class ContactoController extends Controller
     {
         $nombres = $request->nombres;
         $names = explode(" ", $request->nombres);
+
+        $p_name = $names[0] ? $names[0]:'';
+        $s_name = $names[1] ? $names[1]:'';
+        $t_name = $names[2] ? $names[2]:'';
+        $c_name = $names[3] ? $names[3]:'';
+
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
         $email = $request->email;
@@ -141,13 +147,13 @@ class ContactoController extends Controller
             'contactos.observaciones',
             'organizacions.nombre as organizacion',
         )
-        ->when($nombres, function ($query, $nombres) {
-                $query->where(DB::raw("CONCAT('personas.nombres', ' ', 'personas.apellidos')"), 'ilike', $nombres);
+        // ->when($nombres, function ($query, $nombres) {
+        //         $query->where(DB::raw("CONCAT('personas.nombres', ' ', 'personas.apellidos')"), 'ilike', $nombres);
+        //     })
+            ->when($p_name, function ($query, $p_name) {
+                $query->where('personas.nombres', 'ilike', $p_name)
+                    ->orWhere('personas.apellidos', 'ilike', $p_name);
             })
-            // ->when($primer_nombre, function ($query, $primer_nombre) {
-            //     $query->where('personas.nombres', 'ilike', $primer_nombre)
-            //         ->orWhere('personas.apellidos', 'ilike', $primer_nombre);
-            // })
             // ->when($segundo_nombre, function ($query, $segundo_nombre) {
             //     $query->where('personas.nombres', 'ilike', $segundo_nombre)
             //         ->orWhere('personas.apellidos', 'ilike', $segundo_nombre);
