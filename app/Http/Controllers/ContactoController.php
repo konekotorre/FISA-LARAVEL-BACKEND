@@ -148,12 +148,12 @@ class ContactoController extends Controller
             'organizacions.nombre as organizacion',
         )
             ->when($p_name, function ($query, $p_name) {
-                $query->where('personas.nombres', 'ilike','%'. $p_name . '%')
+                return $query->where('personas.nombres', 'ilike','%'. $p_name . '%')
                     ->orWhere('personas.apellidos', 'ilike', '%'. $p_name . '%');
             })
             ->when($s_name, function ($query, $s_name) {
-                $query->where('personas.nombres', 'ilike', $s_name)
-                    ->orWhere('personas.apellidos', 'ilike', $s_name);
+                return $query->where('personas.nombres', 'ilike', '%'. $s_name . '%')
+                    ->orWhere('personas.apellidos', 'ilike', '%'. $s_name . '%');
             })
             // ->when($tercer_nombre, function ($query, $tercer_nombre) {
             //     $query->where('personas.nombres', 'ilike', $tercer_nombre)
@@ -164,34 +164,34 @@ class ContactoController extends Controller
             //         ->orWhere('personas.apellidos', 'ilike', $cuarto_nombre);
             // })
             ->when($subcategorias, function ($query, $subcategorias) {
-                $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
+               return $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
             })
             ->when($categorias, function ($query, $categorias) {
-                $query->whereIn('organizacions.categoria_id', $categorias);
+               return $query->whereIn('organizacions.categoria_id', $categorias);
             })
             ->when($organizacion, function ($query, $organizacion) {
-                $query->where('organizacions.nombre', 'ilike', $organizacion);
+                 return $query->where('organizacions.nombre', 'ilike', $organizacion);
             })
             ->when($email, function ($query, $email) {
-                $query->where('contactos.email', 'ilike', $email);
+               return $query->where('contactos.email', 'ilike', $email);
             })
             ->when($cargo, function ($query, $cargo) {
-                $query->where('contactos.cargo', 'ilike', $cargo);
+              return $query->where('contactos.cargo', 'ilike', $cargo);
             })
             ->when($sector, function ($query, $sector) {
-                $query->where('organizacions.sector_id', $sector);
+               return $query->where('organizacions.sector_id', $sector);
             })
             ->when($subsector, function ($query, $subsector) {
-                $query->where('organizacions.subsector_id', $subsector);
+               return $query->where('organizacions.subsector_id', $subsector);
             })
             ->when($pais, function ($query, $pais) {
-                $query->where('oficinas.pais_id', $pais);
+               return $query->where('oficinas.pais_id', $pais);
             })
             ->when($departamento, function ($query, $departamento) {
-                $query->where('oficinas.departamento_estado_id', $departamento);
+               return $query->where('oficinas.departamento_estado_id', $departamento);
             })
             ->when($ciudad, function ($query, $ciudad) {
-                $query->where('oficinas.ciudad_id', $ciudad);
+              return  $query->where('oficinas.ciudad_id', $ciudad);
             })
             ->distinct('personas.id')
             ->orderBy('personas.id')
