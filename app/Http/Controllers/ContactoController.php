@@ -106,11 +106,11 @@ class ContactoController extends Controller
 
     public function search(Request $request)
     {
-        $names = $request->nombres ? explode(" ", $request->nombres): null;
-        $p_name = isset($names[0]) ?  $names[0]:null;
-        $s_name = isset($names[1]) ? '%'. $names[1] .'%':null;
-        $t_name = isset($names[2]) ? '%'. $names[2] .'%':null;
-        $c_name = isset($names[3]) ? '%'. $names[3] .'%':null;
+        $names = $request->nombres ? explode(" ", $request->nombres) : null;
+        $p_name = isset($names[0]) ?  $names[0] : null;
+        $s_name = isset($names[1]) ? '%' . $names[1] . '%' : null;
+        $t_name = isset($names[2]) ? '%' . $names[2] . '%' : null;
+        $c_name = isset($names[3]) ? '%' . $names[3] . '%' : null;
 
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
@@ -124,28 +124,28 @@ class ContactoController extends Controller
         $subsector = $request->subsector;
 
         $contactos = DB::table('contactos')
-        ->join('personas', 'personas.id', 'contactos.persona_id')
-        ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
-        ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
-        ->leftJoin('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
-        ->leftJoin('pais', 'pais.id', 'oficinas.pais_id')
-        ->leftJoin('organizacions', 'organizacions.id', 'contactos.organizacion_id')
-        ->leftJoin('sectors', 'sectors.id', 'organizacions.sector_id')
-        ->leftJoin('subsectors', 'subsectors.id', 'organizacions.subsector_id')
-        ->leftJoin('detalle_categoria_personas', 'detalle_categoria_personas.persona_id', 'personas.id')
-        ->select(
-            'contactos.id as contacto_id',
-            'personas.id as persona_id',
-            'personas.nombres',
-            'personas.apellidos',
-            'contactos.email',
-            'personas.celular',
-            'contactos.telefono',
-            'contactos.extension',
-            'contactos.cargo',
-            'contactos.observaciones',
-            'organizacions.nombre as organizacion',
-        )
+            ->join('personas', 'personas.id', 'contactos.persona_id')
+            ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
+            ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
+            ->leftJoin('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
+            ->leftJoin('pais', 'pais.id', 'oficinas.pais_id')
+            ->leftJoin('organizacions', 'organizacions.id', 'contactos.organizacion_id')
+            ->leftJoin('sectors', 'sectors.id', 'organizacions.sector_id')
+            ->leftJoin('subsectors', 'subsectors.id', 'organizacions.subsector_id')
+            ->leftJoin('detalle_categoria_personas', 'detalle_categoria_personas.persona_id', 'personas.id')
+            ->select(
+                'contactos.id as contacto_id',
+                'personas.id as persona_id',
+                'personas.nombres',
+                'personas.apellidos',
+                'contactos.email',
+                'personas.celular',
+                'contactos.telefono',
+                'contactos.extension',
+                'contactos.cargo',
+                'contactos.observaciones',
+                'organizacions.nombre as organizacion',
+            )
             // ->when($tercer_nombre, function ($query, $tercer_nombre) {
             //     $query->where('personas.nombres', 'ilike', $tercer_nombre)
             //         ->orWhere('personas.apellidos', 'ilike', $tercer_nombre);
@@ -155,34 +155,34 @@ class ContactoController extends Controller
             //         ->orWhere('personas.apellidos', 'ilike', $cuarto_nombre);
             // })
             ->when($subcategorias, function ($query, $subcategorias) {
-               return $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
+                return $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
             })
             ->when($categorias, function ($query, $categorias) {
-               return $query->whereIn('organizacions.categoria_id', $categorias);
+                return $query->whereIn('organizacions.categoria_id', $categorias);
             })
             ->when($organizacion, function ($query, $organizacion) {
-                 return $query->where('organizacions.nombre', 'ilike', '%'.$organizacion.'%');
+                return $query->where('organizacions.nombre', 'ilike', '%' . $organizacion . '%');
             })
             ->when($email, function ($query, $email) {
-               return $query->where('contactos.email', 'ilike', '%'.$email.'%');
+                return $query->where('contactos.email', 'ilike', '%' . $email . '%');
             })
             ->when($cargo, function ($query, $cargo) {
-              return $query->where('contactos.cargo', 'ilike', '%'.$cargo.'%');
+                return $query->where('contactos.cargo', 'ilike', '%' . $cargo . '%');
             })
             ->when($sector, function ($query, $sector) {
-               return $query->where('organizacions.sector_id', $sector);
+                return $query->where('organizacions.sector_id', $sector);
             })
             ->when($subsector, function ($query, $subsector) {
-               return $query->where('organizacions.subsector_id', $subsector);
+                return $query->where('organizacions.subsector_id', $subsector);
             })
             ->when($pais, function ($query, $pais) {
-               return $query->where('oficinas.pais_id', $pais);
+                return $query->where('oficinas.pais_id', $pais);
             })
             ->when($departamento, function ($query, $departamento) {
-               return $query->where('oficinas.departamento_estado_id', $departamento);
+                return $query->where('oficinas.departamento_estado_id', $departamento);
             })
             ->when($ciudad, function ($query, $ciudad) {
-              return  $query->where('oficinas.ciudad_id', $ciudad);
+                return  $query->where('oficinas.ciudad_id', $ciudad);
             })
             // ->when($p_name, function ($query, $p_name) {
             //     return $query->where('personas.nombres', 'ilike','%'.$p_name.'%');
@@ -202,40 +202,38 @@ class ContactoController extends Controller
 
         $count = count($contactos);
         $contactos_salida = [];
-        for ($i = 0; $i < count($contactos); $i++) {
-            $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
-            if ($p_name) {
-                if (strpos(strtolower($name), strtolower($p_name)) !== false) {
-                    if ($s_name) {
-                        if (strpos(strtolower($name), strtolower($s_name)) !== false) {
-                            if ($t_name) {
-                                if (strpos(strtolower($name), strtolower($t_name)) !== false) {
-                                    if ($c_name) {
-                                        if (strpos(strtolower($name), strtolower($c_name)) !== false) {
-                                        } else {
-                                            array_push($contactos_salida, $contactos[$i]);
+        if ($names) {
+            for ($i = 0; $i < count($contactos); $i++) {
+                $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
+                if ($p_name) {
+                    if (strpos(strtolower($name), strtolower($p_name)) !== false) {
+                        if ($s_name) {
+                            if (strpos(strtolower($name), strtolower($s_name)) !== false) {
+                                if ($t_name) {
+                                    if (strpos(strtolower($name), strtolower($t_name)) !== false) {
+                                        if ($c_name) {
+                                            if (strpos(strtolower($name), strtolower($c_name)) !== false) {
+                                            } else {
+                                                array_push($contactos_salida, $contactos[$i]);
+                                            }
                                         }
                                     }
-                                } else {
-                                    array_push($contactos_salida, $contactos[$i]);
                                 }
                             }
-                        } else {
-                            array_push($contactos_salida, $contactos[$i]);
                         }
                     }
                 } else {
                     array_push($contactos_salida, $contactos[$i]);
                 }
-            } else {
-                array_push($contactos_salida, $contactos[$i]);
             }
+        } else {
+            $contactos_salida = $contactos;
         }
         return response()->json([
             "nombres" => $names,
             "success" => true,
             "count" => $count,
-           // "contactos" => $contactos,
+            // "contactos" => $contactos,
             "cons_salida" => $contactos_salida
         ], 200);
     }
