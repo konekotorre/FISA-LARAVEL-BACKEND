@@ -204,7 +204,7 @@ class ContactoController extends Controller
 
             $count = count($contactos);
         for ($i = 0; $i<=count($contactos); $i++){
-            $name = $contactos[$i]->pluck('nombres'). ' ' .$contactos[$i]->pluck('apellidos');
+            $name = $contactos[$i]->nombres. ' ' .$contactos[$i]->apellidos;
             if (strpos($name, $nombres) !== false){
                 $contactos_salida[] = $contactos[$i];
             }
