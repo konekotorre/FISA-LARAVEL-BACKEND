@@ -202,6 +202,7 @@ class ContactoController extends Controller
             ->orderBy('personas.apellidos')
             ->get();
 
+            $count = count($contactos);
         // for ($i = 0; $i<=count($contactos); $i++){
         //     $nombres = $contactos[$i]->pluck('nombres'). ' ' .$contactos[$i]->pluck('apellidos');
         //     if (strpos($contactos[$i]->nombres, $nombres) !== false){
