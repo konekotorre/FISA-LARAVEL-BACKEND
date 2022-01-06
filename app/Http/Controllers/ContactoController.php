@@ -211,7 +211,7 @@ class ContactoController extends Controller
         //     }
         // }
         return response()->json([
-            "nombres" => $names;
+            "nombres" => $names,
             "success" => true,
             "count" => $count,
             "contactos" => $contactos
