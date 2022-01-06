@@ -106,15 +106,8 @@ class ContactoController extends Controller
 
     public function search(Request $request)
     {
-        $primer_nombre = $request->primer_nombre;
-        $segundo_nombre = $request->segundo_nombre;
-        $tercer_nombre = $request->tercer_nombre;
-        $cuarto_nombre = $request->cuarto_nombre;
         $nombres = $request->nombres;
-        // $names = explode(" ", $request->nombres);
-        // for ($i = 0; $i<=count($names);$i++){
-        //     $names[$i] = '%'.$names[$i].'%';
-        // }
+        $names = explode(" ", $request->nombres);
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
         $email = $request->email;
@@ -218,6 +211,7 @@ class ContactoController extends Controller
         //     }
         // }
         return response()->json([
+            "nombres" => $names;
             "success" => true,
             "count" => $count,
             "contactos" => $contactos
