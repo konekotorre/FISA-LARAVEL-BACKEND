@@ -147,14 +147,6 @@ class ContactoController extends Controller
             'contactos.observaciones',
             'organizacions.nombre as organizacion',
         )
-            ->when($p_name, function ($query, $p_name) {
-                return $query->where('personas.nombres', 'ilike','%'. $p_name . '%')
-                    ->orWhere('personas.apellidos', 'ilike', '%'. $p_name . '%');
-            })
-            ->when($s_name, function ($query, $s_name) {
-                return $query->where('personas.nombres', 'ilike', '%'. $s_name . '%')
-                    ->orWhere('personas.apellidos', 'ilike', '%'. $s_name . '%');
-            })
             // ->when($tercer_nombre, function ($query, $tercer_nombre) {
             //     $query->where('personas.nombres', 'ilike', $tercer_nombre)
             //         ->orWhere('personas.apellidos', 'ilike', $tercer_nombre);
@@ -192,6 +184,14 @@ class ContactoController extends Controller
             })
             ->when($ciudad, function ($query, $ciudad) {
               return  $query->where('oficinas.ciudad_id', $ciudad);
+            })
+            ->when($p_name, function ($query, $p_name) {
+                return $query->where('personas.nombres', 'ilike','%'. $p_name . '%')
+                    ->orWhere('personas.apellidos', 'ilike', '%'. $p_name . '%');
+            })
+            ->when($s_name, function ($query, $s_name) {
+                return $query->where('personas.nombres', 'ilike', '%'. $s_name . '%')
+                    ->orWhere('personas.apellidos', 'ilike', '%'. $s_name . '%');
             })
             ->distinct('personas.id')
             ->orderBy('personas.id')
