@@ -147,12 +147,9 @@ class ContactoController extends Controller
             'contactos.observaciones',
             'organizacions.nombre as organizacion',
         )
-        // ->when($nombres, function ($query, $nombres) {
-        //         $query->where(DB::raw("CONCAT('personas.nombres', ' ', 'personas.apellidos')"), 'ilike', $nombres);
-        //     })
             ->when($p_name, function ($query, $p_name) {
-                $query->where('personas.nombres', 'ilike', $p_name)
-                    ->orWhere('personas.apellidos', 'ilike', $p_name);
+                $query->where('personas.nombres', 'ilike', '%'. $p_name .'%')
+                    ->orWhere('personas.apellidos', 'ilike', '%'. $p_name .'%');
             })
             // ->when($segundo_nombre, function ($query, $segundo_nombre) {
             //     $query->where('personas.nombres', 'ilike', $segundo_nombre)
