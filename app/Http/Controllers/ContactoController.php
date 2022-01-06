@@ -226,9 +226,12 @@ class ContactoController extends Controller
                         } else {
                             array_push($contactos_salida, $contactos[$i]);
                         }
-                    } else {
-                        $contactos_salida = $contactos;
                     }
+                }
+            }
+        } else {
+            $contactos_salida = $contactos;
+        }
         return response()->json([
             "nombres" => $names,
             "success" => true,
