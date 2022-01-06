@@ -108,10 +108,10 @@ class ContactoController extends Controller
     {
         $nombres = $request->nombres;
         $names = explode(" ", $request->nombres);
-        $p_name = $names[0] ? $names[0]:'';
-        $s_name = $names[1] ? $names[1]:'';
-        $t_name = $names[2] ? $names[2]:'';
-        $c_name = $names[3] ? $names[3]:'';
+        $p_name = isset($names[0]) ? $names[0]:'';
+        $s_name = isset($names[1]) ? $names[1]:'';
+        $t_name = isset($names[2]) ? $names[2]:'';
+        $c_name = isset($names[3]) ? $names[3]:'';
 
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
@@ -123,7 +123,7 @@ class ContactoController extends Controller
         $subcategorias = $request->subcategorias;
         $sector = $request->sector;
         $subsector = $request->subsector;
-        
+
         $contactos = DB::table('contactos')
         ->join('personas', 'personas.id', 'contactos.persona_id')
         ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
