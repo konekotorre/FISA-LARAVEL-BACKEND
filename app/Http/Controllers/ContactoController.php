@@ -108,10 +108,10 @@ class ContactoController extends Controller
     {
         $nombres = $request->nombres;
         $names = explode(" ", $request->nombres);
-        $p_name = isset($names[0]) ?  $names[0]:'';
-        $s_name = isset($names[1]) ? '%'. $names[1] .'%':'';
-        $t_name = isset($names[2]) ? '%'. $names[2] .'%':'';
-        $c_name = isset($names[3]) ? '%'. $names[3] .'%':'';
+        $p_name = isset($names[0]) ?  $names[0]:null;
+        $s_name = isset($names[1]) ? '%'. $names[1] .'%':null;
+        $t_name = isset($names[2]) ? '%'. $names[2] .'%':null;
+        $c_name = isset($names[3]) ? '%'. $names[3] .'%':null;
 
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
