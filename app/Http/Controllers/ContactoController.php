@@ -203,7 +203,7 @@ class ContactoController extends Controller
             ->get();
 
             $count = count($contactos);
-        for ($i = 0; $i<=count($contactos); $i++){
+        for ($i = 0; $i<count($contactos); $i++){
             $name = $contactos[$i]->nombres. ' ' .$contactos[$i]->apellidos;
             if (strpos($name, $nombres) !== false){
                 $contactos_salida[] = $contactos[$i];
