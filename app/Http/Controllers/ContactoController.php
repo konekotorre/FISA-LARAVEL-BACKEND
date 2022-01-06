@@ -108,10 +108,10 @@ class ContactoController extends Controller
     {
         $nombres = $request->nombres;
         $names = explode(" ", $request->nombres);
-        $p_name = isset($names[0]) ? $names[0]:'';
-        $s_name = isset($names[1]) ? $names[1]:'';
-        $t_name = isset($names[2]) ? $names[2]:'';
-        $c_name = isset($names[3]) ? $names[3]:'';
+        $p_name = isset($names[0]) ? '%'. $names[0] .'%':'';
+        $s_name = isset($names[1]) ? '%'. $names[1] .'%':'';
+        $t_name = isset($names[2]) ? '%'. $names[2] .'%':'';
+        $c_name = isset($names[3]) ? '%'. $names[3] .'%':'';
 
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
@@ -148,8 +148,8 @@ class ContactoController extends Controller
             'organizacions.nombre as organizacion',
         )
             ->when($p_name, function ($query, $p_name) {
-                $query->where('personas.nombres', 'ilike', '%'. $p_name .'%')
-                    ->orWhere('personas.apellidos', 'ilike', '%'. $p_name .'%');
+                $query->where('personas.nombres', 'ilike', $p_name)
+                    ->orWhere('personas.apellidos', 'ilike', $p_name);
             })
             // ->when($segundo_nombre, function ($query, $segundo_nombre) {
             //     $query->where('personas.nombres', 'ilike', $segundo_nombre)
