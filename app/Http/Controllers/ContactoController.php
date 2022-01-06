@@ -213,22 +213,22 @@ class ContactoController extends Controller
                                     if (strpos(strtolower($name), strtolower($t_name)) !== false) {
                                         if ($c_name) {
                                             if (strpos(strtolower($name), strtolower($c_name)) !== false) {
-                                            } else {
                                                 array_push($contactos_salida, $contactos[$i]);
                                             }
+                                        } else {
+                                            array_push($contactos_salida, $contactos[$i]);
                                         }
                                     }
+                                } else {
+                                    array_push($contactos_salida, $contactos[$i]);
                                 }
                             }
+                        } else {
+                            array_push($contactos_salida, $contactos[$i]);
                         }
+                    } else {
+                        $contactos_salida = $contactos;
                     }
-                } else {
-                    array_push($contactos_salida, $contactos[$i]);
-                }
-            }
-        } else {
-            $contactos_salida = $contactos;
-        }
         return response()->json([
             "nombres" => $names,
             "success" => true,
