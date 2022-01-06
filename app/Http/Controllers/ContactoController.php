@@ -214,7 +214,7 @@ class ContactoController extends Controller
             "nombres" => $names,
             "success" => true,
             "count" => $count,
-            "contactos" => $contactos,
+           // "contactos" => $contactos,
             "cons_salida" => $contactos_salida
         ], 200);
     }
