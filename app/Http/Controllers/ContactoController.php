@@ -206,7 +206,7 @@ class ContactoController extends Controller
         for ($i = 0; $i < count($contactos); $i++) {
             $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
             if (strpos($name, $nombres) !== false) {
-                array($contactos_salida) = $contactos[$i];
+                array_push($contactos_salida,$contactos[$i]);
             }
         }
         return response()->json([
