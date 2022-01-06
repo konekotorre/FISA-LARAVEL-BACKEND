@@ -108,7 +108,7 @@ class ContactoController extends Controller
     {
         $nombres = $request->nombres;
         $names = explode(" ", $request->nombres);
-        $p_name = isset($names[0]) ? '%'. $names[0] .'%':'';
+        $p_name = isset($names[0]) ?  $names[0]:'';
         $s_name = isset($names[1]) ? '%'. $names[1] .'%':'';
         $t_name = isset($names[2]) ? '%'. $names[2] .'%':'';
         $c_name = isset($names[3]) ? '%'. $names[3] .'%':'';
@@ -151,8 +151,8 @@ class ContactoController extends Controller
             //     $query->whereRaw("CONCAT('personas.nombre', ' ', 'personas.apellidos') ILIKE ?", $nombres);
             // })
             ->when($p_name, function ($query, $p_name) {
-                $query->where('personas.nombres', 'ilike', $p_name)
-                    ->orWhere('personas.apellidos', 'ilike', $p_name);
+                $query->where('personas.nombres', 'ilike','%'. $p_name . '%')
+                    ->orWhere('personas.apellidos', 'ilike', '%'. $p_name . '%');
             })
             ->when($s_name, function ($query, $s_name) {
                 $query->where('personas.nombres', 'ilike', $s_name)
