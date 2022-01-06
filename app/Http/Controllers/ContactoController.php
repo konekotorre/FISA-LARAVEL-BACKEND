@@ -147,9 +147,6 @@ class ContactoController extends Controller
             'contactos.observaciones',
             'organizacions.nombre as organizacion',
         )
-            // ->when($nombres, function ($query, $nombres) {
-            //     $query->whereRaw("CONCAT('personas.nombre', ' ', 'personas.apellidos') ILIKE ?", $nombres);
-            // })
             ->when($p_name, function ($query, $p_name) {
                 $query->where('personas.nombres', 'ilike','%'. $p_name . '%')
                     ->orWhere('personas.apellidos', 'ilike', '%'. $p_name . '%');
@@ -206,7 +203,7 @@ class ContactoController extends Controller
         $contactos_salida = [];
         for ($i = 0; $i < count($contactos); $i++) {
             $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
-            if (strpos(strtolower($name), strtolower($p_name)) !== false) {
+            if (strpos(strtolower($name), strtolower($p_name)) !== false && strpos(strtolower($name), strtolower($s_name)) !== false) {
                 array_push($contactos_salida,$contactos[$i]);
             }
         }
