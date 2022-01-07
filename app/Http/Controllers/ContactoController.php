@@ -209,8 +209,8 @@ class ContactoController extends Controller
 
                 if ($s_name) {
                     if (
-                        strpos(strtolower($name), strtolower(isset($p_name))) !== false &&
-                        strpos(strtolower($name), strtolower(isset($s_name))) !== false
+                        strpos(strtolower($name), strtolower($p_name)) !== false &&
+                        strpos(strtolower($name), strtolower($s_name)) !== false
                     ) {
                         array_push($contactos_salida, $contactos[$i]);
                     }
