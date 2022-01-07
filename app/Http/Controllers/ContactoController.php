@@ -202,8 +202,14 @@ class ContactoController extends Controller
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
                 $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
-                if ($p_name !== null) {
+                if ($p_name) {
                     if (strpos(strtolower($name), strtolower($p_name)) !== false) {
+                        if ($s_name){
+                            if (strpos(strtolower($name), strtolower($s_name)) !== false && strpos(strtolower($name), strtolower($p_name)) !== false) {
+                                array_push($contactos_salida, $contactos[$i]);
+                            }
+                        }
+                        array_push($contactos_salida, $contactos[$i]);
                     }
                 }
             }
