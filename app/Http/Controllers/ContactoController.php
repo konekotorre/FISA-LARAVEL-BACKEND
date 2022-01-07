@@ -193,9 +193,6 @@ class ContactoController extends Controller
             // ->when($s_name, function ($query, $s_name) {
             //     return $query->where('personas.nombres', 'ilike', '%'.$s_name.'%');
             // })
-            // ->when($s_name, function ($query, $s_name) {
-            //     return $query->where('personas.apellidos', 'ilike', '%'.$s_name.'%');
-            // })
             ->distinct('personas.id')
             ->orderBy('personas.id')
             ->get();
@@ -207,22 +204,6 @@ class ContactoController extends Controller
                 $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
                 if ($p_name !== null) {
                     if (strpos(strtolower($name), strtolower($p_name)) !== false) {
-                        if ($s_name !== null) {
-                            if (strpos(strtolower($name), strtolower($p_name)) !== false  && strpos(strtolower($name), strtolower($s_name)) !== false) {
-                                if ($t_name !== null) {
-                                    if (strpos(strtolower($name), strtolower($p_name)) !== false && strpos(strtolower($name), strtolower($s_name)) !== false && strpos(strtolower($name), strtolower($t_name)) !== false) {
-                                        if ($c_name !== null) {
-                                            if (strpos(strtolower($name), strtolower($p_name)) !== false && strpos(strtolower($name), strtolower($s_name)) !== false && strpos(strtolower($name), strtolower($t_name)) !== false && strpos(strtolower($name), strtolower($c_name)) !== false) {
-                                                array_push($contactos_salida, $contactos[$i]);
-                                            }
-                                        }
-                                        array_push($contactos_salida, $contactos[$i]);
-                                    }
-                                }
-                                array_push($contactos_salida, $contactos[$i]);
-                            }
-                        }
-                        array_push($contactos_salida, $contactos[$i]);
                     }
                 }
             }
