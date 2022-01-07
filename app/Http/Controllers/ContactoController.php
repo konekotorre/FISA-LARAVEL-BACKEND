@@ -219,9 +219,7 @@ class ContactoController extends Controller
             $contactos_salida = $contactos;
         }
         return response()->json([
-            "nombres" => $names,
             "success" => true,
-            "realCount" => $count,
             "count" => count($contactos_salida),
             "contactos" => $contactos_salida,
         ], 200);
