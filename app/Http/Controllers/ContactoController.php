@@ -153,13 +153,13 @@ class ContactoController extends Controller
                 return $query->whereIn('organizacions.categoria_id', $categorias);
             })
             ->when($organizacion, function ($query, $organizacion) {
-                return $query->where('organizacions.nombre', 'ilike', '%' . $organizacion . '%');
+                return $query->where('organizacions.nombre', 'ilike', '%'.$organizacion.'%');
             })
             ->when($email, function ($query, $email) {
-                return $query->where('contactos.email', 'ilike', '%' . $email . '%');
+                return $query->where('contactos.email', 'ilike', '%'.$email.'%');
             })
             ->when($cargo, function ($query, $cargo) {
-                return $query->where('contactos.cargo', 'ilike', '%' . $cargo . '%');
+                return $query->where('contactos.cargo', 'ilike', '%'.$cargo.'%');
             })
             ->when($sector, function ($query, $sector) {
                 return $query->where('organizacions.sector_id', $sector);
