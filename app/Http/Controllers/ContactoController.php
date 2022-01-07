@@ -113,9 +113,9 @@ class ContactoController extends Controller
         $c_name = isset($names[3]) ?  $names[3] : null;
         $contactos_salida = [];
 
-        $organizacion = $request->organizacion;
-        $cargo = $request->cargo;
-        $email = $request->email;
+        $organizacion = trim($request->organizacion);
+        $cargo = trim($request->cargo);
+        $email = trim($request->email);
         $pais = $request->pais;
         $departamento = $request->departamento;
         $ciudad = $request->ciudad;
