@@ -111,6 +111,7 @@ class ContactoController extends Controller
         $s_name = isset($names[1]) ?  $names[1]: null;
         $t_name = isset($names[2]) ?  $names[2] : null;
         $c_name = isset($names[3]) ?  $names[3] : null;
+        $contactos_salida = [];
 
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
@@ -179,7 +180,7 @@ class ContactoController extends Controller
             ->distinct('personas.id')
             ->orderBy('personas.id')
             ->get();
-            
+
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
                 $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
