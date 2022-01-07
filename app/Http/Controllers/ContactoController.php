@@ -209,7 +209,7 @@ class ContactoController extends Controller
                     }
                 }
 
-                elseif ($p_name && $s_name && $t_name === null && $c_name === null) {
+                else if ($p_name && $s_name && $t_name === null && $c_name === null) {
                     if (
                         strpos(strtolower($name), strtolower($p_name)) !== false &&
                         strpos(strtolower($name), strtolower($s_name)) !== false
