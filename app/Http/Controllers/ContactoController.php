@@ -202,28 +202,44 @@ class ContactoController extends Controller
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
                 $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
-                if (strpos(strtolower($name), strtolower($p_name)) !== false) {
-                    array_push($contactos_salida, $contactos[$i]);
-                    // if ($s_name) {
-                    //     if (strpos(strtolower($name), strtolower($s_name)) !== false) {
-                    //         if ($t_name) {
-                    //             if (strpos(strtolower($name), strtolower($t_name)) !== false) {
-                    //                 if ($c_name) {
-                    //                     if (strpos(strtolower($name), strtolower($c_name)) !== false) {
-                    //                     } else {
-                    //                         array_push($contactos_salida, $contactos[$i]);
-                    //                     }
-                    //                 }
-                    //             } else {
-                    //                 array_push($contactos_salida, $contactos[$i]);
-                    //             }
-                    //         }
-                    //     } else {
-                    //         array_push($contactos_salida, $contactos[$i]);
-                    //     }
-                    // }
+                switch ($name) {
+                    case strpos(strtolower($name), strtolower(isset($s_name))) !== false:
+                        array_push($contactos_salida, $contactos[$i]);
+                        break;
+
+                    default:
+                        'NA';
+                        break;
                 }
-            }
+            //     if (strpos(strtolower($name), strtolower($p_name)) !== false) {
+            //         if (strpos(strtolower($name), strtolower(isset($s_name))) !== false) {
+
+            //             }
+            //             array_push($contactos_salida, $contactos[$i]);
+            //         }
+            //             array_push($contactos_salida, $contactos[$i]);
+            //         }
+
+            //          if ($s_name) {
+            //              if (strpos(strtolower($name), strtolower($s_name)) !== false) {
+            //                  if ($t_name) {
+            //                     if (strpos(strtolower($name), strtolower($t_name)) !== false) {
+            //                          if ($c_name) {
+            //                              if (strpos(strtolower($name), strtolower($c_name)) !== false) {
+            //                            } else {
+            //                                 array_push($contactos_salida, $contactos[$i]);
+            //                              }
+            //                          }
+            //                      } else {
+            //                          array_push($contactos_salida, $contactos[$i]);
+            //                     }
+            //                  }
+            //              } else {
+            //                  array_push($contactos_salida, $contactos[$i]);
+            //              }
+            //          }
+            //     }
+            // }
         } else {
             $contactos_salida = $contactos;
         }
