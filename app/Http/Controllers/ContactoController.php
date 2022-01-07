@@ -106,7 +106,7 @@ class ContactoController extends Controller
 
     public function search(Request $request)
     {
-        $names = $request->nombres ? explode(" ", $request->nombres) : null;
+        $names = $request->nombres ? explode(" ", trim($request->nombres)) : null;
         $p_name = isset($names[0]) ?  $names[0] : null;
         $s_name = isset($names[1]) ?  $names[1]: null;
         $t_name = isset($names[2]) ?  $names[2] : null;
