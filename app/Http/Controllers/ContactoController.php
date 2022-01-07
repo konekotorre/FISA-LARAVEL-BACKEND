@@ -108,9 +108,9 @@ class ContactoController extends Controller
     {
         $names = $request->nombres ? explode(" ", $request->nombres) : null;
         $p_name = isset($names[0]) ?  $names[0] : null;
-        $s_name = isset($names[1]) ? '%' . $names[1] . '%' : null;
-        $t_name = isset($names[2]) ? '%' . $names[2] . '%' : null;
-        $c_name = isset($names[3]) ? '%' . $names[3] . '%' : null;
+        $s_name = isset($names[1]) ?  $names[1]: null;
+        $t_name = isset($names[2]) ?  $names[2] : null;
+        $c_name = isset($names[3]) ?  $names[3] : null;
 
         $organizacion = $request->organizacion;
         $cargo = $request->cargo;
