@@ -202,17 +202,31 @@ class ContactoController extends Controller
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
                 $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
-
-                if ($p_name) {
+                if ($p_name && $s_name === null && $t_name === null && $c_name === null) {
                     if (strpos(strtolower($name), strtolower($p_name)) !== false) {
                         array_push($contactos_salida, $contactos[$i]);
                     }
-                }
-
-                else if ($p_name && $s_name) {
+                } else if ($p_name && $s_name && $t_name === null && $c_name === null) {
                     if (
                         strpos(strtolower($name), strtolower($p_name)) !== false &&
                         strpos(strtolower($name), strtolower($s_name)) !== false
+                    ) {
+                        array_push($contactos_salida, $contactos[$i]);
+                    }
+                } else if ($p_name && $s_name && $t_name && $c_name === null) {
+                    if (
+                        strpos(strtolower($name), strtolower($p_name)) !== false &&
+                        strpos(strtolower($name), strtolower($s_name)) !== false &&
+                        strpos(strtolower($name), strtolower($t_name)) !== false
+                    ) {
+                        array_push($contactos_salida, $contactos[$i]);
+                    }
+                } else if ($p_name && $s_name && $t_name && $c_name) {
+                    if (
+                        strpos(strtolower($name), strtolower($p_name)) !== false &&
+                        strpos(strtolower($name), strtolower($s_name)) !== false &&
+                        strpos(strtolower($name), strtolower($t_name)) !== false &&
+                        strpos(strtolower($name), strtolower($c_name)) !== false
                     ) {
                         array_push($contactos_salida, $contactos[$i]);
                     }
