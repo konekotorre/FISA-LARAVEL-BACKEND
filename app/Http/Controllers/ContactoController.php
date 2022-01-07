@@ -210,22 +210,19 @@ class ContactoController extends Controller
                         if ($s_name !== null) {
                             if (strpos(strtolower($name), strtolower($p_name)) !== false  && strpos(strtolower($name), strtolower($s_name)) !== false) {
                                 if ($t_name !== null) {
-                                    if (strpos(strtolower($name), strtolower($t_name)) !== false) {
+                                    if (strpos(strtolower($name), strtolower($p_name)) !== false && strpos(strtolower($name), strtolower($s_name)) !== false && strpos(strtolower($name), strtolower($t_name)) !== false) {
                                         if ($c_name !== null) {
-                                            if (strpos(strtolower($name), strtolower($c_name)) !== false) {
+                                            if (strpos(strtolower($name), strtolower($p_name)) !== false && strpos(strtolower($name), strtolower($s_name)) !== false && strpos(strtolower($name), strtolower($t_name)) !== false && strpos(strtolower($name), strtolower($c_name)) !== false) {
                                                 array_push($contactos_salida, $contactos[$i]);
                                             }
-                                        } else {
-                                            array_push($contactos_salida, $contactos[$i]);
                                         }
+                                        array_push($contactos_salida, $contactos[$i]);
                                     }
-                                } else {
-                                    array_push($contactos_salida, $contactos[$i]);
                                 }
+                                array_push($contactos_salida, $contactos[$i]);
                             }
-                        } else {
-                            array_push($contactos_salida, $contactos[$i]);
                         }
+                        array_push($contactos_salida, $contactos[$i]);
                     }
                 }
             }
@@ -235,10 +232,9 @@ class ContactoController extends Controller
         return response()->json([
             "nombres" => $names,
             "success" => true,
-            "count" => $count,
-            "realCount" => count($contactos_salida),
-            // "contactos" => $contactos,
-            "cons_salida" => $contactos_salida
+            "realCount" => $count,
+            "count" => count($contactos_salida),
+            "contactos" => $contactos_salida,
         ], 200);
     }
 
