@@ -179,9 +179,7 @@ class ContactoController extends Controller
             ->distinct('personas.id')
             ->orderBy('personas.id')
             ->get();
-
-        $count = count($contactos);
-        $contactos_salida = [];
+            
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
                 $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
