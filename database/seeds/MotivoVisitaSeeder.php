@@ -12,23 +12,23 @@ class MotivoVisitaSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('motivo_visita')->insert([
+        DB::table('motivo_visitas')->insert([
             'nombre' => 'PAUTAS'
         ]);
 
-        DB::table('motivo_visita')->insert([
+        DB::table('motivo_visitas')->insert([
             'nombre' => 'SEGUIMIENTO'
         ]);
 
-        DB::table('motivo_visita')->insert([
+        DB::table('motivo_visitas')->insert([
             'nombre' => 'COMERCIAL'
         ]);
 
-        DB::table('motivo_visita')->insert([
+        DB::table('motivo_visitas')->insert([
             'nombre' => 'COBRO'
         ]);
 
-        DB::table('motivo_visita')->insert([
+        DB::table('motivo_visitas')->insert([
             'nombre' => 'POTENCIAL'
         ]);
     }

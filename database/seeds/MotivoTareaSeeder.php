@@ -12,15 +12,15 @@ class MotivoTareaSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('motivo_tarea')->insert([
+        DB::table('motivo_tareas')->insert([
             'nombre' => 'SEGUIMIENTO'
         ]);
 
-        DB::table('motivo_tarea')->insert([
+        DB::table('motivo_tareas')->insert([
             'nombre' => 'SOLICITUDES'
         ]);
 
-        DB::table('motivo_tarea')->insert([
+        DB::table('motivo_tareas')->insert([
             'nombre' => 'COBRO'
         ]);
     }

@@ -287,7 +287,7 @@ Route::group([
             Route::post('Visita/OrgData', 'VisitaController@orgData');
             Route::get('Visita/Today', 'VisitaController@today');
             Route::post('Visita/Data', 'VisitaController@listForm');
-            Route::post('Visita/ListMotivos', 'VisitaController@listMotivoForm');
+            Route::get('Visita/ListMotivos', 'VisitaController@listMotivoForm');
             Route::post('Visita/Search', 'VisitaController@search');
             Route::get('Visita/{visita}', 'VisitaController@show');
 
