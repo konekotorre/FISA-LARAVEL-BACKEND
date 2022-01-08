@@ -116,7 +116,7 @@ Route::group([
 
             //Motivo Visita
 
-            Route::get('MotivoVisita/{MotivoVisita}', 'MotivoVisitaController@show');
+            Route::get('MotivoVisita/{motivoVisita}', 'MotivoVisitaController@show');
             Route::post('MotivoVisita/', 'MotivoVisitaController@store');
             Route::put('MotivoVisita/{motivoVisita}', 'MotivoVisitaController@update');
             Route::delete('MotivoVisita/{motivoVisita}', 'MotivoVisitaController@destroy');
