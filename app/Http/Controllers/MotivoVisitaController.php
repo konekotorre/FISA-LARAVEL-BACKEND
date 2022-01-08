@@ -21,10 +21,10 @@ class MotivoVisitaController extends Controller
                 'motivo_visitas.*'
             )
             ->where('motivo_visitas.id', '=', $motivoVisita->id)
-            ->get();
+            ->first();
         return response()->json([
             "success" => true,
-            "estado" => $motivo_busqueda[0]
+            "estado" => $motivo_busqueda
         ], 200);
     }
 
