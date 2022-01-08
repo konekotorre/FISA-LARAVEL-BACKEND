@@ -18,7 +18,7 @@ class MotivoTareaController extends Controller
     {
         $motivo_busqueda = DB::table('motivo_tareas')
             ->select(
-                'estado_tareas.*'
+                'motivo_tareas.*'
             )
             ->where('motivo_tareas.id', '=', $motivoTarea->id)
             ->get();

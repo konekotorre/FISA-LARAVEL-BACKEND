@@ -18,7 +18,7 @@ class MotivoVisitaController extends Controller
     {
         $motivo_busqueda = DB::table('motivo_visitas')
             ->select(
-                'estado_visitas.*'
+                'motivo_visitas.*'
             )
             ->where('motivo_visitas.id', '=', $motivoVisita->id)
             ->get();
