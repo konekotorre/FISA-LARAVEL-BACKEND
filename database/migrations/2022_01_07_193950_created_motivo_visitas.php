@@ -13,7 +13,13 @@ class CreatedMotivoVisitas extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('motivo_visitas', function (Blueprint $table) {
+
+            $table->increments('id')->unsigned();
+            $table->string('nombre')->unique();
+            $table->timestamps();
+
+        });
     }
 
     /**
@@ -23,6 +29,6 @@ class CreatedMotivoVisitas extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('motivo_tareas');
     }
 }
