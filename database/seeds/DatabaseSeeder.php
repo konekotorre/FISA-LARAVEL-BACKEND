@@ -32,8 +32,8 @@ class DatabaseSeeder extends Seeder
             // ClasificacionSeeder::class,
             // EstadoVisitaSeeder::class,
             // EstadoTareaSeeder::class,  
-            MotivoVisitaSeed::class,
-            MotivoTareaSeed::class,  
+            MotivoTareaSeeder::class,
+            MotivoVisitaSeeder::class  
         ]);
     }
 }
