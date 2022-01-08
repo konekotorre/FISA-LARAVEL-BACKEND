@@ -287,7 +287,7 @@ Route::group([
             Route::post('Visita/OrgData', 'VisitaController@orgData');
             Route::get('Visita/Today', 'VisitaController@today');
             Route::post('Visita/Data', 'VisitaController@listForm');
-            Route::get('Visita/ListMotivos', 'VisitaController@listMotivoForm');
+            Route::post('Visita/ListMotivos', 'VisitaController@listMotivoForm');
             Route::post('Visita/Search', 'VisitaController@search');
             Route::get('Visita/{visita}', 'VisitaController@show');
 
@@ -295,7 +295,7 @@ Route::group([
 
             Route::post('Tarea/Visita', 'TareaController@index');
             Route::get('Tarea/{tarea}', 'TareaController@show');
-            Route::get('Tarea/ListMotivos', 'TareaController@listMotivoForm');
+            Route::post('Tarea/ListMotivos', 'TareaController@listMotivoForm');
 
              // Archivo
              
