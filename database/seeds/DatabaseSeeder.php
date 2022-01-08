@@ -28,12 +28,12 @@ class DatabaseSeeder extends Seeder
             // SubsectorSeeder::class,
             // TipoOrganizacionSeeder::class,
             // TipoDocumentoOrganizacionSeeder::class,
-            // TipoOficinaSeeder::class,
+            TipoOficinaSeeder::class,
             // ClasificacionSeeder::class,
             // EstadoVisitaSeeder::class,
             // EstadoTareaSeeder::class,  
-            MotivoTareaSeeder::class,
-            MotivoVisitaSeeder::class  
+            // MotivoTareaSeeder::class,
+            // MotivoVisitaSeeder::class  
         ]);
     }
 }
