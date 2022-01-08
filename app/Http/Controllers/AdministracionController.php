@@ -8,6 +8,8 @@ use App\Clase;
 use App\Clasificacion;
 use App\EstadoTarea;
 use App\EstadoVisita;
+use App\MotivoTarea;
+use App\MotivoVisita;
 use App\Regimen;
 use App\Sector;
 use App\Sexo;
@@ -64,8 +66,10 @@ class AdministracionController extends Controller
     {
         return response()->json([
             "success" => true,
-            "tareas" => EstadoTarea::orderBy('nombre')->get(),
-            "visitas" => EstadoVisita::orderBy('nombre')->get()
+            "estadoTareas" => EstadoTarea::orderBy('nombre')->get(),
+            "estadoVisitas" => EstadoVisita::orderBy('nombre')->get(),
+            "motivoTareas" => MotivoTarea::orderBy('nombre')->get(),
+            "motivoVisitas" => MotivoVisita::orderBy('nombre')->get(),
         ], 200);
     }
 }

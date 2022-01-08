@@ -6,6 +6,7 @@ use App\DetalleAsignadoVisita;
 use App\Visita;
 use App\EstadoVisita;
 use App\EstadoTarea;
+use App\MotivoVisita;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -53,6 +54,14 @@ class VisitaController extends Controller
         return response()->json([
             "success" => true,
             "visitas" => $visitas
+        ], 200);
+    }
+
+    public function listMotivoForm()
+    {
+        return response()->json([
+            "success" => true,
+            "motivoVisitas" => MotivoVisita::orderBy('nombre')->get(),
         ], 200);
     }
 

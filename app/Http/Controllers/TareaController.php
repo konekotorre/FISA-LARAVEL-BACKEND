@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MotivoTarea;
 use App\Tarea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,14 @@ class TareaController extends Controller
         return response()->json([
             "success" => true,
             "tareas" => $tareas
+        ], 200);
+    }
+
+    public function listMotivoForm()
+    {
+        return response()->json([
+            "success" => true,
+            "motivoTareas" => MotivoTarea::orderBy('nombre')->get(),
         ], 200);
     }
 

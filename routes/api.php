@@ -114,14 +114,14 @@ Route::group([
             Route::put('EstadoTarea/{estadoTarea}', 'EstadoTareaController@update');
             Route::delete('EstadoTarea/{estadoTarea}', 'EstadoTareaController@destroy');
 
-            //Estado Visita
+            //Motivo Visita
 
             Route::get('MotivoVisita/{MotivoVisita}', 'MotivoVisitaController@show');
             Route::post('MotivoVisita/', 'MotivoVisitaController@store');
             Route::put('MotivoVisita/{motivoVisita}', 'MotivoVisitaController@update');
             Route::delete('MotivoVisita/{motivoVisita}', 'MotivoVisitaController@destroy');
 
-            //Estado Tarea
+            //Motivo Tarea
 
             Route::get('MotivoTarea/{motivoTarea}', 'MotivoTareaController@show');
             Route::post('MotivoTarea/', 'MotivoTareaController@store');
@@ -287,6 +287,7 @@ Route::group([
             Route::post('Visita/OrgData', 'VisitaController@orgData');
             Route::get('Visita/Today', 'VisitaController@today');
             Route::post('Visita/Data', 'VisitaController@listForm');
+            Route::post('Visita/ListMotivos', 'VisitaController@listMotivoForm');
             Route::post('Visita/Search', 'VisitaController@search');
             Route::get('Visita/{visita}', 'VisitaController@show');
 
@@ -294,6 +295,7 @@ Route::group([
 
             Route::post('Tarea/Visita', 'TareaController@index');
             Route::get('Tarea/{tarea}', 'TareaController@show');
+            Route::get('Tarea/ListMotivos', 'TareaController@listMotivoForm');
 
              // Archivo
              
