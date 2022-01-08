@@ -37,7 +37,7 @@ class MotivoTareaController extends Controller
 
     public function destroy(MotivoTarea $motivoTarea)
     {
-        $estadoTarea->delete();
+        $motivoTarea->delete();
         return response()->json(["success" => true], 200);
     }
 }
