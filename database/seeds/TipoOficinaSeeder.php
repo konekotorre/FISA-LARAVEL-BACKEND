@@ -20,35 +20,35 @@ class TipoOficinaSeeder extends Seeder
         //     'nombre' => 'Sede',
         // ]);
 
-        DB::table('motivo_tarea')->insert([
+        DB::table('motivo_tareas')->insert([
             'nombre' => 'SEGUIMIENTO'
         ]);
 
-        DB::table('motivo_tarea')->insert([
+        DB::table('motivo_tareas')->insert([
             'nombre' => 'SOLICITUDES'
         ]);
 
-        DB::table('motivo_tarea')->insert([
+        DB::table('motivo_tareas')->insert([
             'nombre' => 'COBRO'
         ]);
 
-        DB::table('motivo_visita')->insert([
+        DB::table('motivo_visitas')->insert([
             'nombre' => 'PAUTAS'
         ]);
 
-        DB::table('motivo_visita')->insert([
+        DB::table('motivo_visitas')->insert([
             'nombre' => 'SEGUIMIENTO'
         ]);
 
-        DB::table('motivo_visita')->insert([
+        DB::table('motivo_visitas')->insert([
             'nombre' => 'COMERCIAL'
         ]);
 
-        DB::table('motivo_visita')->insert([
+        DB::table('motivo_visitas')->insert([
             'nombre' => 'COBRO'
         ]);
 
-        DB::table('motivo_visita')->insert([
+        DB::table('motivo_visitas')->insert([
             'nombre' => 'POTENCIAL'
         ]);
 
