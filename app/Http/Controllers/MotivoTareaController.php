@@ -16,11 +16,11 @@ class MotivoTareaController extends Controller
 
     public function show(MotivoTarea $motivoTarea)
     {
-        $motivo_busqueda = DB::table('estado_tareas')
+        $motivo_busqueda = DB::table('motivo_tareas')
             ->select(
                 'estado_tareas.*'
             )
-            ->where('estado_tareas.id', '=', $motivoTarea->id)
+            ->where('motivo_tareas.id', '=', $motivoTarea->id)
             ->get();
         return response()->json([
             "success" => true,

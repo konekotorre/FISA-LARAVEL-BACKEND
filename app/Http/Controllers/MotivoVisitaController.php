@@ -16,11 +16,11 @@ class MotivoVisitaController extends Controller
 
     public function show(MotivoVisita $motivoVisita)
     {
-        $motivo_busqueda = DB::table('estado_visitas')
+        $motivo_busqueda = DB::table('motivo_visitas')
             ->select(
                 'estado_visitas.*'
             )
-            ->where('estado_visitas.id', '=', $motivoVisita->id)
+            ->where('motivo_visitas.id', '=', $motivoVisita->id)
             ->get();
         return response()->json([
             "success" => true,
