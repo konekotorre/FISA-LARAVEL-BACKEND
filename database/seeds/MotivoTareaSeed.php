@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class MotivoTareaSeed extends Seeder
 {
@@ -11,6 +12,16 @@ class MotivoTareaSeed extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('motivo_tarea')->insert([
+            'nombre' => 'SEGUIMIENTO'
+        ]);
+
+        DB::table('motivo_tarea')->insert([
+            'nombre' => 'SOLICITUDES'
+        ]);
+
+        DB::table('motivo_tarea')->insert([
+            'nombre' => 'COBRO'
+        ]);
     }
 }

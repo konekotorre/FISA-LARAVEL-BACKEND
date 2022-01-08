@@ -159,7 +159,7 @@ class VisitaController extends Controller
                 ->where('visitas.titulo', 'ilike', $palabra_final)
                 ->orderBy('visitas.fecha_programada')
                 ->get();
-        }
+        
         return response()->json([
             "success" => true,
             "visitas" => $visitas
