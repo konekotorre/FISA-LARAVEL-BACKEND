@@ -135,10 +135,10 @@ class OrganizacionController extends Controller
                 $query->where('organizacions.numero_documento', $numero_documento);
             })
             ->when($nombre, function ($query, $nombre) {
-                $query->where('organizacions.nombre', 'ilike', $nombre);
+                $query->where('organizacions.nombre', 'ilike', '%'. $nombre . '%');
             })
             ->when($razon_social, function ($query, $razon_social) {
-                $query->where('organizacions.razon_social', 'ilike', $razon_social);
+                $query->where('organizacions.razon_social', 'ilike', '%'. $razon_social . '%');
             })
             ->when($categorias, function ($query, $categorias) {
                 $query->whereIn('organizacions.categoria_id', $categorias);
