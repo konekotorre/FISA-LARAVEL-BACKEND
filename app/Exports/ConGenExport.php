@@ -98,15 +98,17 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
                 )
                 ->where('contactos.id', '=', $id_contacto)
                 ->orderBy('tipo_oficinas.nombre')
-                ->first();
+                ->get();
             if ($oficinas->isNotEmpty() && $i < $count) {
-                $oficina_nom = $oficinas->pluck('nombre');
-                $oficina_dir = $oficinas->pluck('direccion');
-                $oficina_ciudad = $oficinas->pluck('ciudad');
-                $oficina_estado = $oficinas->pluck('estado');
-                $sal_oficinas = $oficina_nom . ":" . $oficina_dir .
-                    " (" . $oficina_ciudad . "," . $oficina_estado . ")";
-                $contacto_busqueda[$i]->dir = $sal_oficinas;
+                for ($j = 0; $j < count($oficinas); $j++) {
+                    $oficina_nom = $oficinas[$j]->pluck('nombre');
+                    $oficina_dir = $oficinas[$j]->pluck('direccion');
+                    $oficina_ciudad = $oficinas[$j]->pluck('ciudad');
+                    $oficina_estado = $oficinas[$j]->pluck('estado');
+                    $sal_oficinas = $oficina_nom . ":" . $oficina_dir .
+                        " (" . $oficina_ciudad . "," . $oficina_estado . ") ";
+                    $contacto_busqueda[$i]->dir .= $sal_oficinas;
+                }
             } else {
                 $contacto_busqueda[$i]->dir = "";
             }
