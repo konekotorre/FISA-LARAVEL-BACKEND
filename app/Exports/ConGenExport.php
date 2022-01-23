@@ -17,7 +17,7 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
     public function collection()
     {
         ini_set('memory_limit', '256M');
-        
+
         $contacto_busqueda = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
             ->leftJoin('sexos', 'sexos.id', '=', 'personas.sexo_id')
@@ -98,7 +98,7 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
                 )
                 ->where('contactos.id', '=', $id_contacto)
                 ->orderBy('tipo_oficinas.nombre')
-                ->get();
+                ->first();
             if ($oficinas->isNotEmpty() && $i < $count) {
                 $oficina_nom = $oficinas->pluck('nombre');
                 $oficina_dir = $oficinas->pluck('direccion');
