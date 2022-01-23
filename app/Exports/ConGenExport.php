@@ -16,6 +16,8 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
 {
     public function collection()
     {
+        ini_set('memory_limit', '256M');
+        
         $contacto_busqueda = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
             ->leftJoin('sexos', 'sexos.id', '=', 'personas.sexo_id')
