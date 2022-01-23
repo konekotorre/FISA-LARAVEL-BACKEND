@@ -101,10 +101,10 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
                 ->get();
             if ($oficinas->isNotEmpty() && $i < $count) {
                 for ($j = 0; $j < count($oficinas); $j++) {
-                    $oficina_nom = $oficinas[$j]->pluck('nombre');
-                    $oficina_dir = $oficinas[$j]->pluck('direccion');
-                    $oficina_ciudad = $oficinas[$j]->pluck('ciudad');
-                    $oficina_estado = $oficinas[$j]->pluck('estado');
+                    $oficina_nom = $oficinas[$j]->nombre;
+                    $oficina_dir = $oficinas[$j]->direccion;
+                    $oficina_ciudad = $oficinas[$j]->ciudad;
+                    $oficina_estado = $oficinas[$j]->estado;
                     $sal_oficinas = $oficina_nom . ":" . $oficina_dir .
                         " (" . $oficina_ciudad . "," . $oficina_estado . ") ";
                     $contacto_busqueda[$i]->dir .= $sal_oficinas;
