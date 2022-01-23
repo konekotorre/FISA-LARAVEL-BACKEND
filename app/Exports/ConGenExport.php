@@ -105,9 +105,9 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
                     $oficina_dir = $oficinas[$j]->direccion;
                     $oficina_ciudad = $oficinas[$j]->ciudad;
                     $oficina_estado = $oficinas[$j]->estado;
-                    $sal_oficinas = $oficina_nom . ": " . $oficina_dir .
+                    $sal_oficinas[$j] = $oficina_nom . ": " . $oficina_dir .
                         " (" . $oficina_ciudad . ", " . $oficina_estado . "); ";
-                    $contacto_busqueda[$i]->dir .= $sal_oficinas;
+                    $contacto_busqueda[$i]->dir .= $sal_oficinas[$j];
                 }
             } else {
                 $contacto_busqueda[$i]->dir = "";
