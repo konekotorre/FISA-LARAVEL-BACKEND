@@ -100,15 +100,16 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
                 ->orderBy('tipo_oficinas.nombre')
                 ->get();
             if ($oficinas->isNotEmpty() && $i < $count) {
+                $total_oficinas = [];
                 for ($j = 0; $j < count($oficinas); $j++) {
                     $oficina_nom = $oficinas[$j]->nombre ? $oficinas[$j]->nombre : '';
                     $oficina_dir = $oficinas[$j]->direccion ? $oficinas[$j]->direccion : '';
                     $oficina_ciudad = $oficinas[$j]->ciudad ? $oficinas[$j]->ciudad : '';
                     $oficina_estado = $oficinas[$j]->estado ? $oficinas[$j]->estado : '';
                     $sal_oficinas[$j] = $oficina_nom . ": " . $oficina_dir . " (" . $oficina_ciudad . ", " . $oficina_estado . ") ";
-                    array_push($contacto_busqueda[$i]->dir, $sal_oficinas[$j]);
+                    array_push($total_oficinas, $sal_oficinas[$j]);
                     if ($sal_oficinas[$j] === count($oficinas) - 1) {
-                        $contacto_busqueda[$i]->dir = implode(";", $contacto_busqueda[$i]->dir);
+                        $contacto_busqueda[$i]->dir = implode(";", $total_oficinas);
                     }
                 }
             } else {
