@@ -16,6 +16,7 @@ class OrgGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
 {
     public function collection()
     {
+        ini_set('memory_limit', '256M');
         $organizacion_busqueda = DB::table('organizacions')
             ->leftJoin('tipo_organizacions', 'tipo_organizacions.id', '=', 'organizacions.tipo_organizacion_id')
             ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', '=', 'organizacions.tipo_documento_organizacion_id')

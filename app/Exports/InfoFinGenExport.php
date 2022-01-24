@@ -16,6 +16,7 @@ class InfoFinGenExport implements FromCollection, WithHeadings, WithStyles, With
 {
     public function collection()
     {
+        ini_set('memory_limit', '256M');
         $info_busqueda = DB::table('informacion_financieras')
             ->leftJoin('organizacions', 'organizacions.id', '=', 'informacion_financieras.organizacion_id')
             ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', '=', 'organizacions.tipo_documento_organizacion_id')
