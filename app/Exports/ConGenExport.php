@@ -100,8 +100,8 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
                 ->orderBy('tipo_oficinas.nombre')
                 ->get();
             if ($oficinas->isNotEmpty() && $i < $count) {
-                $total_oficinas = [];
                 for ($j = 0; $j < count($oficinas); $j++) {
+                    $total_oficinas = [];
                     $oficina_nom = $oficinas[$j]->nombre ? $oficinas[$j]->nombre : '';
                     $oficina_dir = $oficinas[$j]->direccion ? $oficinas[$j]->direccion : '';
                     $oficina_ciudad = $oficinas[$j]->ciudad ? $oficinas[$j]->ciudad : '';
