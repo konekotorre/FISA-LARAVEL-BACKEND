@@ -17,7 +17,6 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
     public function collection()
     {
         ini_set('memory_limit', '256M');
-
         $contacto_busqueda = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
             ->leftJoin('sexos', 'sexos.id', '=', 'personas.sexo_id')
@@ -85,13 +84,13 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             $creador = $creador_busqueda->pluck('usuario');
             $crea_sal = $creador->toArray();
             $creador_salida = implode(", ", $crea_sal);
-            $oficinas = DB::table('oficinas')
+            $oficina = DB::table('oficinas')
                 ->leftJoin('contactos', 'contactos.oficina_id', '=', 'oficinas.id')
                 ->leftJoin('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
                 ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
                 ->join('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
                 ->select(
-                    'tipo_oficinas.nombre',
+                    'tipo_oficinas.tipo',
                     'oficinas.direccion',
                     'ciudads.nombre as ciudad',
                     'departamento_estados.nombre as estado'
@@ -99,19 +98,13 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
                 ->where('contactos.id', '=', $id_contacto)
                 ->orderBy('tipo_oficinas.nombre')
                 ->get();
-            if ($oficinas->isNotEmpty() && $i < $count) {
-                for ($j = 0; $j < count($oficinas); $j++) {
-                    $total_oficinas = [];
-                    $oficina_nom = $oficinas[$j]->nombre ? $oficinas[$j]->nombre : '';
-                    $oficina_dir = $oficinas[$j]->direccion ? $oficinas[$j]->direccion : '';
-                    $oficina_ciudad = $oficinas[$j]->ciudad ? $oficinas[$j]->ciudad : '';
-                    $oficina_estado = $oficinas[$j]->estado ? $oficinas[$j]->estado : '';
-                    $sal_oficinas[$j] = $oficina_nom . ": " . $oficina_dir . " (" . $oficina_ciudad . ", " . $oficina_estado . ") ";
-                    array_push($total_oficinas, $sal_oficinas[$j]);
-                    if ($sal_oficinas[$j] === count($oficinas) - 1) {
-                        $contacto_busqueda[$i]->dir = implode(";", $total_oficinas);
-                    }
-                }
+            if ($oficina->isNotEmpty() && $i < $count) {
+                $oficina_nom = $oficina[0]->tipo;
+                $oficina_dir = $oficina[0]->direccion;
+                $oficina_ciudad = $oficina[0]->ciudad;
+                $oficina_estado = $oficina[0]->estado;
+                $sal_oficinas = $oficina_nom . ":" . $oficina_dir . " (" . $oficina_ciudad . "," . $oficina_estado . ")";
+                $contacto_busqueda[$i]->dir = $sal_oficinas;
             } else {
                 $contacto_busqueda[$i]->dir = "";
             }
