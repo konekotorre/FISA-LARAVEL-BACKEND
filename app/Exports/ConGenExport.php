@@ -90,7 +90,7 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
                 ->join('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
                 ->join('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
                 ->select(
-                    'tipo_oficinas.tipo',
+                    'tipo_oficinas.nombre as tipo',
                     'oficinas.direccion',
                     'ciudads.nombre as ciudad',
                     'departamento_estados.nombre as estado'
