@@ -180,7 +180,6 @@ class ContactoController extends Controller
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
             ->distinct('personas.id')
-            ->groupBy('personas.id')
             ->get();
 
         if ($names) {
@@ -220,8 +219,8 @@ class ContactoController extends Controller
             $contactos_salida = $contactos;
         }
 
-        $contactos_salida = collect($contactos_salida);
-        $org_final = $contactos->groupBy('personas.nombre')->first();
+        // $contactos_salida = collect($contactos_salida);
+        // $org_final = $contactos->groupBy('personas.nombre')->first();
 
         return response()->json([
             "success" => true,
