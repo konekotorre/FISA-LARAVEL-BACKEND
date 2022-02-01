@@ -221,8 +221,7 @@ class ContactoController extends Controller
         return response()->json([
             "success" => true,
             "count" => count($contactos_salida),
-            "contactos" => $contactos_salida,
-            "cons" => $cont_final
+            "contactos" => $contactos_salida
         ], 200);
     }
 
