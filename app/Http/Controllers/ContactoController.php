@@ -29,8 +29,6 @@ class ContactoController extends Controller
             ->select(
                 'contactos.id as contacto_id',
                 'personas.id as persona_id',
-                'personas.nombres',
-                'personas.apellidos',
                 'contactos.email',
                 'personas.celular',
                 'contactos.telefono',
@@ -38,6 +36,7 @@ class ContactoController extends Controller
                 'contactos.cargo',
                 'contactos.observaciones',
                 'organizacions.nombre as organizacion',
+                DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombres")
             )
             ->orderBy('personas.nombres')
             ->orderBy('personas.apellidos')
@@ -218,7 +217,7 @@ class ContactoController extends Controller
         }
 
         $contactos_salida = collect($contactos_salida);
-        $cont_final = $contactos_salida->groupBy('nombres');
+        $cont_final = $contactos_salida->groupBy($contactos_salida->nombres);
 
         return response()->json([
             "success" => true,
