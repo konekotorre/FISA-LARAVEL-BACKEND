@@ -104,8 +104,8 @@ class OrganizacionController extends Controller
     public function search(Request $request)
     {
         $numero_documento =  $request->numero_documento;
-        $nombre = $request->nombre;
-        $razon_social = $request->razon_social;
+        $nombre = trim($request->nombre);
+        $razon_social = trim($request->razon_social);
         $documentos = $request->documentos;
         $categorias = $request->categorias;
         $sector = $request->sector;
@@ -161,13 +161,13 @@ class OrganizacionController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 $query->where('oficinas.ciudad_id', $ciudad);
             })
-            ->orderBy('organizacions.nombre')
-            ->orderByDesc('organizacions.estado')
+            ->distinct('organizacions.id')
             ->get();
         $count = count($organizacion_busqueda);
+        $org_final =  usort($organizacion_busqueda, function($a, $b) {return strcmp($a->nombre, $b->nombre);});
         return response()->json([
             "success" => true,
-            "organizaciones" => $organizacion_busqueda,
+            "organizaciones" => $org_final,
             "count" => $count
         ], 200);
     }
