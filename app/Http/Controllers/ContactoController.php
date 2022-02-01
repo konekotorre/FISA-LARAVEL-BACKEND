@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Collection;
 
 class ContactoController extends Controller
 {
@@ -137,6 +138,7 @@ class ContactoController extends Controller
             ->select(
                 'contactos.id as contacto_id',
                 'personas.id as persona_id',
+                'CONCAT(personas.nombres, ", ", personas.apellidos) as names',
                 'personas.nombres',
                 'personas.apellidos',
                 'contactos.email',
@@ -178,7 +180,7 @@ class ContactoController extends Controller
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
             ->distinct('personas.id')
-            ->orderBy('personas.id')
+            ->groupBy('personas.id')
             ->get();
 
         if ($names) {
@@ -217,6 +219,10 @@ class ContactoController extends Controller
         } else {
             $contactos_salida = $contactos;
         }
+
+        $contactos_salida = collect($contactos_salida);
+        $org_final = $contactos->groupBy('personas.nombre')->first();
+
         return response()->json([
             "success" => true,
             "count" => count($contactos_salida),
