@@ -217,13 +217,14 @@ class ContactoController extends Controller
             $contactos_salida = $contactos;
         }
 
-        // $contactos_salida = collect($contactos_salida);
-        // $org_final = $contactos->groupBy('personas.nombre')->first();
+        $contactos_salida = collect($contactos_salida);
+        $cont_final = $contactos->groupBy('personas.nombre')->first();
 
         return response()->json([
             "success" => true,
             "count" => count($contactos_salida),
             "contactos" => $contactos_salida,
+            "cons" => $cont_final
         ], 200);
     }
 
