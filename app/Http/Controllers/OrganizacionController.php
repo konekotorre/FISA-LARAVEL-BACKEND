@@ -164,7 +164,7 @@ class OrganizacionController extends Controller
             ->distinct('organizacions.id')
             ->get();
         $count = count($organizacion_busqueda);
-        $org_final =  usort($organizacion_busqueda, function($a, $b) {return strcmp($a->nombre, $b->nombre);});
+        $org_final =  usort(array($organizacion_busqueda), function($a, $b) {return strcmp($a->nombre, $b->nombre);});
         return response()->json([
             "success" => true,
             "organizaciones" => $org_final,
