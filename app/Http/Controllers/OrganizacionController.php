@@ -113,6 +113,7 @@ class OrganizacionController extends Controller
         $pais = $request->pais;
         $departamento = $request->departamento;
         $ciudad = $request->ciudad;
+        
         $organizacion_busqueda = DB::table('organizacions')
         ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', 'organizacions.tipo_documento_organizacion_id')
         ->leftJoin('sectors', 'sectors.id', 'organizacions.sector_id')
@@ -163,11 +164,12 @@ class OrganizacionController extends Controller
             })
             ->distinct('organizacions.id')
             ->get();
+
         $org_final = $organizacion_busqueda->groupBy('organizacions.nombre')->first();
-        $org_final = $org_final ? $org_final : [];
+
         return response()->json([
             "success" => true,
-            "organizaciones" => $org_final,
+            "organizaciones" => $org_final ? $org_final : [],
             "count" =>  $org_final ? $org_final->count(): 0
         ], 200);
     }
