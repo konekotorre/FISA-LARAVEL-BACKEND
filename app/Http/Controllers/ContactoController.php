@@ -148,7 +148,7 @@ class ContactoController extends Controller
                 'contactos.observaciones',
                 'organizacions.nombre as organizacion',
             )
-            ->selectRaw('CONCAT(personas.nombres, " ", personas.apellidos) as names')
+            ->seleect(DB::raw('CONCAT(personas.nombres, " ", personas.apellidos) as names'))
             ->when($subcategorias, function ($query, $subcategorias) {
                 return $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
             })
