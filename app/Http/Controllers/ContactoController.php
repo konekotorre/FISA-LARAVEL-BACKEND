@@ -138,7 +138,7 @@ class ContactoController extends Controller
             ->select(
                 'contactos.id as contacto_id',
                 'personas.id as persona_id',
-                DB::raw('CONCAT(personas.nombres, ", ", personas.apellidos) as names'),
+                DB::raw('CONCAT(personas.nombres, " ", personas.apellidos) as names'),
                 'personas.nombres',
                 'personas.apellidos',
                 'contactos.email',
