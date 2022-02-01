@@ -166,11 +166,11 @@ class OrganizacionController extends Controller
             ->get();
 
         $org_final = $organizacion_busqueda->groupBy('organizacions.nombre');
-        
+
         return response()->json([
             "success" => true,
             "organizaciones" => $org_final,
-            "count" => $org_final ? count($org_final): 0
+            "count" => $org_final->isNotEmpty() ? count($org_final): 0
         ], 200);
     }
 
