@@ -163,8 +163,8 @@ class OrganizacionController extends Controller
             })
             ->distinct('organizacions.id')
             ->get();
-        $org_final = $organizacion_busqueda->groupBy('organizacions.nombre');
-        $org_final = $org_final ? $org_final->first() : [];
+        $org_final = $organizacion_busqueda->groupBy('organizacions.nombre')->first();
+        $org_final = $org_final ? $org_final : [];
         return response()->json([
             "success" => true,
             "organizaciones" => $org_final,
