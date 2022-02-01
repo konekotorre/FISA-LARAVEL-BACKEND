@@ -167,7 +167,7 @@ class OrganizacionController extends Controller
         $org_final =  $organizacion_busqueda->groupBy('organizacions.nombre');
         return response()->json([
             "success" => true,
-            "organizaciones" => $org_final,
+            "organizaciones" => $org_final->first(),
             "count" => $organizacion_busqueda->count()
         ], 200);
     }
