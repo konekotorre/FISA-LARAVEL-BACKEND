@@ -138,8 +138,6 @@ class ContactoController extends Controller
             ->select(
                 'contactos.id as contacto_id',
                 'personas.id as persona_id',
-                'personas.nombres',
-                'personas.apellidos',
                 'contactos.email',
                 'personas.celular',
                 'contactos.telefono',
@@ -147,7 +145,7 @@ class ContactoController extends Controller
                 'contactos.cargo',
                 'contactos.observaciones',
                 'organizacions.nombre as organizacion',
-                DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as names")
+                DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombres")
             )
             ->when($subcategorias, function ($query, $subcategorias) {
                 return $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
@@ -184,7 +182,7 @@ class ContactoController extends Controller
 
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
-                $name = $contactos[$i]->nombres . ' ' . $contactos[$i]->apellidos;
+                $name = $contactos[$i]->nombres;
                 if ($p_name && $s_name === null && $t_name === null && $c_name === null) {
                     if (strpos(strtolower($name), strtolower($p_name)) !== false) {
                         array_push($contactos_salida, $contactos[$i]);
