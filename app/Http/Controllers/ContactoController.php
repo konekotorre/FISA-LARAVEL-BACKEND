@@ -218,7 +218,7 @@ class ContactoController extends Controller
         }
 
         $contactos_salida = collect($contactos_salida);
-        $cont_final = $contactos_salida->groupBy('nombre')->first();
+        $cont_final = $contactos_salida->groupBy('nombres')->first();
 
         return response()->json([
             "success" => true,
