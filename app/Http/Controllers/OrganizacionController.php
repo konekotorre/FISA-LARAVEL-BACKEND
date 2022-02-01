@@ -168,7 +168,7 @@ class OrganizacionController extends Controller
         return response()->json([
             "success" => true,
             "organizaciones" => $org_final,
-            "count" => $org_final->count()
+            "count" => count($org_final)
         ], 200);
     }
 
