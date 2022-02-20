@@ -143,23 +143,38 @@ class VisitaController extends Controller
 
     public function search(Request $request)
     {
-        $organizacion = $request->organizacion;
-        $palabra = $request->palabra;
-            $palabra_final = '%' . $palabra . '%';
-            $visitas = DB::table('visitas')
-                ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
-                ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
-                ->select(
-                    'visitas.id',
-                    'organizacions.nombre as organizacion',
-                    'visitas.fecha_programada',
-                    'visitas.titulo',
-                    'estado_visitas.nombre'
-                )
-                ->where('visitas.titulo', 'ilike', $palabra_final)
-                ->orderBy('visitas.fecha_programada')
-                ->get();
-        }
+        $organizacion = $request->organizacion ? trim($request->organizacion) : null;
+        $motivo = $request->palabra ? $request->palabra : null;
+        $fecha_inicio = $request->fecha_inicio ? $request->fecha_inicio : null;
+        $fecha_fin = $request->fecha_fin ? $request->fecha_fin : null;
+
+
+        $visitas = DB::table('visitas')
+        ->leftJoin('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
+        ->leftJoin('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+        ->leftJoin('motivo_visitas', 'motivo_visitas.id', '=', 'visitas.motivo_id')
+        ->select(
+            'visitas.id',
+            'organizacions.nombre as organizacion',
+            'visitas.fecha_programada',
+            'motivo_visitas.nombre',
+            'estado_visitas.nombre'
+        )
+            ->when($organizacion, function ($query, $organizacion) {
+                $query->where('organizacions.nombre', 'ilike', '%' . $organizacion . '%');
+            })
+            ->when($motivo, function ($query, $motivo) {
+                $query->where('visitas.titulo', $motivo);
+            })
+            ->when($fecha_inicio, function ($query, $fecha_inicio) {
+                $query->where('visitas.fecha_programada', '>=',  $fecha_inicio);
+            })
+            ->when($fecha_fin, function ($query, $fecha_fin) {
+                $query->where('visitas.fecha_programada', '<=', $fecha_fin);
+            })
+            ->orderBy('visitas.fecha_programada')
+            ->get();
+
         return response()->json([
             "success" => true,
             "visitas" => $visitas
