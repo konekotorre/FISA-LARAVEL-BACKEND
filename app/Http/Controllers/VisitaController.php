@@ -72,6 +72,8 @@ class VisitaController extends Controller
             "success" => true,
             "estadoVisitas" => EstadoVisita::orderBy('nombre')->get(),
             "estadoTareas" => EstadoTarea::orderBy('nombre')->get(),
+            "motivoVisitas" => MotivoVisitas::orderBy('nombre')->get(),
+            "motivoTareass" => MotivoTareas::orderBy('nombre')->get(),
             "usuarios" => $users,
         ], 200);
     }
@@ -148,7 +150,6 @@ class VisitaController extends Controller
         $fecha_inicio = $request->fecha_inicio ? $request->fecha_inicio : null;
         $fecha_fin = $request->fecha_fin ? $request->fecha_fin : null;
 
-
         $visitas = DB::table('visitas')
         ->leftJoin('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
         ->leftJoin('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
@@ -164,7 +165,7 @@ class VisitaController extends Controller
                 $query->where('organizacions.nombre', 'ilike', '%' . $organizacion . '%');
             })
             ->when($motivo, function ($query, $motivo) {
-                $query->where('visitas.titulo', $motivo);
+                $query->where('visitas.motivo_id', $motivo);
             })
             ->when($fecha_inicio, function ($query, $fecha_inicio) {
                 $query->where('visitas.fecha_programada', '>=',  $fecha_inicio);
