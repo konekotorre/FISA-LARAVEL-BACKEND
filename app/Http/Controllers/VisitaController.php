@@ -6,6 +6,8 @@ use App\DetalleAsignadoVisita;
 use App\Visita;
 use App\EstadoVisita;
 use App\EstadoTarea;
+use App\MotivoTarea;
+use App\MotivoVisita;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,14 +20,15 @@ class VisitaController extends Controller
     public function index()
     {
         $visitas = DB::table('visitas')
-            ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
-            ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+        ->leftJoin('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
+        ->leftJoin('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+        ->leftJoin('motivo_visitas', 'motivo_visitas.id', '=', 'visitas.motivo_id')
             ->select(
                 'visitas.id',
                 'organizacions.nombre as organizacion',
                 'visitas.fecha_programada',
-                'visitas.titulo',
-                'estado_visitas.nombre'
+                'motivo_visitas.nombre as motivo',
+                'estado_visitas.nombre as estado'
             )
             ->orderBy('visitas.fecha_programada')
             ->get();
@@ -39,13 +42,14 @@ class VisitaController extends Controller
     public function indexByOrganizacion(Request $request)
     {
         $visitas = DB::table('visitas')
-            ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
-            ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+        ->leftJoin('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
+        ->leftJoin('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+        ->leftJoin('motivo_visitas', 'motivo_visitas.id', '=', 'visitas.motivo_id')
             ->select(
                 'visitas.id',
                 'visitas.fecha_programada',
-                'visitas.titulo',
-                'estado_visitas.nombre'
+                'motivo_visitas.nombre as motivo',
+                'estado_visitas.nombre as estado'
             )
             ->where('organizacion.id', '=', $request->organizacion_id)
             ->orderBy('visitas.fecha_programada')
@@ -72,8 +76,8 @@ class VisitaController extends Controller
             "success" => true,
             "estadoVisitas" => EstadoVisita::orderBy('nombre')->get(),
             "estadoTareas" => EstadoTarea::orderBy('nombre')->get(),
-            "motivoVisitas" => MotivoVisitas::orderBy('nombre')->get(),
-            "motivoTareass" => MotivoTareas::orderBy('nombre')->get(),
+            "motivoVisitas" => MotivoVisita::orderBy('nombre')->get(),
+            "motivoTareass" => MotivoTarea::orderBy('nombre')->get(),
             "usuarios" => $users,
         ], 200);
     }
@@ -123,14 +127,15 @@ class VisitaController extends Controller
         $now = Carbon::now()->format('Y/m/d');
         $future = Carbon::now()->addDays(7)->format('Y/m/d');
         $visitas = DB::table('visitas')
-            ->join('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
-            ->join('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+        ->leftJoin('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
+        ->leftJoin('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+        ->leftJoin('motivo_visitas', 'motivo_visitas.id', '=', 'visitas.motivo_id')
             ->select(
                 'visitas.id',
                 'organizacions.nombre as organizacion',
                 'visitas.fecha_programada',
-                'visitas.titulo',
-                'estado_visitas.nombre'
+                'motivo_visitas.nombre as motivo',
+                'estado_visitas.nombre as estado'
             )
             ->where('visitas.fecha_programada', '>=', $now)
             ->where('visitas.fecha_programada', '<=', $future)
@@ -158,8 +163,8 @@ class VisitaController extends Controller
             'visitas.id',
             'organizacions.nombre as organizacion',
             'visitas.fecha_programada',
-            'motivo_visitas.nombre',
-            'estado_visitas.nombre'
+            'motivo_visitas.nombre as motivo',
+            'estado_visitas.nombre as estado'
         )
             ->when($organizacion, function ($query, $organizacion) {
                 $query->where('organizacions.nombre', 'ilike', '%' . $organizacion . '%');

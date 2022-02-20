@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MotivoTarea;
 use App\Tarea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,14 +14,16 @@ class TareaController extends Controller
     public function index(Request $request)
     {
         $tareas = DB::table('tareas')
-        ->join('estado_tareas', 'estado_tareas.id', '=', 'tareas.estado_id')
+        ->leftJoin('estado_tareas', 'estado_tareas.id', '=', 'tareas.estado_id')
+        ->leftJoin('motivo_tareas', 'motivo_tareas.id', '=', 'tareas.motivo_id')
             ->select(
                 'tareas.id',
                 'tareas.visita_id',
                 'tareas.titulo',
                 'tareas.descripcion',
                 'tareas.resultado',
-                'estado_tareas.nombre',
+                'estado_tareas.nombre as estado',
+                'motivo_tareas.nombre as motivo'
             )
             ->where('tareas.visita_id', '=', $request->visita_id)
             ->orderByDesc('tareas.updated_at')

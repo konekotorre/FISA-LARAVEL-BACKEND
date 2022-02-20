@@ -17,6 +17,7 @@ class Visita extends Model
         'observaciones',
         'resultado',
         'estado_id',
+        'motivo_id',
         'usuario_creacion',
         'usuario_actualizacion'
     ];
@@ -49,6 +50,10 @@ class Visita extends Model
         return $this->belongsTo('App\EstadoVisita', 'estado_id', 'id');
     }
 
+    public function motivo() {
+        return $this->belongsTo('App\MotivoVisita', 'motivo_id', 'id');
+    }
+    
     public function tareas() {
         return $this->hasMany('App\Tareas');
     }

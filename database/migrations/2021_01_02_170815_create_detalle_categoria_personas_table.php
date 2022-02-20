@@ -13,17 +13,17 @@ class CreateDetalleCategoriaPersonasTable extends Migration
      */
     public function up()
     {
-        // Schema::create('detalle_categoria_personas', function (Blueprint $table) {
+        Schema::create('detalle_categoria_personas', function (Blueprint $table) {
 
-        //     $table->bigIncrements('id')->unsigned();
-        //     $table->bigInteger('persona_id')->unsigned();
-        //     $table->integer('subcategoria_id')->unsigned();
-        //     $table->timestamps();
+            $table->bigIncrements('id')->unsigned();
+            $table->bigInteger('persona_id')->unsigned();
+            $table->integer('subcategoria_id')->unsigned();
+            $table->timestamps();
 
-        //     $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');
-        //     $table->foreign('subcategoria_id')->references('id')->on('subcategorias');
+            $table->foreign('persona_id')->references('id')->on('personas')->onDelete('cascade');
+            $table->foreign('subcategoria_id')->references('id')->on('subcategorias');
             
-        // });
+        });
     }
 
     /**

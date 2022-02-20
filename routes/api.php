@@ -114,6 +114,20 @@ Route::group([
             Route::put('EstadoTarea/{estadoTarea}', 'EstadoTareaController@update');
             Route::delete('EstadoTarea/{estadoTarea}', 'EstadoTareaController@destroy');
 
+            //Motivo Visita
+
+            Route::get('MotivoVisita/{motivoVisita}', 'MotivoVisitaController@show');
+            Route::post('MotivoVisita/', 'MotivoVisitaController@store');
+            Route::put('MotivoVisita/{motivoVisita}', 'MotivoVisitaController@update');
+            Route::delete('MotivoVisita/{motivoVisita}', 'MotivoVisitaController@destroy');
+
+            //Motivo Tarea
+
+            Route::get('MotivoTarea/{motivoTarea}', 'MotivoTareaController@show');
+            Route::post('MotivoTarea/', 'MotivoTareaController@store');
+            Route::put('MotivoTarea/{motivoTarea}', 'MotivoTareaController@update');
+            Route::delete('MotivoTarea/{motivoTarea}', 'MotivoTareaController@destroy');
+
             // Pais
             Route::get('Pais', 'PaisController@index');
             Route::get('Pais/{pais}', 'PaisController@show');
