@@ -34,6 +34,7 @@ class VisitaController extends Controller
             )
             ->orderBy('visitas.fecha_programada', 'desc')
             ->groupBy('visitas.id')
+            ->groupBy('organizacions.nombre')
             ->get();
         return response()->json([
             "success" => true,
