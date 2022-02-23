@@ -23,13 +23,14 @@ class VisitaController extends Controller
         ->leftJoin('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
         ->leftJoin('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
         ->leftJoin('motivo_visitas', 'motivo_visitas.id', '=', 'visitas.motivo_id')
-            ->select(
+        ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
+            ->selectRaw(
                 'visitas.id',
                 'organizacions.nombre as organizacion',
                 'visitas.fecha_programada',
                 'motivo_visitas.nombre as motivo',
                 'estado_visitas.nombre as estado',
-              //  (DB::raw("select count('id') as totalTareas from tareas join visitas on tareas.visita_id = visitas.id"))
+                "count('tareas.id') as totalTareas"
             )
             ->orderBy('visitas.fecha_programada')
             ->get();
