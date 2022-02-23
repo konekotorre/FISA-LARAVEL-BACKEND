@@ -28,7 +28,8 @@ class VisitaController extends Controller
                 'organizacions.nombre as organizacion',
                 'visitas.fecha_programada',
                 'motivo_visitas.nombre as motivo',
-                'estado_visitas.nombre as estado'
+                'estado_visitas.nombre as estado',
+                (DB::raw("select count('id') as totalTareas from tareas join visitas on tareas.visita_id = visitas.id"))
             )
             ->orderBy('visitas.fecha_programada')
             ->get();
