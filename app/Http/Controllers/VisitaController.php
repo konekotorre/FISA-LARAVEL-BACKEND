@@ -31,7 +31,7 @@ class VisitaController extends Controller
                 'motivo_visitas.nombre as motivo',
                 'estado_visitas.nombre as estado',
                 DB::raw('count(tareas.id) as totalTareas'),
-                DB::raw('count(tareas.id) as tareasProgreso where tareas.estado_id != 3')
+                DB::raw('count(tareas.id) as tareasProgreso from tareas where tareas.estado_id != 3')
             )
             ->orderBy('visitas.fecha_programada', 'desc')
             ->groupBy('visitas.id')
