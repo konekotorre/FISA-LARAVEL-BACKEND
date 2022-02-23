@@ -32,7 +32,7 @@ class VisitaController extends Controller
                 'estado_visitas.nombre as estado',
                 DB::raw('count(tareas.id) as totalTareas')
             )
-            ->orderBy('visitas.fecha_programada', 'des')
+            ->orderBy('visitas.fecha_programada', 'desc')
             ->groupBy('visitas.id')
             ->get();
         return response()->json([
