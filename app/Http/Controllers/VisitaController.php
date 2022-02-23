@@ -24,7 +24,7 @@ class VisitaController extends Controller
         ->leftJoin('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
         ->leftJoin('motivo_visitas', 'motivo_visitas.id', '=', 'visitas.motivo_id')
         ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
-            ->selectRaw(
+            ->select(
                 'visitas.id',
                 'organizacions.nombre as organizacion',
                 'visitas.fecha_programada',
