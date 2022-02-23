@@ -30,7 +30,7 @@ class VisitaController extends Controller
                 'visitas.fecha_programada',
                 'motivo_visitas.nombre as motivo',
                 'estado_visitas.nombre as estado',
-                (DB::selectRaw('count(tareas.id) as totalTareas'))
+                (DB::raw('select count(tareas.id) as totalTareas'))
             )
             ->orderBy('visitas.fecha_programada')
             ->get();
