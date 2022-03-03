@@ -16,24 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class VisitaController extends Controller
 {
-
-    public function index()
-    {
-        $visitas = DB::table('visitas')
-        ->leftJoin('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
-        ->leftJoin('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
-        ->leftJoin('motivo_visitas', 'motivo_visitas.id', '=', 'visitas.motivo_id')
-        ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
-        ->select(
-            'visitas.id',
-            'organizacions.nombre as organizacion',
-            'visitas.fecha_programada',
-            'motivo_visitas.nombre as motivo',
-            'estado_visitas.nombre as estado'
-        )
-            ->orderBy('visitas.fecha_programada', 'desc')
-            ->get();
-
+    public function calcularTareas($visitas){
         for ($i = 0; $i < count($visitas); $i++) {
 
             $tareasTotales = DB::table('tareas')
@@ -59,6 +42,27 @@ class VisitaController extends Controller
 
             $visitas[$i]->tareasPendientes = $tareasPendientes;
         }
+        return $visitas;
+    }
+    
+    public function index()
+    {
+        $visitas = DB::table('visitas')
+        ->leftJoin('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
+        ->leftJoin('estado_visitas', 'estado_visitas.id', '=', 'visitas.estado_id')
+        ->leftJoin('motivo_visitas', 'motivo_visitas.id', '=', 'visitas.motivo_id')
+        ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
+        ->select(
+            'visitas.id',
+            'organizacions.nombre as organizacion',
+            'visitas.fecha_programada',
+            'motivo_visitas.nombre as motivo',
+            'estado_visitas.nombre as estado'
+        )
+            ->orderBy('visitas.fecha_programada', 'desc')
+            ->get();
+
+        $visitas =  $this->calcularTareas($visitas);
 
         return response()->json([
             "success" => true,
