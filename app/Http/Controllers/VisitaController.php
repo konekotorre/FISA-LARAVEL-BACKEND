@@ -36,6 +36,8 @@ class VisitaController extends Controller
 
         for ($i = 0; $i <= count($visitas); $i++) {
 
+            $id = $visitas[$i]->id;
+
             $tareasTotales = DB::table('visitas')
             ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
             ->select('tareas.id as tareasTotales')
@@ -46,7 +48,7 @@ class VisitaController extends Controller
             $tareasHechas = DB::table('visitas')
             ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
             ->select('tareas.id as tareasHechas')
-            ->where('visitas.id', $visitas[$i]->id)
+            ->where('visitas.id', $id)
                 ->whereIn('visitas.estado_id', [3, 5])
                 ->count();
 
@@ -56,7 +58,7 @@ class VisitaController extends Controller
             ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
             ->leftJoin('estado_tareas', 'estado_tareas.id', '=', 'tareas.estado_id')
             ->select('tareas.id) as tareasPendientes')
-            ->where('visitas.id', $visitas[$i]->id)
+            ->where('visitas.id', $id)
             ->whereNotIn('visitas.estado_id', [3, 5])
             ->count();
 
