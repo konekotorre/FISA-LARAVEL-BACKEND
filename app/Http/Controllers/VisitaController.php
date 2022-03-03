@@ -86,6 +86,9 @@ class VisitaController extends Controller
             ->where('organizacion.id', '=', $request->organizacion_id)
             ->orderBy('visitas.fecha_programada')
             ->get();
+            
+        $visitas =  $this->calcularTareas($visitas);
+
         return response()->json([
             "success" => true,
             "visitas" => $visitas
@@ -173,6 +176,8 @@ class VisitaController extends Controller
             ->where('visitas.fecha_programada', '<=', $future)
             ->orderBy('visitas.fecha_programada')
             ->get();
+
+        $visitas =  $this->calcularTareas($visitas);
         return response()->json([
             "success" => true,
             "visitas" => $visitas
@@ -212,6 +217,8 @@ class VisitaController extends Controller
             })
             ->orderBy('visitas.fecha_programada')
             ->get();
+
+        $visitas =  $this->calcularTareas($visitas);
 
         return response()->json([
             "success" => true,
