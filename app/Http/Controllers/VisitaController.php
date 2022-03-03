@@ -34,36 +34,34 @@ class VisitaController extends Controller
             ->orderBy('visitas.fecha_programada', 'desc')
             ->get();
 
-        for ($i = 0; $i <= count($visitas); $i++) {
+        // for ($i = 0; $i <= count($visitas); $i++) {
 
-            $id = $visitas[$i]->id;
+        //     $tareasTotales = DB::table('visitas')
+        //     ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
+        //     ->select('tareas.id as tareasTotales')
+        //     ->count();
 
-            $tareasTotales = DB::table('visitas')
-            ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
-            ->select('tareas.id as tareasTotales')
-            ->count();
+        //  //   $visitas[$i]->tareasTotales = $tareasTotales;
 
-         //   $visitas[$i]->tareasTotales = $tareasTotales;
+        //     $tareasHechas = DB::table('visitas')
+        //     ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
+        //     ->select('tareas.id as tareasHechas')
+        //     ->where('visitas.id', $visitas[$i]->id)
+        //         ->whereIn('visitas.estado_id', [3, 5])
+        //         ->count();
 
-            $tareasHechas = DB::table('visitas')
-            ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
-            ->select('tareas.id as tareasHechas')
-            ->where('visitas.id', $id)
-                ->whereIn('visitas.estado_id', [3, 5])
-                ->count();
+        //   //  $visitas[$i]->tareasHechas = $tareasHechas;
 
-          //  $visitas[$i]->tareasHechas = $tareasHechas;
+        //     $tareasPendientes = DB::table('visitas')
+        //     ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
+        //     ->leftJoin('estado_tareas', 'estado_tareas.id', '=', 'tareas.estado_id')
+        //     ->select('tareas.id) as tareasPendientes')
+        //     ->where('visitas.id', $visitas[$i]->id)
+        //     ->whereNotIn('visitas.estado_id', [3, 5])
+        //     ->count();
 
-            $tareasPendientes = DB::table('visitas')
-            ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
-            ->leftJoin('estado_tareas', 'estado_tareas.id', '=', 'tareas.estado_id')
-            ->select('tareas.id) as tareasPendientes')
-            ->where('visitas.id', $id)
-            ->whereNotIn('visitas.estado_id', [3, 5])
-            ->count();
-
-           // $visitas[$i]->tareasPendientes = $tareasPendientes;
-        }
+        //    // $visitas[$i]->tareasPendientes = $tareasPendientes;
+        // }
 
         return response()->json([
             "success" => true,
