@@ -34,14 +34,14 @@ class VisitaController extends Controller
             ->orderBy('visitas.fecha_programada', 'desc')
             ->get();
 
-        for ($i = 0; $i <= count($visitas); $i++) {
+        for ($i = 0; $i < count($visitas); $i++) {
 
             $tareasTotales = DB::table('visitas')
             ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
             ->select('tareas.id as tareasTotales')
             ->count();
 
-            //$visitas[$i]->tareasTotales = $tareasTotales;
+            $visitas[$i]->tareasTotales = $tareasTotales;
 
             // $tareasHechas = DB::table('visitas')
             // ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
