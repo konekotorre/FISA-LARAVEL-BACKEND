@@ -67,7 +67,8 @@ class VisitaController extends Controller
 
         return response()->json([
             "success" => true,
-            "visitas" => $visitas
+            "visitas" => $visitas,
+            "count" => count($visitas)
         ], 200);
     }
 
@@ -92,7 +93,8 @@ class VisitaController extends Controller
 
         return response()->json([
             "success" => true,
-            "visitas" => $visitas
+            "visitas" => $visitas,
+            "count" => count($visitas)
         ], 200);
     }
 
@@ -181,7 +183,8 @@ class VisitaController extends Controller
         $visitas =  $this->calcularTareas($visitas);
         return response()->json([
             "success" => true,
-            "visitas" => $visitas
+            "visitas" => $visitas,
+            "count" => count($visitas)
         ], 200);
     }
 
@@ -223,7 +226,8 @@ class VisitaController extends Controller
 
         return response()->json([
             "success" => true,
-            "visitas" => $visitas
+            "visitas" => $visitas,
+            "count" => count($visitas)
         ], 200);
     }
 
