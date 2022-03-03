@@ -177,7 +177,7 @@ class VisitaController extends Controller
             )
             ->where('visitas.fecha_programada', '>=', $now)
             ->where('visitas.fecha_programada', '<=', $future)
-            ->orderBy('visitas.fecha_programada')
+            ->orderBy('visitas.fecha_programada', 'desc')
             ->get();
 
         $visitas =  $this->calcularTareas($visitas);
@@ -219,7 +219,7 @@ class VisitaController extends Controller
             ->when($fecha_fin, function ($query, $fecha_fin) {
                 $query->where('visitas.fecha_programada', '<=', $fecha_fin);
             })
-            ->orderBy('visitas.fecha_programada')
+            ->orderBy('visitas.fecha_programada', 'desc')
             ->get();
 
         $visitas =  $this->calcularTareas($visitas);
