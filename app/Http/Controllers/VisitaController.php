@@ -41,7 +41,7 @@ class VisitaController extends Controller
             ->select('tareas.id as tareasTotales')
             ->count();
 
-            $visitas[$i]->tareasTotales = $tareasTotales;
+            //$visitas[$i]->tareasTotales = $tareasTotales;
 
             // $tareasHechas = DB::table('visitas')
             // ->leftJoin('tareas', 'tareas.visita_id', '=', 'visitas.id')
