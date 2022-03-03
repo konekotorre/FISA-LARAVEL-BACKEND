@@ -16,13 +16,14 @@ use Illuminate\Support\Facades\DB;
 
 class VisitaController extends Controller
 {
-    public function calcularTareas($visitas){
+    public function calcularTareas($visitas)
+    {
         for ($i = 0; $i < count($visitas); $i++) {
 
             $tareasTotales = DB::table('tareas')
             ->select('tareas.id as tareasTotales')
             ->where('tareas.visita_id', $visitas[$i]->id)
-            ->count();
+                ->count();
 
             $visitas[$i]->tareasTotales = $tareasTotales;
 
@@ -37,8 +38,8 @@ class VisitaController extends Controller
             $tareasPendientes = DB::table('tareas')
             ->select('tareas.id) as tareasPendientes')
             ->where('tareas.visita_id', $visitas[$i]->id)
-            ->whereNotIn('tareas.estado_id', [3, 5])
-            ->count();
+                ->whereNotIn('tareas.estado_id', [3, 5])
+                ->count();
 
             $visitas[$i]->tareasPendientes = $tareasPendientes;
         }
@@ -86,7 +87,7 @@ class VisitaController extends Controller
             ->where('organizacion.id', '=', $request->organizacion_id)
             ->orderBy('visitas.fecha_programada')
             ->get();
-            
+
         $visitas =  $this->calcularTareas($visitas);
 
         return response()->json([
@@ -188,7 +189,7 @@ class VisitaController extends Controller
     public function search(Request $request)
     {
         $organizacion = $request->organizacion ? trim($request->organizacion) : null;
-        $motivo = $request->palabra ? $request->palabra : null;
+        $motivo = $request->motivo_id ? $request->motivo_id : null;
         $fecha_inicio = $request->fecha_inicio ? $request->fecha_inicio : null;
         $fecha_fin = $request->fecha_fin ? $request->fecha_fin : null;
 
