@@ -115,7 +115,7 @@ class VisitaController extends Controller
             "estadoVisitas" => EstadoVisita::orderBy('nombre')->get(),
             "estadoTareas" => EstadoTarea::orderBy('nombre')->get(),
             "motivoVisitas" => MotivoVisita::orderBy('nombre')->get(),
-            "motivoTareass" => MotivoTarea::orderBy('nombre')->get(),
+            "motivoTareas" => MotivoTarea::orderBy('nombre')->get(),
             "usuarios" => $users,
         ], 200);
     }
