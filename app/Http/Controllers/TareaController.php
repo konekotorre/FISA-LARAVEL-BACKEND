@@ -19,7 +19,6 @@ class TareaController extends Controller
             ->select(
                 'tareas.id',
                 'tareas.visita_id',
-                'tareas.titulo',
                 'tareas.descripcion',
                 'tareas.resultado',
                 'estado_tareas.nombre as estado',
