@@ -8,7 +8,6 @@ class Tarea extends Model
 {
     protected $fillable = [
         'visita_id',
-        'titulo',
         'descripcion',
         'resultado',
         'estado_id',
