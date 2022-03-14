@@ -193,8 +193,8 @@ class VisitaController extends Controller
     {
         $organizacion = $request->organizacion ? trim($request->organizacion) : null;
         $motivo = $request->motivo_id ? $request->motivo_id : null;
-        $fecha_inicio = $request->fecha_inicio ? $request->fecha_inicio : null;
-        $fecha_fin = $request->fecha_fin ? $request->fecha_fin : null;
+        $fecha_inicio = $request->fecha_inicio ? $request->fecha_inicio->format('Y/m/d') : null;
+        $fecha_fin = $request->fecha_fin ? $request->fecha_fin->format('Y/m/d') : null;
 
         $visitas = DB::table('visitas')
         ->leftJoin('organizacions', 'organizacions.id', '=', 'visitas.organizacion_id')
