@@ -138,7 +138,7 @@ class OrgBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 ->join('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
                 ->select('departamento_estados.nombre as departamento')
                 ->where('oficinas.organizacion_id', '=', $id_bus)
-                ->where('tipo_oficinas.nombre', 'ilike', 'Principal')
+                //->where('tipo_oficinas.nombre', 'ilike', 'Principal')
                 ->get();
             $dep = $departamento->pluck('departamento');
             $sal_dep = $dep->toArray();
