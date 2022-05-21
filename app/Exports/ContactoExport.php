@@ -160,7 +160,7 @@ class ContactoExport implements FromCollection, WithHeadings, WithStyles, WithCo
             'Observaciones',
             'Fecha Creación',
             'Usuario Creación',
-            'Última Actualización',
+            'Fecha Modificación',
             'Usuario Última Actualización'
         ];
     }

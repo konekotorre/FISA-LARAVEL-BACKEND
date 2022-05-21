@@ -154,7 +154,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             'Observaciones',
             'Fecha Creación',
             'Usuario Creación',
-            'Última Actualización',
+            'Fecha Modificación',
             'Usuario Última Actualización'
         ];
     }
