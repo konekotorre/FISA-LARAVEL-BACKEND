@@ -148,7 +148,7 @@ class ConGenExport implements FromCollection, WithHeadings, WithStyles, WithColu
             'Observaciones',
             'Fecha Creación',
             'Usuario Creación',
-            'Última Actualización',
+            'Fecha Modificación',
             'Usuario Última Actualización'
         ];
     }
