@@ -288,41 +288,41 @@ class ContactoController extends Controller
                 'personas.updated_at as date_update_user'
             )
             ->where('contactos.id', '=', $contacto->id)
-            ->get();
+            ->first();
         $categorias = DB::table('detalle_categoria_personas')
             ->select('subcategoria_id')
-            ->where('detalle_categoria_personas.persona_id', '=', $contacto_busqueda->pluck('persona_id'))
+            ->where('detalle_categoria_personas.persona_id', '=', $contacto_busqueda->persona_id)
             ->orderBy('detalle_categoria_personas.subcategoria_id')
             ->get();
         $creador = DB::table('contactos')
             ->join('users', 'users.id', '=', 'contactos.usuario_creacion')
             ->select('users.usuario')
             ->where('contactos.id', '=', $contacto->id)
-            ->get();
+            ->first();
         $editor_contacto = DB::table('contactos')
             ->join('users', 'users.id', '=', 'contactos.usuario_actualizacion')
             ->select('users.usuario')
             ->where('contactos.id', '=', $contacto->id)
-            ->get();
+            ->first();
         $editor_persona = DB::table('personas')
             ->join('users', 'users.id', '=', 'personas.usuario_actualizacion')
             ->select('users.usuario')
             ->where('contactos.id', '=', $contacto->id)
-            ->get();
+            ->first();
         if($contacto_busqueda->updated_at >= $contacto_busqueda->date_update_user){
             $contacto_busqueda->updated_at = $contacto_busqueda->updated_at;
-            $editor = $editor_contacto[0];
+            $editor = $editor_contacto;
         }
         else {
             $contacto_busqueda->updated_at = $contacto_busqueda->date_update_user;
-            $editor = $editor_persona[0];
+            $editor = $editor_persona;
         }
         return response()->json([
             "success" => true,
-            "contacto" => $contacto_busqueda[0],
+            "contacto" => $contacto_busqueda,
             "categorias" => $categorias->pluck('subcategoria_id'),
-            "usuario_creacion" => $creador[0],
-            "usuario_actualizacion" => $editor[0]
+            "usuario_creacion" => $creador,
+            "usuario_actualizacion" => $editor
         ], 200);
     }
 
