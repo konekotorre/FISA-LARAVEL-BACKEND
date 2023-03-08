@@ -17,7 +17,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
 {
     function __construct($solicitud)
     {
-        $this->ids = $solicitud['ids'] ? $solicitud['ids'] : null;
+        $this->ids = $solicitud->ids ? $solicitud['ids'] : null;
         $this->fecha_inicio = $solicitud->fecha_inicio ? $solicitud->fecha_inicio : null;
         $this->fecha_fin = $solicitud->fecha_fin ? $solicitud->fecha_fin : null;
     }
