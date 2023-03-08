@@ -136,11 +136,11 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             ->select('users.usuario')
             ->where('personas.id', '=', $contacto_busqueda[$i]->persona_id)
             ->first();
-            if ($contacto_busqueda[$i]->updated_at >= $datos_persona->updated_at) {
+            if ($contacto_busqueda[$i]->updated_at >= $datos_persona[0]->updated_at) {
                 $contacto_busqueda[$i]->updated_at = $contacto_busqueda[$i]->updated_at;
                 $contacto_busqueda[$i]->usuario = $editor_contacto;
             } else {
-                $contacto_busqueda[$i]->updated_at = $datos_persona->updated_at;
+                $contacto_busqueda[$i]->updated_at = $datos_persona[0]->updated_at;
                 $contacto_busqueda[$i]->usuario = $editor_persona;
             }
             $contacto_busqueda[$i]->representante === true ? $contacto_busqueda[$i]->representante = "S" : $contacto_busqueda[$i]->representante = "N";
