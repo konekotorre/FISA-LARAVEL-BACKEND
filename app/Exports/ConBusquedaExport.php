@@ -121,7 +121,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 ->where('contactos.id', '=', $id_contacto)
                 ->orderBy('tipo_oficinas.nombre')
                 ->first();
-            if ($oficina->isNotEmpty() && $i < $count) {
+            if ($oficina && $i < $count) {
                 $contacto_busqueda[$i]->dir = $oficina->tipo . ": " . $oficina->direccion . " (" . $oficina->ciudad . "," . $oficina->estado . ")";;
             } else {
                 $contacto_busqueda[$i]->dir = "";
