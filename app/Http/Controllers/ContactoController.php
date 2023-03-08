@@ -320,7 +320,7 @@ class ContactoController extends Controller
         return response()->json([
             "success" => true,
             "contacto" => $contacto_busqueda,
-            "categorias" => $categorias->pluck('subcategoria_id'),
+            //"categorias" => $categorias->pluck('subcategoria_id'),
             "usuario_creacion" => $creador,
             "usuario_actualizacion" => $editor
         ], 200);
