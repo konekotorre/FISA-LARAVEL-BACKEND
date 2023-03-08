@@ -302,12 +302,12 @@ class ContactoController extends Controller
         $editor_contacto = DB::table('contactos')
             ->join('users', 'users.id', '=', 'contactos.usuario_actualizacion')
             ->select('users.usuario')
-            ->where('contactos.id', '=', $contacto->id)
+            ->where('contactos.id', '=', $contacto_busqueda->id)
             ->first();
         $editor_persona = DB::table('personas')
             ->join('users', 'users.id', '=', 'personas.usuario_actualizacion')
             ->select('users.usuario')
-            ->where('contactos.id', '=', $contacto->id)
+            ->where('personas.id', '=', $contacto_busqueda->persona_id)
             ->first();
         if($contacto_busqueda->updated_at >= $contacto_busqueda->date_update_user){
             $contacto_busqueda->updated_at = $contacto_busqueda->updated_at;
@@ -320,7 +320,7 @@ class ContactoController extends Controller
         return response()->json([
             "success" => true,
             "contacto" => $contacto_busqueda,
-            //"categorias" => $categorias->pluck('subcategoria_id'),
+            "categorias" => $categorias->pluck('subcategoria_id'),
             "usuario_creacion" => $creador,
             "usuario_actualizacion" => $editor
         ], 200);

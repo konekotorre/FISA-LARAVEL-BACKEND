@@ -134,7 +134,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             $editor_persona = DB::table('personas')
             ->join('users', 'users.id', '=', 'personas.usuario_actualizacion')
             ->select('users.usuario')
-            ->where('contactos.id', '=', $contacto_busqueda[$i]->id)
+            ->where('personas.id', '=', $contacto_busqueda[$i]->persona_id)
             ->first();
             if ($contacto_busqueda[$i]->updated_at >= $datos_persona->updated_at) {
                 $contacto_busqueda[$i]->updated_at = $contacto_busqueda[$i]->updated_at;
