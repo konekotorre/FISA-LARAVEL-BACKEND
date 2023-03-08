@@ -88,7 +88,7 @@ class ContactoController extends Controller
         return Excel::download(new ConBusquedaExport($request), 'Reporte de Contactos.xlsx');
     }
 
-    public function repGen()
+    public function repGen(Request $request)
     {
         return Excel::download(new ConBusquedaExport($request), 'Reporte de Contactos.xlsx');
         //return Excel::download(new ConGenExport, 'Reporte de Contactos.xlsx');
