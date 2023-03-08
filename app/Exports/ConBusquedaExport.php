@@ -105,8 +105,8 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             $creador_busqueda = DB::table('contactos')
                 ->leftJoin('users', 'users.id', '=', 'contactos.usuario_creacion')
                 ->select('users.usuario')
-                ->where('contactos.id', '=', $id_persona)
-                ->get();
+                ->where('contactos.id', '=', $id_contacto)
+                ->first();
             $oficina = DB::table('oficinas')
                 ->leftJoin('contactos', 'contactos.oficina_id', '=', 'oficinas.id')
                 ->leftJoin('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
@@ -150,7 +150,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             $contacto_busqueda[$i]->envio === false ? $contacto_busqueda[$i]->envio = "N" : null;
             $contacto_busqueda[$i]->persona_id = $sal_categorias;
             $contacto_busqueda[$i]->nombres = $contacto;
-            $contacto_busqueda[$i]->id = $creador_busqueda[0];
+            $contacto_busqueda[$i]->id = $creador_busqueda;
             $contacto_busqueda[$i]->updated_at = $contacto_busqueda[$i]->updated_at ? Date::dateTimeToExcel(new DateTime($contacto_busqueda[$i]->updated_at)): '';
             $contacto_busqueda[$i]->created_at = $contacto_busqueda[$i]->created_at ? Date::dateTimeToExcel(new DateTime($contacto_busqueda[$i]->created_at)): '';
         }
