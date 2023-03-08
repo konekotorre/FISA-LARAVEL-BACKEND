@@ -277,7 +277,6 @@ class ContactoController extends Controller
         $contacto_busqueda = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
             ->select(
-                'contactos.*',
                 'personas.id as persona_id',
                 'personas.nombres',
                 'personas.apellidos',
