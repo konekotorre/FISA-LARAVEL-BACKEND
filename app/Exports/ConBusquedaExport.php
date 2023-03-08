@@ -138,10 +138,10 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             ->first();
             if ($contacto_busqueda[$i]->updated_at >= $datos_persona[0]->updated_at) {
                 $contacto_busqueda[$i]->updated_at = $contacto_busqueda[$i]->updated_at;
-                $contacto_busqueda[$i]->usuario = $editor_contacto;
+                $contacto_busqueda[$i]->usuario = $editor_contacto->usuario;
             } else {
                 $contacto_busqueda[$i]->updated_at = $datos_persona[0]->updated_at;
-                $contacto_busqueda[$i]->usuario = $editor_persona;
+                $contacto_busqueda[$i]->usuario = $editor_persona->usuario;
             }
             $contacto_busqueda[$i]->representante === true ? $contacto_busqueda[$i]->representante = "S" : $contacto_busqueda[$i]->representante = "N";
             $contacto_busqueda[$i]->control === true ? $contacto_busqueda[$i]->control = "S" : null;
@@ -150,7 +150,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             $contacto_busqueda[$i]->envio === false ? $contacto_busqueda[$i]->envio = "N" : null;
             $contacto_busqueda[$i]->persona_id = $sal_categorias;
             $contacto_busqueda[$i]->nombres = $contacto;
-            $contacto_busqueda[$i]->id = $creador_busqueda;
+            $contacto_busqueda[$i]->id = $creador_busqueda->usuario;
             $contacto_busqueda[$i]->updated_at = $contacto_busqueda[$i]->updated_at ? Date::dateTimeToExcel(new DateTime($contacto_busqueda[$i]->updated_at)): '';
             $contacto_busqueda[$i]->created_at = $contacto_busqueda[$i]->created_at ? Date::dateTimeToExcel(new DateTime($contacto_busqueda[$i]->created_at)): '';
         }
