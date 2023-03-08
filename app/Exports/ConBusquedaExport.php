@@ -74,7 +74,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             ->when($ids, function ($query, $ids) {
                 return $query->whereIn('contactos.id', $ids);
             })
-            ->when($fecha_inicio, function ($query, $fecha_inicio, $fecha_fin) {
+            ->when($fecha_inicio, function ($query) use ($fecha_inicio, $fecha_fin) {
                 return $query->where([
                     ['contactos.updated_at', '>=', $fecha_inicio],
                     ['contactos.updated_at', '<=', $fecha_fin]
