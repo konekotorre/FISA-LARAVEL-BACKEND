@@ -277,6 +277,7 @@ class ContactoController extends Controller
         $contacto_busqueda = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
             ->select(
+                'contactos.*',
                 'personas.id as persona_id',
                 'personas.nombres',
                 'personas.apellidos',
@@ -364,13 +365,6 @@ class ContactoController extends Controller
             }
         }
         $contacto->update($solicitud);
-        DB::update(
-            'update contactos set updated_at = ? where id = ?',
-            [
-                Carbon::now(),
-                $contacto->id
-            ]
-        );
         return response()->json([
             "success" => true
         ], 200);
