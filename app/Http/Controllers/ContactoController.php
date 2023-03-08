@@ -284,7 +284,8 @@ class ContactoController extends Controller
                 'personas.tipo_documento_persona_id',
                 'personas.numero_documento',
                 'personas.sexo_id',
-                'personas.celular'
+                'personas.celular',
+                'personas.updated_at as date_update_user'
             )
             ->where('contactos.id', '=', $contacto->id)
             ->get();
@@ -298,11 +299,24 @@ class ContactoController extends Controller
             ->select('users.usuario')
             ->where('contactos.id', '=', $contacto->id)
             ->get();
-        $editor = DB::table('contactos')
+        $editor_contacto = DB::table('contactos')
             ->join('users', 'users.id', '=', 'contactos.usuario_actualizacion')
             ->select('users.usuario')
             ->where('contactos.id', '=', $contacto->id)
             ->get();
+        $editor_persona = DB::table('personas')
+            ->join('users', 'users.id', '=', 'personas.usuario_actualizacion')
+            ->select('users.usuario')
+            ->where('contactos.id', '=', $contacto->id)
+            ->get();
+        if($contacto_busqueda->updated_at >= $contacto_busqueda->date_update_user){
+            $contacto_busqueda->updated_at = $contacto_busqueda->updated_at;
+            $editor = $editor_contacto[0];
+        }
+        else {
+            $contacto_busqueda->updated_at = $contacto_busqueda->date_update_user;
+            $editor = $editor_persona[0];
+        }
         return response()->json([
             "success" => true,
             "contacto" => $contacto_busqueda[0],

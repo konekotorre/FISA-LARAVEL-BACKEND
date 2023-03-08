@@ -11,17 +11,29 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use Carbon\Carbon;
 
 class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, WithColumnFormatting
 {
     function __construct($solicitud)
     {
-        $this->ids = $solicitud['ids'];
+        $this->ids = $solicitud['ids'] ? $solicitud['ids'] : null;
+        $this->fecha_inicio = $solicitud->fecha_inicio ? $solicitud->fecha_inicio : null;
+        $this->fecha_fin = $solicitud->fecha_fin ? $solicitud->fecha_fin : null;
     }
 
     public function collection()
     {
-        ini_set('memory_limit', '256M');
+        $ids = $this->ids;
+        $fecha_inicio =  $this->fecha_inicio;
+        $fecha_fin = $this->fecha_fin;
+
+        if ($fecha_fin) {
+            $fecha_fin = Carbon::parse($fecha_fin);
+            $fecha_fin = $fecha_fin->addDays(1);
+        } 
+        
+        ini_set('memory_limit', '512M');
         $contacto_busqueda = DB::table('contactos')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
             ->leftJoin('sexos', 'sexos.id', '=', 'personas.sexo_id')
@@ -57,9 +69,17 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 'contactos.created_at',
                 'contactos.id',
                 'contactos.updated_at',
-                'users.usuario'
+                'users.usuario',
             )
-            ->whereIn('contactos.id', $this->ids)
+            ->when($ids, function ($query, $ids) {
+                return $query->whereIn('contactos.id', $ids);
+            })
+            ->when($fecha_inicio, function ($query, $fecha_inicio, $fecha_fin) {
+                return $query->where([
+                    ['contactos.updated_at', '>=', $fecha_inicio],
+                    ['contactos.updated_at', '<=', $fecha_fin]
+                ]);
+            })
             ->orderByDesc('personas.nombres')
             ->orderByDesc('personas.apellidos')
             ->get();
@@ -72,14 +92,14 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 ->select('subcategorias.nombre')
                 ->where('detalle_categoria_personas.persona_id', '=', $id_persona)
                 ->get();
-            $apellido = DB::table('personas')
-                ->select('personas.apellidos')
+            $datos_persona = DB::table('personas')
+                ->select('personas.apellidos, personas.update_at')
                 ->where('personas.id', '=', $id_persona)
                 ->get();
             $categoria = $categorias->pluck('nombre');
             $sal_cat = $categoria->toArray();
             $sal_categorias = implode(", ", $sal_cat);
-            $apellidos = $apellido->pluck('apellidos');
+            $apellidos = $datos_persona->pluck('apellidos');
             $nombres = $contacto_busqueda[$i]->nombres;
             $contacto = $nombres . " " . $apellidos[0];
             $creador_busqueda = DB::table('contactos')
@@ -87,9 +107,6 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 ->select('users.usuario')
                 ->where('contactos.id', '=', $id_persona)
                 ->get();
-            $creador = $creador_busqueda->pluck('usuario');
-            $crea_sal = $creador->toArray();
-            $creador_salida = implode(", ", $crea_sal);
             $oficina = DB::table('oficinas')
                 ->leftJoin('contactos', 'contactos.oficina_id', '=', 'oficinas.id')
                 ->leftJoin('tipo_oficinas', 'tipo_oficinas.id', '=', 'oficinas.tipo_oficina_id')
@@ -103,16 +120,28 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 )
                 ->where('contactos.id', '=', $id_contacto)
                 ->orderBy('tipo_oficinas.nombre')
-                ->get();
+                ->first();
             if ($oficina->isNotEmpty() && $i < $count) {
-                $oficina_nom = $oficina[0]->tipo;
-                $oficina_dir = $oficina[0]->direccion;
-                $oficina_ciudad = $oficina[0]->ciudad;
-                $oficina_estado = $oficina[0]->estado;
-                $sal_oficinas = $oficina_nom . ": " . $oficina_dir . " (" . $oficina_ciudad . "," . $oficina_estado . ")";
-                $contacto_busqueda[$i]->dir = $sal_oficinas;
+                $contacto_busqueda[$i]->dir = $oficina->tipo . ": " . $oficina->direccion . " (" . $oficina->ciudad . "," . $oficina->estado . ")";;
             } else {
                 $contacto_busqueda[$i]->dir = "";
+            }
+            $editor_contacto = DB::table('contactos')
+            ->join('users', 'users.id', '=', 'contactos.usuario_actualizacion')
+            ->select('users.usuario')
+            ->where('contactos.id', '=', $contacto_busqueda[$i]->id)
+            ->first();
+            $editor_persona = DB::table('personas')
+            ->join('users', 'users.id', '=', 'personas.usuario_actualizacion')
+            ->select('users.usuario')
+            ->where('contactos.id', '=', $contacto_busqueda[$i]->id)
+            ->first();
+            if ($contacto_busqueda[$i]->updated_at >= $datos_persona->updated_at) {
+                $contacto_busqueda[$i]->updated_at = $contacto_busqueda[$i]->updated_at;
+                $contacto_busqueda[$i]->usuario = $editor_contacto;
+            } else {
+                $contacto_busqueda->updated_at = $datos_persona->updated_at;
+                $contacto_busqueda[$i]->usuario = $editor_persona;
             }
             $contacto_busqueda[$i]->representante === true ? $contacto_busqueda[$i]->representante = "S" : $contacto_busqueda[$i]->representante = "N";
             $contacto_busqueda[$i]->control === true ? $contacto_busqueda[$i]->control = "S" : null;
@@ -121,7 +150,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             $contacto_busqueda[$i]->envio === false ? $contacto_busqueda[$i]->envio = "N" : null;
             $contacto_busqueda[$i]->persona_id = $sal_categorias;
             $contacto_busqueda[$i]->nombres = $contacto;
-            $contacto_busqueda[$i]->id = $creador_salida;
+            $contacto_busqueda[$i]->id = $creador_busqueda[0];
             $contacto_busqueda[$i]->updated_at = $contacto_busqueda[$i]->updated_at ? Date::dateTimeToExcel(new DateTime($contacto_busqueda[$i]->updated_at)): '';
             $contacto_busqueda[$i]->created_at = $contacto_busqueda[$i]->created_at ? Date::dateTimeToExcel(new DateTime($contacto_busqueda[$i]->created_at)): '';
         }
@@ -171,8 +200,9 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
     {
         return [
             1 => [
-                'font' => ['bold' => true],
-                'alignment' => ['center' => true]
+                'font' => ['bold' => true, 'size' => 12, 'text-align' => 'center'],
+                'text-align' => ['center' => true],
+                'background' => ['color' => '#0088ff']
             ]
         ];
     }
