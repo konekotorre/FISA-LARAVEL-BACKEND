@@ -93,7 +93,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
                 ->where('detalle_categoria_personas.persona_id', '=', $id_persona)
                 ->get();
             $datos_persona = DB::table('personas')
-                ->select('personas.apellidos, personas.update_at')
+                ->select('personas.apellidos', 'personas.update_at')
                 ->where('personas.id', '=', $id_persona)
                 ->get();
             $categoria = $categorias->pluck('nombre');
