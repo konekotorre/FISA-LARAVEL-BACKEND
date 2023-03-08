@@ -336,22 +336,8 @@ class ContactoController extends Controller
             $persona = Persona::create($solicitud);
             $solicitud['persona_id'] = $persona->id;
         } else {
-            DB::update(
-                'update personas set(tipo_documento_persona_id, numero_documento, nombres, 
-                    apellidos, celular, sexo_id, usuario_actualizacion, updated_at) 
-                        = (?, ?, ?, ?, ?, ?, ?, ?) where id = ?',
-                [
-                    $solicitud['tipo_documento_persona_id'],
-                    $solicitud['numero_documento'],
-                    $solicitud['nombres'],
-                    $solicitud['apellidos'],
-                    $solicitud['celular'],
-                    $solicitud['sexo_id'],
-                    $creador_auth['id'],
-                    Carbon::now(),
-                    $solicitud['persona_id']
-                ]
-            );
+            $persona = Persona::find($solicitud['persona_id']);
+            $persona->update($solicitud);    
         }
         DB::table('detalle_categoria_personas')
             ->where('persona_id', '=', $solicitud['persona_id'])
