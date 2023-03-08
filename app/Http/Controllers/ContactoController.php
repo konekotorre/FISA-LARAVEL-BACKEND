@@ -366,8 +366,7 @@ class ContactoController extends Controller
         }
         $contacto->update($solicitud);
         DB::update(
-            'update contacto set(updated_at) 
-                    = (?) where id = ?',
+            'update contactos set updated_at = ? where id = ?',
             [
                 Carbon::now(),
                 $contacto->id
