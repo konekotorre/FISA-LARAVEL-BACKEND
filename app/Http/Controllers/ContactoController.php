@@ -353,12 +353,7 @@ class ContactoController extends Controller
         }
 
         $contacto->update($solicitud);
-
-        DB::update(
-            'update personas set(usuario_actualizacion, updated_at) = (?, ?) where id = ?',
-            [$creador_auth['id'], Carbon::now(), $solicitud['persona_id']]
-        );
-
+        
         DB::update(
             'update contactos set(usuario_actualizacion, updated_at) = (?, ?) where id = ?',
             [$creador_auth['id'], Carbon::now(), $contacto->id]
