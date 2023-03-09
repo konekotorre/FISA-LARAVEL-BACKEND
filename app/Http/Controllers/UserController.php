@@ -36,6 +36,7 @@ class UserController extends Controller
                 'users.usuario',
             )
             ->where('model_has_roles.role_id', $variable, 1)
+            ->where('users.estado', true)
             ->orderBy('users.usuario')
             ->get();
         return response()->json([
