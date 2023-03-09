@@ -28,6 +28,12 @@ class AuthController extends Controller
         $token = JWTAuth::attempt($credencials);
         if ($token) {
             $user = Auth::user();
+            if($user->estado !== true){
+                return response()->json([
+                    'message' => 'Este usuario no se encuentra habilitado, debe volver a habilitarlo',
+                    'success' => false
+                ], 422);
+            }
             $rol = $user->getRoleNames();
             $role = $rol[0];
             return response()

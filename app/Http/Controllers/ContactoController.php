@@ -351,7 +351,19 @@ class ContactoController extends Controller
                 DetalleCategoriaPersona::create($categoria);
             }
         }
+
         $contacto->update($solicitud);
+
+        DB::update(
+            'update personas set(usuario_actualizacion, updated_at) = (?, ?) where id = ?',
+            [$creador_auth['id'], Carbon::now(), $solicitud['persona_id']]
+        );
+
+        DB::update(
+            'update contactos set(usuario_actualizacion, updated_at) = (?, ?) where id = ?',
+            [$creador_auth['id'], Carbon::now(), $contacto->id]
+        );
+
         return response()->json([
             "success" => true
         ], 200);
