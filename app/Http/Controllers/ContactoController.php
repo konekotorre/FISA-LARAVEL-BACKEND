@@ -53,7 +53,7 @@ class ContactoController extends Controller
 
             return response()->json([
             'success' => true,
-            'message' => "Se consultaron correctamente $limit contactos",
+            'message' => "Se consultaron correctamente los contactos",
             'contactos' => $contactos,
             'skip' => $skip,
             'limit' => $limit,
@@ -241,12 +241,13 @@ class ContactoController extends Controller
 
         if($skip >= 0 && $limit >= 0 && $names){
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
+            $contactos_salida = collect($contactos_salida)->groupBy('personas.nombre')->first();
         }
 
         return response()->json([
-            "success" => true,
-            'message' => "Se consultaron correctamente $limit contactos",
-            "total" => $count,
+            'success' => true,
+            'message' => "Se consultaron correctamente los contactos",
+            'total' => $count,
             'skip' => $skip,
             'limit' => $limit,
             "contactos" => $contactos_salida ? $contactos_salida : []
