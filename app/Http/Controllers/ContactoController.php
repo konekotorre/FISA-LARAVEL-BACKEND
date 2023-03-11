@@ -235,7 +235,7 @@ class ContactoController extends Controller
             $contactos_salida = $contactos;
         }
 
-        if($skip && $limit){
+        if($skip !== null && $limit){
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
         }
 
