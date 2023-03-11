@@ -134,6 +134,11 @@ class ContactoController extends Controller
         $sector = $request->sector;
         $subsector = $request->subsector;
 
+        $skip = $request->skip ? $request->skip : null;
+        $limit = $request->limit ? $request->limit : null;
+
+        $count = Contacto::where('id', '>', 0)->count();
+
         $contactos = DB::table('contactos')
             ->join('personas', 'personas.id', 'contactos.persona_id')
             ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
@@ -226,11 +231,18 @@ class ContactoController extends Controller
             $contactos_salida = $contactos;
         }
 
+        if($skip && $limit){
+            $contactos_salida = array_slice($contactos_salida, $skip, $limit);
+        }
+
         $contactos_salida = collect($contactos_salida)->groupBy('personas.nombre')->first();
 
         return response()->json([
             "success" => true,
-            "count" => $contactos_salida ? count($contactos_salida): 0,
+            'message' => "Se consultaron correctamente $limit contactos",
+            "total" => $count,
+            'skip' => $skip,
+            'limit' => $limit,
             "contactos" => $contactos_salida ? $contactos_salida : []
         ], 200);
     }
