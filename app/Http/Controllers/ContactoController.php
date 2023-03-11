@@ -209,9 +209,12 @@ class ContactoController extends Controller
             ->distinct('contactos.id')
             ->get();
 
-            $contactos->when($orderType, function ($query) use ($orderKey, $orderType) {
+            if($orderType){
+                $contactos_salida = collect($contactos)->orderBy($orderKey, $orderType)->get();
+            }
+/*             $contactos->when($orderType, function ($query) use ($orderKey, $orderType) {
                 return  $query->orderBy($orderKey, $orderType);
-            });
+            }); */
 
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
