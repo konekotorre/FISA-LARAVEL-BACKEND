@@ -156,7 +156,7 @@ class ContactoController extends Controller
         $count = Contacto::where('id', '>', 0)->count();
 
         $contactos = DB::table('contactos')
-            ->join('personas', 'personas.id', 'contactos.persona_id')
+            ->leftJoin('personas', 'personas.id', 'contactos.persona_id')
             ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
             ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
             ->leftJoin('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
@@ -210,7 +210,6 @@ class ContactoController extends Controller
             ->when($orderType, function ($query) use ($orderKey, $orderType) {
                 return  $query->orderBy($orderKey, $orderType);
             })
-            ->distinct('personas.id')
             ->get();
 
         if ($names) {
