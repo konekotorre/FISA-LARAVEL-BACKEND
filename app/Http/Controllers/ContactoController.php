@@ -209,9 +209,9 @@ class ContactoController extends Controller
             ->distinct('contactos.id')
             ->get();
 
-            if($orderType){
+          /*   if($orderType){
                 $contactos_salida = $contactos->sortBy('organizacion', 'desc');
-            }
+            } */
 /*             $contactos->when($orderType, function ($query) use ($orderKey, $orderType) {
                 return  $query->orderBy($orderKey, $orderType);
             }); */
