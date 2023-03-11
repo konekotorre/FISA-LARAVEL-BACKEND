@@ -156,7 +156,7 @@ class ContactoController extends Controller
 
         $contactos = DB::table('contactos')
             ->join('personas', 'personas.id', 'contactos.persona_id')
-            ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
+            ->join('oficinas', 'oficinas.id', 'contactos.oficina_id')
             ->leftJoin('ciudads', 'ciudads.id', 'oficinas.ciudad_id')
             ->leftJoin('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
             ->leftJoin('pais', 'pais.id', 'oficinas.pais_id')
