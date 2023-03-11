@@ -139,6 +139,10 @@ class ContactoController extends Controller
 
         $count = Contacto::where('id', '>', 0)->count();
 
+        if(!$names && $skip && $limit){
+            $directPaginate = true;
+        }
+
         $contactos = DB::table('contactos')
             ->join('personas', 'personas.id', 'contactos.persona_id')
             ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
@@ -191,6 +195,9 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
+            ->when($directPaginate, function ($query) use ($skip, $limit) {
+                return $query->skip($skip)->take($limit);
+            })
             ->distinct('personas.id')
             ->get();
 
@@ -231,11 +238,9 @@ class ContactoController extends Controller
             $contactos_salida = $contactos;
         }
 
-        if($skip !== null && $limit){
+        if($skip && $limit && $names){
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
         }
-
-        $contactos_salida = $contactos_salida;
 
         return response()->json([
             "success" => true,
