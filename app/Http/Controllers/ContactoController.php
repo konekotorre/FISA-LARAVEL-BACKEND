@@ -247,16 +247,13 @@ class ContactoController extends Controller
 
         $total = count($contactos_salida);
 
-        if($skip >= 0 && $limit > 0){
-            if(is_array($contactos_salida)){
-                $contactos_salida = array_slice($contactos_salida, $skip, $limit);
+        if ($skip >= 0 && $limit > 0) {
+            if (!is_array($contactos_salida)) {
+                $contactos_salida->toArray();
             }
-            else{
-                $contactos_salida = $contactos_salida->skip($skip)->take($limit);
-            }
+            $contactos_salida = array_slice($contactos_salida, $skip, $limit);
         } 
        
-
         return response()->json([
             'type' => gettype($contactos_salida),
             'success' => true,
