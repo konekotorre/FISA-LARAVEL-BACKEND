@@ -57,7 +57,7 @@ class ContactoController extends Controller
             'contactos' => $contactos,
             'skip' => $skip,
             'limit' => $limit,
-            'total' => $count->total
+            'total' => $count
         ], 200);
     }
 
