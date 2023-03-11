@@ -126,7 +126,7 @@ class ContactoController extends Controller
         $orderType = $request->orderType ? $request->orderType : null;
         $orderKey = $request->orderKey ? $request->orderKey : null;
 
-/*         switch ($orderKey) {
+        switch ($orderKey) {
             case 'organizacion':
                 $orderKey = 'organizacions.nombre';
                 break;
@@ -138,7 +138,7 @@ class ContactoController extends Controller
                 break;
             default:
                 break;
-        } */
+        }
 
         $organizacion = trim($request->organizacion);
         $cargo = trim($request->cargo);
@@ -204,6 +204,8 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
+            ->orderBy($orderKey, $orderType)
+            ->dictinct('personas.id')
             ->get();
 
 
