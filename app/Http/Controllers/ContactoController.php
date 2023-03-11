@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Collection;
 
 class ContactoController extends Controller
 {
@@ -210,7 +211,8 @@ class ContactoController extends Controller
             ->get();
 
             if($orderType){
-                $contactos_salida = collect($contactos)->sortBy('organizacion', 'desc');
+                $contactos_salida = new collect($contactos);
+                $contactos_salida->sortBy('organizacion', 'desc');
             } 
 
 /*              $contactos->when($orderType, function ($query) use ($orderKey, $orderType) {
