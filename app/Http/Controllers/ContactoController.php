@@ -249,7 +249,7 @@ class ContactoController extends Controller
 
         if ($skip >= 0 && $limit > 0) {
             if (!is_array($contactos_salida)) {
-                $contactos_salida->toArray();
+                $contactos_salida = $contactos_salida->toArray();
             }
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
         } 
