@@ -161,7 +161,7 @@ class ContactoController extends Controller
             ->join('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
             ->join('pais', 'pais.id', 'oficinas.pais_id')
             ->join('organizacions', 'organizacions.id', 'contactos.organizacion_id')
-            ->leftJoin('detalle_categoria_personas', 'detalle_categoria_personas.persona_id', 'personas.id')
+            ->join('detalle_categoria_personas', 'detalle_categoria_personas.persona_id', 'personas.id')
             ->select(
                 'contactos.id as contacto_id',
                 'personas.id as persona_id',
