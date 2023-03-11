@@ -208,7 +208,6 @@ class ContactoController extends Controller
             ->distinct()
             ->get();
 
-
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
                 $name = $contactos[$i]->nombres;
@@ -246,6 +245,8 @@ class ContactoController extends Controller
             $contactos_salida = $contactos;
         }
 
+        $total = $contactos_salida;
+
         if($skip >= 0 && $limit > 0){
             if(is_array($contactos_salida)){
                 $contactos_salida = array_slice($contactos_salida, $skip, $limit);
@@ -260,7 +261,7 @@ class ContactoController extends Controller
             'type' => gettype($contactos_salida),
             'success' => true,
             'message' => "Se consultaron correctamente los contactos",
-            'total' => count($contactos),
+            'total' => $total,
             'skip' => $skip,
             'limit' => $limit,
             "contactos" => $contactos_salida ? $contactos_salida : []
