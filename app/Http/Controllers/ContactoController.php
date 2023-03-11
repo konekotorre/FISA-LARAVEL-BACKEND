@@ -22,27 +22,30 @@ class ContactoController extends Controller
     {
         $skip = $request->query('skip') ? $request->query('skip') : null;
         $limit = $request->query('limit') ? $request->query('limit') : null;
+        $orderType = $request->query('orderType') ? $request->query('orderType') : null;
+        $key = $request->query('orderkey') ? $request->query('orderkey') : null;
 
-        $count = Contacto::where('id', '>', 0)->count();
+        $orderKey = $this->orderKey($key);
+
+        $count = DB::table('contactos')
+        ->select('count(id)')->first();
 
         $contactos = DB::table('contactos')
-            ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
-            ->join('personas', 'personas.id', '=', 'contactos.persona_id')
-            ->select(
-                'contactos.id as contacto_id',
-                'personas.id as persona_id',
-                'contactos.email',
-                'personas.celular',
-                'contactos.telefono',
-                'contactos.extension',
-                'contactos.cargo',
-                'contactos.observaciones',
-                'organizacions.nombre as organizacion',
-                DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombres")
-            )
-            ->orderBy('personas.nombres')
-            ->orderBy('personas.apellidos')
-            ->orderByDesc('contactos.estado')
+        ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
+        ->join('personas', 'personas.id', '=', 'contactos.persona_id')
+        ->select(
+            'contactos.id as contacto_id',
+            'personas.id as persona_id',
+            'contactos.email',
+            'personas.celular',
+            'contactos.telefono',
+            'contactos.extension',
+            'contactos.cargo',
+            'contactos.observaciones',
+            'organizacions.nombre as organizacion',
+            DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombres")
+        )
+            ->orderBy($orderKey, $orderType)
             ->when($skip, function ($query, $skip) {
                 return $query->skip($skip);
             })
@@ -51,13 +54,13 @@ class ContactoController extends Controller
             })
             ->get();
 
-            return response()->json([
+        return response()->json([
             'success' => true,
             'message' => "Se consultaron correctamente los contactos",
-            'contactos' => $contactos,
             'skip' => $skip,
             'limit' => $limit,
-            'total' => $count
+            'total' => $count,
+            'contactos' => $contactos,
         ], 200);
     }
 
@@ -124,21 +127,11 @@ class ContactoController extends Controller
         $c_name = isset($names[3]) ?  $names[3] : null;
 
         $orderType = $request->orderType ? $request->orderType : null;
-        $orderKey = $request->orderKey ? $request->orderKey : null;
+        $key = $request->orderKey ? $request->orderKey : null;
+        $skip = $request->skip ? intval($request->skip,10) : 0;
+        $limit = $request->limit ? intval($request->limit, 10) : 0;
 
-        switch ($orderKey) {
-            case 'organizacion':
-                $orderKey = 'organizacions.nombre';
-                break;
-            case 'nombre':
-                $orderKey = 'personas.nombres';
-                break;
-            case 'cargo':
-                $orderKey = 'contactos.cargo';
-                break;
-            default:
-                break;
-        }
+        $orderKey = $this->orderKey($key);
 
         $organizacion = trim($request->organizacion);
         $cargo = trim($request->cargo);
@@ -150,9 +143,6 @@ class ContactoController extends Controller
         $subcategorias = $request->subcategorias;
         $sector = $request->sector;
         $subsector = $request->subsector;
-
-        $skip = $request->skip ? intval($request->skip,10) : 0;
-        $limit = $request->limit ? intval($request->limit, 10) : 0;
 
         $contactos = DB::table('contactos')
             ->join('personas', 'personas.id', 'contactos.persona_id')
@@ -255,13 +245,12 @@ class ContactoController extends Controller
         } 
        
         return response()->json([
-            'type' => gettype($contactos_salida),
             'success' => true,
             'message' => "Se consultaron correctamente los contactos",
             'total' => $total,
             'skip' => $skip,
             'limit' => $limit,
-            "contactos" => $contactos_salida ? $contactos_salida : []
+            'contactos' => $contactos_salida ? $contactos_salida : []
         ], 200);
     }
 
@@ -423,5 +412,22 @@ class ContactoController extends Controller
             $contacto->delete();
         }
         return response()->json(["success" => true], 200);
+    }
+
+    function orderKey($orderKey){
+        switch ($orderKey) {
+            case 'organizacion':
+                $orderKey = 'organizacions.nombre';
+                break;
+            case 'nombre':
+                $orderKey = 'personas.nombres';
+                break;
+            case 'cargo':
+                $orderKey = 'contactos.cargo';
+                break;
+            default:
+                break;
+        }
+        return $orderKey;
     }
 }
