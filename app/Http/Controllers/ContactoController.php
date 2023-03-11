@@ -152,10 +152,10 @@ class ContactoController extends Controller
         $subsector = $request->subsector;
 
         $skip = $request->skip ? intval($request->skip,10) : 0;
-        $limit = $request->limit ? intval($request->limit) : 0;
+        $limit = $request->limit ? intval($request->limit, 10) : 0;
 
         $contactos = DB::table('contactos')
-            ->leftJoin('personas', 'personas.id', 'contactos.persona_id')
+            ->join('personas', 'personas.id', 'contactos.persona_id')
             ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
             ->leftJoin('ciudads', 'ciudads.id', '=', 'oficinas.ciudad_id')
             ->leftJoin('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
