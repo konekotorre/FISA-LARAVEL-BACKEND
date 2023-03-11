@@ -209,7 +209,7 @@ class ContactoController extends Controller
             ->distinct('personas.id')
             ->get();
 
-           $contactos_salida = usort($contactos, function($a, $b) { return $a->nombres <=> $b->nombres; });
+           $contactos_salida = usort(array($contactos), function($a, $b) { return $a->nombres <=> $b->nombres; });
 
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
