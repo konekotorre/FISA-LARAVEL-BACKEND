@@ -122,8 +122,7 @@ class ContactoController extends Controller
         $s_name = isset($names[1]) ?  $names[1]: null;
         $t_name = isset($names[2]) ?  $names[2] : null;
         $c_name = isset($names[3]) ?  $names[3] : null;
-        $asc = $request->asc ? $request->asc : null;
-        $desc = $request->desc ? $request->desc : null;
+        $orderType = $request->orderType ? $request->orderType : null;
         $orderKey = $request->orderKey ? $request->orderKey : null;
 
         switch ($orderKey) {
@@ -208,11 +207,8 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
-            ->when($asc, function ($query, $orderKey) {
-                return  $query->orderBy($orderKey);
-            })
-            ->when($desc, function ($query, $orderKey) {
-                return  $query->orderByDesc($orderKey);
+            ->when($orderType, function ($query) use ($orderKey, $orderType) {
+                return  $query->orderBy($orderKey, $orderType);
             })
             ->distinct('personas.id')
             ->get();
