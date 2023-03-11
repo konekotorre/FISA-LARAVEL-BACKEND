@@ -235,7 +235,7 @@ class ContactoController extends Controller
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
         }
 
-        $contactos_salida = collect($contactos_salida);
+        $contactos_salida = $contactos_salida;
 
         return response()->json([
             "success" => true,
