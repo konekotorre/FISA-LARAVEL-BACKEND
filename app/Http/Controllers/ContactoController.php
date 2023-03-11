@@ -206,7 +206,7 @@ class ContactoController extends Controller
             })
             ->orderBy('personas.id', 'ASC')
             ->orderBy($orderKey, $orderType)
-            ->distinct()
+            //->distinct()
             ->get();
 
 
