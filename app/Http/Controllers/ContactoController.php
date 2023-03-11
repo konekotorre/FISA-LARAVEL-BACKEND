@@ -208,7 +208,6 @@ class ContactoController extends Controller
             ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
                 return  $query->orderBy($orderKey, $orderType);
             })
-            ->orderBy($orderKey, $orderType)
             ->distinct()
             ->get();
 
