@@ -139,7 +139,7 @@ class ContactoController extends Controller
 
         $count = Contacto::where('id', '>', 0)->count();
 
-        if(!$names && $skip && $limit){
+        if(!$names && $skip >= 0 && $limit >= 0){
             $directPaginate = true;
         }
 
