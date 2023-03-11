@@ -122,6 +122,7 @@ class ContactoController extends Controller
         $t_name = isset($names[2]) ?  $names[2] : null;
         $c_name = isset($names[3]) ?  $names[3] : null;
         $contactos_salida = [];
+        $directPaginate = null;
 
         $organizacion = trim($request->organizacion);
         $cargo = trim($request->cargo);
