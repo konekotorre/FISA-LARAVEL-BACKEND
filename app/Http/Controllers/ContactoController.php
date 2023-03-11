@@ -20,6 +20,7 @@ class ContactoController extends Controller
 
     public function index(Request $request)
     {
+        $orderRequest = null;
         $skip = $request->query('skip') ? $request->query('skip') : null;
         $limit = $request->query('limit') ? $request->query('limit') : null;
         $orderType = $request->query('orderType') ? $request->query('orderType') : null;
@@ -27,8 +28,12 @@ class ContactoController extends Controller
 
         $orderKey = $this->orderKey($key);
 
-        $count = Contacto::all()->count();
-        
+        if($orderKey && $orderType){
+            $orderRequest = true;
+        }
+
+       $count = Contacto::all()->count();
+
         $contactos = DB::table('contactos')
         ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
         ->join('personas', 'personas.id', '=', 'contactos.persona_id')
@@ -44,12 +49,14 @@ class ContactoController extends Controller
             'organizacions.nombre as organizacion',
             DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombres")
         )
-            ->orderBy($orderKey, $orderType)
             ->when($skip, function ($query, $skip) {
                 return $query->skip($skip);
             })
             ->when($limit, function ($query, $limit) {
                 return $query->take($limit);
+            })
+            ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
+                return  $query->orderBy($orderKey, $orderType);
             })
             ->get();
 
@@ -119,6 +126,7 @@ class ContactoController extends Controller
     public function search(Request $request)
     {
         $contactos_salida = [];
+        $orderRequest = null;
         $names = $request->nombres ? explode(" ", trim($request->nombres)) : null;
         $p_name = isset($names[0]) ?  $names[0] : null;
         $s_name = isset($names[1]) ?  $names[1]: null;
@@ -142,6 +150,10 @@ class ContactoController extends Controller
         $subcategorias = $request->subcategorias;
         $sector = $request->sector;
         $subsector = $request->subsector;
+
+        if($orderKey && $orderType){
+            $orderRequest = true;
+        }
 
         $contactos = DB::table('contactos')
             ->join('personas', 'personas.id', 'contactos.persona_id')
@@ -192,6 +204,9 @@ class ContactoController extends Controller
             })
             ->when($ciudad, function ($query, $ciudad) {
                 return  $query->where('oficinas.ciudad_id', $ciudad);
+            })
+            ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
+                return  $query->orderBy($orderKey, $orderType);
             })
             ->orderBy($orderKey, $orderType)
             ->distinct()
