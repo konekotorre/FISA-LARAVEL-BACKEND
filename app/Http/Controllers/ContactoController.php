@@ -126,7 +126,7 @@ class ContactoController extends Controller
         $orderType = $request->orderType ? $request->orderType : null;
         $orderKey = $request->orderKey ? $request->orderKey : null;
 
-        switch ($orderKey) {
+/*         switch ($orderKey) {
             case 'organizacion':
                 $orderKey = 'organizacions.nombre';
                 break;
@@ -138,7 +138,7 @@ class ContactoController extends Controller
                 break;
             default:
                 break;
-        }
+        } */
 
         $organizacion = trim($request->organizacion);
         $cargo = trim($request->cargo);
@@ -210,7 +210,7 @@ class ContactoController extends Controller
             ->get();
 
             if($orderType){
-                $contactos_salida = collect($contactos)->orderBy($orderKey, $orderType)->get();
+                $contactos_salida = collect($contactos)->sortDesc($orderKey);
             }
 /*             $contactos->when($orderType, function ($query) use ($orderKey, $orderType) {
                 return  $query->orderBy($orderKey, $orderType);
