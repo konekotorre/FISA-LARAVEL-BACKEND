@@ -204,9 +204,8 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
-            ->orderBy('personas.id', 'ASC')
             ->orderBy($orderKey, $orderType)
-            //->distinct()
+            ->distinct()
             ->get();
 
 
@@ -249,7 +248,7 @@ class ContactoController extends Controller
 
         /* if($skip >= 0 && $limit > 0){
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
-        } */
+        } 
 
         return response()->json([
             'type' => gettype($contactos_salida),
