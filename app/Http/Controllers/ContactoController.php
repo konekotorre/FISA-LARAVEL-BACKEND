@@ -134,7 +134,11 @@ class ContactoController extends Controller
         $sector = $request->sector;
         $subsector = $request->subsector;
 
-        $skip = $request->skip ? $request->skip : 0;
+        if($request->skip === 0){
+            $skip = 0;
+        }
+
+        $skip = $request->skip ? $request->skip : null;
         $limit = $request->limit ? $request->limit : null;
 
         $count = Contacto::where('id', '>', 0)->count();
