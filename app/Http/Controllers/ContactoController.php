@@ -160,7 +160,7 @@ class ContactoController extends Controller
             ->leftJoin('ciudads', 'ciudads.id', 'oficinas.ciudad_id')
             ->leftJoin('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
             ->leftJoin('pais', 'pais.id', 'oficinas.pais_id')
-            ->leftJoin('organizacions', 'organizacions.id', 'contactos.organizacion_id')
+            ->join('organizacions', 'organizacions.id', 'contactos.organizacion_id')
             ->leftJoin('detalle_categoria_personas', 'detalle_categoria_personas.persona_id', 'personas.id')
             ->select(
                 'contactos.id as contacto_id',
