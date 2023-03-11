@@ -40,15 +40,15 @@ class ContactoController extends Controller
                 'organizacions.nombre as organizacion',
                 DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombres")
             )
+            ->orderBy('personas.nombres')
+            ->orderBy('personas.apellidos')
+            ->orderByDesc('contactos.estado')
             ->when($skip, function ($query, $skip) {
                 return $query->skip($skip);
             })
             ->when($limit, function ($query, $limit) {
                 return $query->take($limit);
             })
-            ->orderBy('personas.nombres')
-            ->orderBy('personas.apellidos')
-            ->orderByDesc('contactos.estado')
             ->get();
 
             return response()->json([
