@@ -21,8 +21,9 @@ class ContactoController extends Controller
     public function index(Request $request)
     {
         $orderRequest = null;
-        $skip = $request->query('skip') ? $request->query('skip') : null;
-        $limit = $request->query('limit') ? $request->query('limit') : null;
+        $paginate = null;
+        $skip = $request->query('skip') ? intval($request->query('limit'), 10) : 0;
+        $limit = $request->query('limit') ? intval($request->query('limit'),10) : 0;
         $orderType = $request->query('orderType') ? $request->query('orderType') : null;
         $key = $request->query('orderkey') ? $request->query('orderkey') : null;
 
@@ -30,6 +31,10 @@ class ContactoController extends Controller
 
         if($orderKey && $orderType){
             $orderRequest = true;
+        }
+
+        if($skip >= 0 && $limit > 0){
+            $paginate = true;
         }
 
        $count = Contacto::all()->count();
@@ -49,11 +54,8 @@ class ContactoController extends Controller
             'organizacions.nombre as organizacion',
             DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombres")
         )
-            ->when($skip, function ($query, $skip) {
-                return $query->skip($skip);
-            })
-            ->when($limit, function ($query, $limit) {
-                return $query->take($limit);
+            ->when($paginate, function ($query) use ($skip,$limit) {
+                return $query->skip($skip)->take($limit);
             })
             ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
                 return  $query->orderBy($orderKey, $orderType);
