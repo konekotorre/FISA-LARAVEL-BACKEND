@@ -209,14 +209,8 @@ class ContactoController extends Controller
             ->distinct('personas.id')
             ->get();
 
-           /*  if($orderType){
-                $contactos_salida = collect($contactos)->sortBy('organizacion', 'desc');
-            }  */
+           $contactos_salida = usort($contactos, function($a, $b) { return $a->nombres <=> $b->nombres; });
 
-/*              $contactos->when($orderType, function ($query) use ($orderKey, $orderType) {
-                return  $query->orderBy($orderKey, $orderType);
-            });
- */
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
                 $name = $contactos[$i]->nombres;
