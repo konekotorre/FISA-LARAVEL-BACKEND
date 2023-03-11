@@ -245,7 +245,7 @@ class ContactoController extends Controller
             $contactos_salida = $contactos;
         }
 
-        $total = $contactos_salida;
+        $total = count($contactos_salida);
 
         if($skip >= 0 && $limit > 0){
             if(is_array($contactos_salida)){
