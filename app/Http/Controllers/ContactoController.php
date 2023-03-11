@@ -116,13 +116,29 @@ class ContactoController extends Controller
 
     public function search(Request $request)
     {
+        $contactos_salida = [];
         $names = $request->nombres ? explode(" ", trim($request->nombres)) : null;
         $p_name = isset($names[0]) ?  $names[0] : null;
         $s_name = isset($names[1]) ?  $names[1]: null;
         $t_name = isset($names[2]) ?  $names[2] : null;
         $c_name = isset($names[3]) ?  $names[3] : null;
-        $contactos_salida = [];
-        $directPaginate = null;
+        $asc = $request->asc ? $request->asc : null;
+        $desc = $request->desc ? $request->desc : null;
+        $orderKey = $request->orderKey ? $request->orderKey : null;
+
+        switch ($orderKey) {
+            case 'organizacion':
+                $orderKey = 'organizacions.nombre';
+                break;
+            case 'nombre':
+                $orderKey = 'personas.nombres';
+                break;
+            case 'cargo':
+                $orderKey = 'contactos.cargo';
+                break;
+            default:
+                break;
+        }
 
         $organizacion = trim($request->organizacion);
         $cargo = trim($request->cargo);
@@ -139,10 +155,6 @@ class ContactoController extends Controller
         $limit = $request->limit ? $request->limit : null;
 
         $count = Contacto::where('id', '>', 0)->count();
-
-        if(!$names && $skip >= 0 && $limit >= 0){
-            $directPaginate = true;
-        }
 
         $contactos = DB::table('contactos')
             ->join('personas', 'personas.id', 'contactos.persona_id')
@@ -196,8 +208,11 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
-            ->when($directPaginate, function ($query) use ($skip, $limit) {
-                return $query->skip($skip)->take($limit);
+            ->when($asc, function ($query, $orderKey) {
+                return  $query->orderBy($orderKey);
+            })
+            ->when($desc, function ($query, $orderKey) {
+                return  $query->orderByDesc($orderKey);
             })
             ->distinct('personas.id')
             ->get();
@@ -239,7 +254,7 @@ class ContactoController extends Controller
             $contactos_salida = $contactos;
         }
 
-        if($skip >= 0 && $limit >= 0 && $names){
+        if($skip >= 0 && $limit >= 0){
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
         }
 
