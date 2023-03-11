@@ -134,7 +134,7 @@ class ContactoController extends Controller
         $sector = $request->sector;
         $subsector = $request->subsector;
 
-        if($request->skip === 0){
+        if($request->skip === 1){
             $skip = 0;
         }
 
@@ -233,7 +233,7 @@ class ContactoController extends Controller
             }
         } else {
             $contactos_salida = $contactos;
-        }
+        }|
 
         if($skip !== null && $limit){
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
