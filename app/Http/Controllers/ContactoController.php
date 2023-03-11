@@ -239,7 +239,7 @@ class ContactoController extends Controller
             $contactos_salida = $contactos;
         }
 
-        if($skip && $limit && $names){
+        if($skip >= 0 && $limit >= 0 && $names){
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
         }
 
