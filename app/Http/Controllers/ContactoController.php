@@ -25,7 +25,7 @@ class ContactoController extends Controller
         $skip = $request->query('skip') ? intval($request->query('limit'), 10) : 0;
         $limit = $request->query('limit') ? intval($request->query('limit'),10) : 0;
         $orderType = $request->query('orderType') ? $request->query('orderType') : null;
-        $key = $request->query('orderkey') ? $request->query('orderkey') : null;
+        $key = $request->query('orderKey') ? $request->query('orderKey') : null;
 
         $orderKey = $this->orderKey($key);
 
