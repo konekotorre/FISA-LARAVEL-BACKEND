@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Contacto;
 use App\DetalleCategoriaPersona;
 use App\Exports\ConBusquedaExport;
-use App\Exports\ConGenExport;
-use App\Exports\ContactoExport;
 use App\Persona;
 use App\Sexo;
 use App\TipoDocumentoPersona;
@@ -16,13 +14,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Collection;
 
 class ContactoController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
+        $skip = $request->query('skip') ? $request->query('skip') : null;
+        $limit = $request->query('limit') ? $request->query('limit') : null;
+
+        $count = DB::table('contactos')->select('count(id) as total')->first();
+
         $contactos = DB::table('contactos')
             ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
             ->join('personas', 'personas.id', '=', 'contactos.persona_id')
@@ -38,15 +40,24 @@ class ContactoController extends Controller
                 'organizacions.nombre as organizacion',
                 DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombres")
             )
+            ->when($skip, function ($query, $skip) {
+                return $query->skip($skip);
+            })
+            ->when($limit, function ($query, $limit) {
+                return $query->take($limit);
+            })
             ->orderBy('personas.nombres')
             ->orderBy('personas.apellidos')
             ->orderByDesc('contactos.estado')
             ->get();
-        $count = count($contactos);
-        return response()->json([
-            "success" => true,
+
+            return response()->json([
+            'success' => true,
+            'message' => "Se consultaron correctamente $limit contactos",
             'contactos' => $contactos,
-            "count" => $count
+            'skip' => $skip,
+            'limit' => $limit,
+            'total' => $count->total
         ], 200);
     }
 
@@ -80,7 +91,6 @@ class ContactoController extends Controller
     public function repFecha(Request $request)
     {
         return Excel::download(new ConBusquedaExport($request), 'Reporte de Contactos.xlsx');
-        //return Excel::download(new ContactoExport($request), 'Reporte de Contactos.xlsx');
     }
 
     public function repBusqueda(Request $request)
@@ -91,7 +101,6 @@ class ContactoController extends Controller
     public function repGen(Request $request)
     {
         return Excel::download(new ConBusquedaExport($request), 'Reporte de Contactos.xlsx');
-        //return Excel::download(new ConGenExport, 'Reporte de Contactos.xlsx');
     }
 
     public function listForms()
