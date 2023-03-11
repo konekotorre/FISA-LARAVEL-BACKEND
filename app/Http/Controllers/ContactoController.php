@@ -161,8 +161,6 @@ class ContactoController extends Controller
             ->leftJoin('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
             ->leftJoin('pais', 'pais.id', 'oficinas.pais_id')
             ->leftJoin('organizacions', 'organizacions.id', 'contactos.organizacion_id')
-/*             ->leftJoin('sectors', 'sectors.id', 'organizacions.sector_id')
-            ->leftJoin('subsectors', 'subsectors.id', 'organizacions.subsector_id') */
             ->leftJoin('detalle_categoria_personas', 'detalle_categoria_personas.persona_id', 'personas.id')
             ->select(
                 'contactos.id as contacto_id',
@@ -206,7 +204,6 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
-            ->distinct('personas.id')
             ->get();
 
 
