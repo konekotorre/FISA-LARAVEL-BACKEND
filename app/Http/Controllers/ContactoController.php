@@ -23,7 +23,7 @@ class ContactoController extends Controller
         $skip = $request->query('skip') ? $request->query('skip') : null;
         $limit = $request->query('limit') ? $request->query('limit') : null;
 
-        $count = DB::table('contactos')->select('count(id) as total')->first();
+        $count = Contacto::where('id', '>', 0)->count();
 
         $contactos = DB::table('contactos')
             ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
