@@ -251,7 +251,7 @@ class ContactoController extends Controller
                 $contactos_salida = array_slice($contactos_salida, $skip, $limit);
             }
             else{
-                $contactos_salida = $contactos_salida->skip($skip)->take($limit)->get();
+                $contactos_salida = $contactos_salida->skip($skip)->take($limit);
             }
         } 
        
