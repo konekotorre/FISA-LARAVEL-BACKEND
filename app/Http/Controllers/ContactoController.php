@@ -210,8 +210,7 @@ class ContactoController extends Controller
             ->get();
 
             if($orderType){
-                $contactos_salida = collect($contactos);
-                $contactos_salida->sortDesc($orderKey);
+                $contactos_salida = collect($contactos)->sortBy($orderKey, $orderType);
             }
 /*             $contactos->when($orderType, function ($query) use ($orderKey, $orderType) {
                 return  $query->orderBy($orderKey, $orderType);
