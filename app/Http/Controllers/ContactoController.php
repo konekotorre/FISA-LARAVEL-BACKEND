@@ -241,7 +241,7 @@ class ContactoController extends Controller
 
         if($skip >= 0 && $limit >= 0 && $names){
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
-            $contactos_salida = collect($contactos_salida)->groupBy('personas.nombre')->first();
+            $contactos_salida = collect($contactos_salida)->groupBy('nombre')->get();
         }
 
         return response()->json([
