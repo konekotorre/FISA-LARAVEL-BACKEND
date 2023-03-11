@@ -155,7 +155,7 @@ class ContactoController extends Controller
         $limit = $request->limit ? intval($request->limit, 10) : 0;
 
         $contactos = DB::table('contactos')
-            ->join('personas', 'personas.id', 'contactos.persona_id')
+            ->leftJoin('personas', 'personas.id', 'contactos.persona_id')
             ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
             ->leftJoin('ciudads', 'ciudads.id', 'oficinas.ciudad_id')
             ->leftJoin('departamento_estados', 'departamento_estados.id', 'oficinas.departamento_estado_id')
