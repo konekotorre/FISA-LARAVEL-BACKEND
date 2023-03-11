@@ -233,7 +233,7 @@ class ContactoController extends Controller
             }
         } else {
             $contactos_salida = $contactos;
-        }|
+        }
 
         if($skip !== null && $limit){
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
