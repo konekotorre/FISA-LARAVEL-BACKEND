@@ -206,10 +206,12 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
-            ->when($orderType, function ($query) use ($orderKey, $orderType) {
-                return  $query->orderBy($orderKey, $orderType);
-            })
+            ->disctinc('contactos.id')
             ->get();
+
+            $contactos->when($orderType, function ($query) use ($orderKey, $orderType) {
+                return  $query->orderBy($orderKey, $orderType);
+            });
 
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
@@ -248,9 +250,9 @@ class ContactoController extends Controller
             $contactos_salida = $contactos;
         }
 
-        if($skip >= 0 && $limit > 0){
+        /* if($skip >= 0 && $limit > 0){
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
-        }
+        } */
 
         return response()->json([
             'success' => true,
