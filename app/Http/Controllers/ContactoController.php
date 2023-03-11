@@ -249,6 +249,7 @@ class ContactoController extends Controller
         /* if($skip >= 0 && $limit > 0){
             $contactos_salida = array_slice($contactos_salida, $skip, $limit);
         } 
+        */
 
         return response()->json([
             'type' => gettype($contactos_salida),
