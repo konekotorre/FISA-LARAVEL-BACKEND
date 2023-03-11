@@ -28,7 +28,9 @@ class ContactoController extends Controller
         $orderKey = $this->orderKey($key);
 
         $count = DB::table('contactos')
-        ->select('count(id)')->first();
+        ->select('count(id)')
+        ->where('id', '>', 0)
+        ->first();
 
         $contactos = DB::table('contactos')
         ->leftJoin('organizacions', 'organizacions.id', '=', 'contactos.organizacion_id')
