@@ -187,7 +187,9 @@ class OrganizacionController extends Controller
         if ($skip >= 0 && $limit > 0) {
             $org_final = $organizacion_busqueda->toArray();
             $org_final = array_slice($org_final, $skip, $limit);
-        } 
+        } else {
+            $org_final = $organizacion_busqueda;
+        }
 
         return response()->json([
             'success' => true,
