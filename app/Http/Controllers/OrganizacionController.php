@@ -193,7 +193,7 @@ class OrganizacionController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => "Se consultaron correctamente los contactos",
+            'message' => "Se consultaron correctamente las organizaciones",
             'skip' => $skip,
             'limit' => $limit,
             'total' =>  count($organizacion_busqueda),
