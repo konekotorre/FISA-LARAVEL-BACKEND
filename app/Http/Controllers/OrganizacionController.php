@@ -51,6 +51,7 @@ class OrganizacionController extends Controller
             ->when($paginate, function ($query) use ($skip, $limit) {
                 return $query->skip($skip)->take($limit);
             })
+            ->orderBy('organizacions.nombre', 'ASC')
             ->get();
 
         return response()->json([
@@ -179,6 +180,7 @@ class OrganizacionController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 $query->where('oficinas.ciudad_id', $ciudad);
             })
+            ->orderBy('organizacions.nombre', 'ASC')
             ->distinct()
             ->get();
 
