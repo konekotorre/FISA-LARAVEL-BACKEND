@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Exportaciones;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ExportacionesController extends Controller
 {

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\MotivoTarea;
 use App\Tarea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

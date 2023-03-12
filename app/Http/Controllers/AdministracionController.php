@@ -18,7 +18,6 @@ use App\TipoDocumentoOrganizacion;
 use App\TipoDocumentoPersona;
 use App\TipoOficina;
 use App\TipoOrganizacion;
-use Illuminate\Http\Request;
 
 class AdministracionController extends Controller
 {

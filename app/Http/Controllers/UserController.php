@@ -6,7 +6,6 @@ use App\TipoDocumentoPersona;
 use App\User;
 
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\ModelHasRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;

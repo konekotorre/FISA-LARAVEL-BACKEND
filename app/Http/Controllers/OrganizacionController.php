@@ -14,7 +14,6 @@ use App\Clase;
 use App\Sector;
 use App\Ciiu;
 use App\TipoOrganizacion;
-use Carbon\Carbon;
 use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -24,8 +23,18 @@ use Maatwebsite\Excel\Facades\Excel;
 class OrganizacionController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
+        $paginate = null;
+        $skip = $request->query('skip') ? intval($request->query('limit'), 10) : 0;
+        $limit = $request->query('limit') ? intval($request->query('limit'), 10) : 0;
+
+        if ($skip >= 0 && $limit > 0) {
+            $paginate = true;
+        }
+
+        $count = Organizacion::all()->count();
+
         $organizacion_busqueda = DB::table('organizacions')
             ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', '=', 'organizacions.tipo_documento_organizacion_id')
             ->leftJoin('subsectors', 'subsectors.id', '=', 'organizacions.subsector_id')
@@ -39,13 +48,18 @@ class OrganizacionController extends Controller
                 'categorias.nombre as categoria',
                 'subsectors.nombre as subsector'
             )
-            ->orderBy('organizacions.nombre')
+            ->when($paginate, function ($query) use ($skip, $limit) {
+                return $query->skip($skip)->take($limit);
+            })
             ->get();
-        $count = count($organizacion_busqueda);
+
         return response()->json([
-            "success" => true,
-            "organizaciones" => $organizacion_busqueda,
-            "count" => $count
+            'success' => true,
+            'message' => "Se consultaron correctamente los contactos",
+            'skip' => $skip,
+            'limit' => $limit,
+            'total' => $count,
+            'organizaciones' => $organizacion_busqueda,
         ], 200);
     }
 
@@ -113,6 +127,9 @@ class OrganizacionController extends Controller
         $pais = $request->pais;
         $departamento = $request->departamento;
         $ciudad = $request->ciudad;
+
+        $skip = $request->skip ? intval($request->skip,10) : 0;
+        $limit = $request->limit ? intval($request->limit, 10) : 0;
         
         $organizacion_busqueda = DB::table('organizacions')
         ->leftJoin('tipo_documento_organizacions', 'tipo_documento_organizacions.id', 'organizacions.tipo_documento_organizacion_id')
@@ -162,15 +179,21 @@ class OrganizacionController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 $query->where('oficinas.ciudad_id', $ciudad);
             })
-            ->distinct('organizacions.id')
+            ->distinct()
             ->get();
 
-        $org_final = $organizacion_busqueda->groupBy('organizacions.nombre')->first();
+        if ($skip >= 0 && $limit > 0) {
+            $org_final = $organizacion_busqueda->toArray();
+            $org_final = array_slice($org_final, $skip, $limit);
+        } 
 
         return response()->json([
-            "success" => true,
-            "organizaciones" => $org_final ? $org_final : [],
-            "count" =>  $org_final ? $org_final->count(): 0
+            'success' => true,
+            'message' => "Se consultaron correctamente los contactos",
+            'skip' => $skip,
+            'limit' => $limit,
+            'total' =>  count($organizacion_busqueda),
+            'organizaciones' => $org_final ? $org_final : []
         ], 200);
     }
 
