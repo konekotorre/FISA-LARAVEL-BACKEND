@@ -22,7 +22,7 @@ class ContactoController extends Controller
     {
         $orderRequest = null;
         $paginate = null;
-        $skip = $request->query('skip') ? intval($request->query('limit'), 10) : 0;
+        $skip = $request->query('skip') ? intval($request->query('skip'), 10) : 0;
         $limit = $request->query('limit') ? intval($request->query('limit'),10) : 0;
         $orderType = $request->query('orderType') ? $request->query('orderType') : null;
         $key = $request->query('orderKey') ? $request->query('orderKey') : null;
