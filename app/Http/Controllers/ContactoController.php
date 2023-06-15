@@ -208,9 +208,9 @@ class ContactoController extends Controller
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
             ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
-                return  $query->orderBy($orderKey, $orderType);
+                return  $query->orderBy('nombres', $orderType)->orderBy();
             })
-            ->groupBy('contactos.id')
+            //->groupBy()
             ->get();
 
         //$contactos = $contactos->unique('contacto_id');
