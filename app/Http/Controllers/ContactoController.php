@@ -175,7 +175,7 @@ class ContactoController extends Controller
                 'contactos.cargo',
                 'contactos.observaciones',
                 'organizacions.nombre as organizacion',
-                DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombres")
+                DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombre")
             )
             ->when($subcategorias, function ($query, $subcategorias) {
                 return $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
@@ -208,9 +208,9 @@ class ContactoController extends Controller
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
             ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
-                return  $query->orderBy('nombres', $orderType);
+                return  $query->orderBy($orderKey, $orderType);
             })
-            //->groupBy()
+            ->groupBy('contactos.id')
             ->get();
 
         //$contactos = $contactos->unique('contacto_id');
