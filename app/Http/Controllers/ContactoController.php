@@ -210,10 +210,9 @@ class ContactoController extends Controller
             ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
                 return  $query->orderBy($orderKey, $orderType);
             })
-            ->when(!$orderRequest, function ($query) {
-                return  $query->distinct();
-            })
             ->get();
+
+        $contactos = $contactos->unique();
 
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
