@@ -212,7 +212,7 @@ class ContactoController extends Controller
             })
             ->get();
 
-        $contactos = $contactos->unique();
+        $contactos = $contactos->unique('contacto_id');
 
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
