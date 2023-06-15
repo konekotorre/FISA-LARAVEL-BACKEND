@@ -151,7 +151,7 @@ class OrganizacionController extends Controller
             'subsectors.nombre as subsector'
         )
             ->when($numero_documento, function ($query, $numero_documento) {
-                $query->where('organizacions.numero_documento', $numero_documento);
+                $query->where('organizacions.numero_documento', 'ilike', '%'.$numero_documento.'%');
             })
             ->when($nombre, function ($query, $nombre) {
                 $query->where('organizacions.nombre', 'ilike', '%'. $nombre . '%');
