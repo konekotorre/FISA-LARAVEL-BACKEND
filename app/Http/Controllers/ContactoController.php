@@ -216,8 +216,9 @@ class ContactoController extends Controller
             if($orderRequest){
                 $orderKey = $orderKey === 'nombre' ? 'nombres' : $orderKey;
                 $contactos = $contactos->sortBy([$orderKey, $orderType]);
+                $contactos = $contactos->values()->all();
             }
-            
+
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
                 $name = $contactos[$i]->nombres;
