@@ -210,8 +210,7 @@ class ContactoController extends Controller
             ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
                 return  $query->orderBy($orderKey, $orderType);
             })
-            ->groupBy('contactos.id')
-            ->groupBy('personas.id')
+            ->groupBy()
             ->get();
 
         //$contactos = $contactos->unique('contacto_id');
