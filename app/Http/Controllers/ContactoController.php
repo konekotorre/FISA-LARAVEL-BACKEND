@@ -213,7 +213,12 @@ class ContactoController extends Controller
             ->distinct()
             ->get();
 
-        $contactos = $contactos->sortByDesc('nombres')->values()->all();
+            if($orderType === "ASC"){
+                $contactos = $contactos->sortBy('nombres')->values()->all();
+            }
+            else if($orderType === "DESC"){
+                $contactos = $contactos->sortByDesc('nombres')->values()->all();
+            }
 
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
