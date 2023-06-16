@@ -203,7 +203,7 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
-            ->when($orderKey !== 'nombres' , function ($query) use ($orderKey, $orderType) {
+            ->when($orderKey && $orderKey !== 'nombres' , function ($query) use ($orderKey, $orderType) {
                 return  $query->orderBy($orderKey, $orderType);
             })
             ->distinct()
