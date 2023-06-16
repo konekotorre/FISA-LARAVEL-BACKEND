@@ -216,10 +216,10 @@ class ContactoController extends Controller
             if($orderRequest){
                 $orderKey = $orderKey === 'nombre' ? 'nombres' : $orderKey;
                 if($orderType === 'ASC'){
-                    $contactos = $contactos->sortBy($orderKey);
+                    $contactos = $contactos->sortBy($orderKey, SORT_STRING);
                 }
                 else {
-                    $contactos = $contactos->sortByDesc($orderKey);
+                    $contactos = $contactos->sortByDesc($orderKey, SORT_STRING);
                 }
                 
                 $contactos = $contactos->values()->all();
