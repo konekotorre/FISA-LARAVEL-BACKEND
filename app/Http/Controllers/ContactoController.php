@@ -210,11 +210,12 @@ class ContactoController extends Controller
             ->distinct()
             ->get();
 
+            $orderKey = $orderKey === 'nombre' ? 'nombres' : $orderKey;
             if($orderType === "ASC"){
-                $contactos = $contactos->sortBy('nombres')->values()->all();
+                $contactos = $contactos->sortBy($orderKey)->values()->all();
             }
             else if($orderType === "DESC"){
-                $contactos = $contactos->sortByDesc('nombres')->values()->all();
+                $contactos = $contactos->sortByDesc($orderKey)->values()->all();
             }
 
         if ($names) {
