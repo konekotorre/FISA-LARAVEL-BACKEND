@@ -175,7 +175,7 @@ class ContactoController extends Controller
                 'contactos.cargo',
                 'contactos.observaciones',
                 'organizacions.nombre as organizacion',
-                DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombres")
+                DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombre")
             )
             ->when($subcategorias, function ($query, $subcategorias) {
                 return $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
@@ -207,27 +207,17 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
-            /* ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
-                return  $query->orderBy($orderKey, $orderType)->orderBy('personas.id');
-            }) */
+            ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
+                return  $query->orderBy($orderKey.'s', $orderType);
+            })
             ->distinct()
             ->get();
 
-            if($orderRequest){
-                $orderKey = $orderKey === 'nombre' ? 'nombres' : $orderKey;
-                if($orderType === 'ASC'){
-                    $contactos = $contactos->sortBy($orderKey, SORT_STRING);
-                }
-                else {
-                    $contactos = $contactos->sortByDesc($orderKey, SORT_STRING);
-                }
-                
-                $contactos = $contactos->values()->all();
-            }
+        //$contactos = $contactos->unique('contacto_id');
 
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
-                $name = $contactos[$i]->nombres;
+                $name = $contactos[$i]->nombre;
                 if ($p_name && $s_name === null && $t_name === null && $c_name === null) {
                     if (strpos(strtolower($name), strtolower($p_name)) !== false) {
                         array_push($contactos_salida, $contactos[$i]);
