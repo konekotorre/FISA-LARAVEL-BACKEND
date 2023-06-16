@@ -210,11 +210,11 @@ class ContactoController extends Controller
             ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
                 return  $query->orderBy($orderKey, $orderType);
             })
-            ->groupBy()
+            ->distinct()
             ->get();
 
         //$contactos = $contactos->unique('contacto_id');
-            return  $contactos;
+
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
                 $name = $contactos[$i]->nombres;
