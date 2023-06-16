@@ -153,10 +153,6 @@ class ContactoController extends Controller
         $sector = $request->sector;
         $subsector = $request->subsector;
 
-        if($orderKey && $orderType){
-            $orderRequest = true;
-        }
-
         $contactos = DB::table('contactos')
             ->join('personas', 'personas.id', 'contactos.persona_id')
             ->leftJoin('oficinas', 'oficinas.id', 'contactos.oficina_id')
