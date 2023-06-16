@@ -207,13 +207,13 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
-            ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
+            /* ->when($orderRequest, function ($query) use ($orderKey, $orderType) {
                 return  $query->orderBy($orderKey.'s', $orderType);
-            })
+            }) */
             ->distinct()
             ->get();
 
-        //$contactos = $contactos->unique('contacto_id');
+        $contactos = $contactos->sortByDesc('nombres');
 
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
