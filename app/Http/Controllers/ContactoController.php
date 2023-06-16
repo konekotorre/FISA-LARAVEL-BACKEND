@@ -203,16 +203,19 @@ class ContactoController extends Controller
             ->when($ciudad, function ($query, $ciudad) {
                 return  $query->where('oficinas.ciudad_id', $ciudad);
             })
+            ->when($orderKey !== 'nombre' , function ($query) use ($orderKey, $orderType) {
+                return  $query->orderBy($orderKey, $orderType);
+            })
             ->distinct()
             ->get();
 
-            $orderKey = $orderKey === 'nombre' ? 'nombres' : $orderKey;
-            if($orderType === "ASC"){
-                $contactos = $contactos->sortBy($orderKey)->values()->all();
+        if ($orderKey === 'nombre') {
+            if ($orderType === "ASC") {
+                $contactos = $contactos->sortBy('nombres')->values()->all();
+            } else if ($orderType === "DESC") {
+                $contactos = $contactos->sortByDesc('nombres')->values()->all();
             }
-            else if($orderType === "DESC"){
-                $contactos = $contactos->sortByDesc($orderKey)->values()->all();
-            }
+        }
 
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
