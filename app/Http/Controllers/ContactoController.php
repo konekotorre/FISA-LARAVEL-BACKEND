@@ -175,7 +175,7 @@ class ContactoController extends Controller
                 'contactos.cargo',
                 'contactos.observaciones',
                 'organizacions.nombre as organizacion',
-                DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombre")
+                DB::raw("CONCAT(personas.nombres, ' ', personas.apellidos) as nombres")
             )
             ->when($subcategorias, function ($query, $subcategorias) {
                 return $query->whereIn('detalle_categoria_personas.subcategoria_id', $subcategorias);
@@ -218,7 +218,7 @@ class ContactoController extends Controller
             }
         if ($names) {
             for ($i = 0; $i < count($contactos); $i++) {
-                $name = $contactos[$i]->nombre;
+                $name = $contactos[$i]->nombres;
                 if ($p_name && $s_name === null && $t_name === null && $c_name === null) {
                     if (strpos(strtolower($name), strtolower($p_name)) !== false) {
                         array_push($contactos_salida, $contactos[$i]);
