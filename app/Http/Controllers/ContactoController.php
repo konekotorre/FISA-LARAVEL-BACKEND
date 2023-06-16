@@ -211,6 +211,7 @@ class ContactoController extends Controller
                 return  $query->orderBy($orderKey, $orderType);
             })
             ->groupBy('contactos.id')
+            ->groupBy('personas.id')
             ->get();
 
         //$contactos = $contactos->unique('contacto_id');
