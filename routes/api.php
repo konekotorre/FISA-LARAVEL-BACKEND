@@ -71,9 +71,6 @@ Route::group([
             Route::delete('Ciiu/{ciiu}', 'CiiuController@destroy');
 
             // Ciudad
-
-            Route::post('Ciudad/Dep', 'CiudadController@indexByDepartamento');
-            Route::get('Ciudad/{ciudad}', 'CiudadController@show');
             Route::post('Ciudad/', 'CiudadController@store');
             Route::put('Ciudad/{ciudad}', 'CiudadController@update');
             Route::delete('Ciudad/{ciudad}', 'CiudadController@destroy');
@@ -94,8 +91,6 @@ Route::group([
 
             // Departamento Estado
 
-            Route::post('DepartamentoEstado/Pais', 'DepartamentoEstadoController@indexByPais');
-            Route::get('DepartamentoEstado/{departamentoEstado}', 'DepartamentoEstadoController@show');
             Route::post('DepartamentoEstado/', 'DepartamentoEstadoController@store');
             Route::put('DepartamentoEstado/{departamentoEstado}', 'DepartamentoEstadoController@update');
             Route::delete('DepartamentoEstado/{departamentoEstado}', 'DepartamentoEstadoController@destroy');
@@ -240,13 +235,20 @@ Route::group([
 
             Route::post('Exportaciones/', 'ExportacionesController@store');
 
-            //Subsector
-
             
         });
 
         Route::group(['middleware' => ['role:Administrador|Soporte|MasterUser|Comercial|Consulta']], function () {
            
+            // Departamento
+            Route::post('DepartamentoEstado/Pais', 'DepartamentoEstadoController@indexByPais');
+            Route::get('DepartamentoEstado/{departamentoEstado}', 'DepartamentoEstadoController@show');
+
+            // Ciudad
+
+            Route::post('Ciudad/Dep', 'CiudadController@indexByDepartamento');
+            Route::get('Ciudad/{ciudad}', 'CiudadController@show');
+
             // User
 
             Route::post('User/Pass', 'UserController@changePass');
@@ -259,7 +261,6 @@ Route::group([
             Route::post('Organizacion/EditOrg', 'OrganizacionController@editOrg');
             Route::get('Organizacion/{organizacion}', 'OrganizacionController@show');
             Route::post('Organizacion/Data', 'OrganizacionController@listForms');
-
 
             // Oficina 
 

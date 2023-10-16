@@ -163,7 +163,7 @@ class ConBusquedaExport implements FromCollection, WithHeadings, WithStyles, Wit
             'Categoria',
             'Nombre Comercial',
             'Razón Social',
-            'Nombres',
+            'Nombre',
             'Cargo',
             'Rep. Legal',
             'Telefono',
